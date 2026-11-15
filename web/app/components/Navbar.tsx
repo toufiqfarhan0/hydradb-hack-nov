@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, Sliders } from "lucide-react";
+import { ArrowUpRight, Sliders, BookOpen } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -21,9 +21,16 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Navigation Links: Console and Blog only */}
+        {/* Navigation Links: Docs, Console, and Blog */}
         <div className="flex items-center gap-5 flex-shrink-0 whitespace-nowrap">
           <nav className="flex items-center gap-5 text-xs font-swiss-mono font-medium flex-shrink-0">
+            <Link
+              href="/docs"
+              className="text-[#1A1A1A] hover:text-[#D82C2C] transition-colors font-bold flex items-center gap-1.5"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#0033A0]" />
+              <span>Docs</span>
+            </Link>
             <Link
               href="/console"
               className="text-[#1A1A1A] hover:text-[#D82C2C] transition-colors font-bold flex items-center gap-1.5"
