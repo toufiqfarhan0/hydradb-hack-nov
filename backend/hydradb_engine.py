@@ -60,3 +60,34 @@ class HydraDBContextEngine:
                         "nodes_count": len(self.servers) + len(self.tools) + len(self.capabilities) + len(self.entities),
                         "edges_count": len(self.edges)
                     }
+        except Exception:
+            pass
+
+        self.connected_live = False
+        return {
+            "status": "active_resilient",
+            "mode": "embedded_slatedb_snapshot",
+            "engine": "HydraDB OpenCypher & GraphBLAS Kernel",
+            "storage_backend": f"MinIO S3 Compatible ({self.s3_endpoint}/{self.s3_bucket})",
+            "nodes_count": len(self.servers) + len(self.tools) + len(self.capabilities) + len(self.entities),
+            "edges_count": len(self.edges),
+            "note": "Ready for live HydraDB cluster attachment or direct high-throughput traversal"
+        }
+
+    def get_full_graph(self) -> Dict[str, Any]:
+        """Serialize full graph nodes and edges for visualization and OpenCypher schema inspection."""
+        nodes = []
+        for s in self.servers.values():
+            nodes.append({"id": s.id, "label": s.name, "type": "MCPServer", "category": "server", "desc": s.description})
+        for t in self.tools.values():
+            nodes.append({"id": t.id, "label": t.name, "type": "Tool", "category": "tool", "desc": t.description, "server": t.server_id, "cost": t.estimated_token_cost})
+        for c in self.capabilities.values():
+            nodes.append({"id": c.id, "label": c.name, "type": "Capability", "category": "capability", "domain": c.domain})
+        for e in self.entities.values():
+            nodes.append({"id": e.id, "label": e.name, "type": "Entity", "category": "entity", "entity_type": e.entity_type, "properties": e.properties})
+
+        edge_list = []
+        for edge in self.edges:
+            w = self.edge_weights.get((edge.source, edge.target, edge.relation), edge.weight)
+            edge_list.append({
+                "source": edge.source,
