@@ -43,3 +43,9 @@ class GraphEdge(BaseModel):
     weight: float = 1.0
     properties: Dict[str, Any] = Field(default_factory=dict)
 
+class TraversalRequest(BaseModel):
+    task: str
+    preloaded_entities: Optional[List[str]] = Field(default_factory=list)
+    mode: str = "lucen_graph"  # "lucen_graph" or "naive_preload"
+    top_k_tools: int = 4
+
