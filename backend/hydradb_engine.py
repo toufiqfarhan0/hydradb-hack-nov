@@ -7,6 +7,7 @@ import os
 import json
 import time
 import httpx
+import threading
 import numpy as np
 import scipy.sparse as sp
 from collections import defaultdict
@@ -26,6 +27,7 @@ class HydraDBContextEngine:
         self.s3_endpoint = os.getenv("S3_ENDPOINT", "http://localhost:9000")
         self.s3_bucket = os.getenv("S3_BUCKET", "hydra-graph-store")
         self.connected_live = False
+        self.lock = threading.Lock()
         
         # Graph nodes and edges
         self.servers: Dict[str, MCPServerNode] = {s.id: s for s in MCP_SERVERS}
@@ -51,7 +53,7 @@ class HydraDBContextEngine:
         # Every checkpoint records exact integer task counts and real measured latency
         self.iteration_history = self._compute_continual_learning_trajectory(seed=42)
 
-    def _compute_continual_learning_trajectory(self, seed: int = 42) -> List[Dict[str, Any]]:
+    def _compute_continual_learning_trajectory(self, seed: int = 42, restore_weights: bool = False) -> List[Dict[str, Any]]:
         """
         Dynamically execute continual learning evaluation loop over TASKS_DATASET.
         Reinforces PREFERS weights on training splits and measures real accuracy on unseen test tasks.
@@ -60,6 +62,11 @@ class HydraDBContextEngine:
         import random
         from eval.tasks_dataset import TASKS_DATASET
         
+        saved_weights = dict(self.edge_weights)
+        # Start each evaluation seed from pristine baseline weights
+        self.edge_weights = {k: 1.0 for k in self.edge_weights.keys()}
+        self._build_graphblas_matrix()
+
         train_tasks = [t for t in TASKS_DATASET if t.get("split") == "train"]
         test_tasks = [t for t in TASKS_DATASET if t.get("split") == "test"]
         
@@ -84,13 +91,13 @@ class HydraDBContextEngine:
             return hits, n, acc, avg_lat
 
         for iteration in range(1, 21):
-            batch = rng.sample(train_tasks, min(10, len(train_tasks)))
+            batch = rng.sample(train_tasks, min(8, len(train_tasks)))
             for task in batch:
                 caps = self._infer_capabilities(task["query"])
                 for exp_tool in task["expected_tools"]:
                     for c in caps:
                         key = (c, exp_tool, "PREFERS")
-                        self.edge_weights[key] = min(self.edge_weights.get(key, 1.0) + 0.15, 4.0)
+                        self.edge_weights[key] = min(self.edge_weights.get(key, 1.0) + 0.35, 4.0)
             self._build_graphblas_matrix()
 
             if iteration in checkpoints:
@@ -107,6 +114,10 @@ class HydraDBContextEngine:
                     "token_reduction_pct": 99.5,
                     "avg_latency_ms": te_lat
                 })
+
+        if restore_weights:
+            self.edge_weights = saved_weights
+            self._build_graphblas_matrix()
 
         return history
 
@@ -445,25 +456,24 @@ LIMIT $top_k"""
         caps = [e.target for e in self.edges if e.source == req.tool_id and e.relation == "PROVIDES"]
         updated_edges = []
         cypher_writes = []
-        for c_id in caps:
-            key = (c_id, req.tool_id, "PREFERS")
-            curr_weight = self.edge_weights.get(key, 1.0)
-            if req.success:
-                new_weight = round(min(curr_weight + 0.15, 3.5), 3)
-            else:
-                new_weight = round(max(curr_weight - 0.25, 0.2), 3)
-            self.edge_weights[key] = new_weight
-            updated_edges.append({"source": c_id, "target": req.tool_id, "new_weight": new_weight})
+        delta = 0.15 if req.success else -0.25
+        with self.lock:
+            for c_id in caps:
+                key = (c_id, req.tool_id, "PREFERS")
+                curr_weight = self.edge_weights.get(key, 1.0)
+                new_weight = round(max(0.2, min(curr_weight + delta, 4.0)), 3)
+                self.edge_weights[key] = new_weight
+                updated_edges.append({"source": c_id, "target": req.tool_id, "new_weight": new_weight, "delta": delta})
 
-            # Execute real OpenCypher SET command (hits live HydraDB if cluster is up, or embedded)
-            cypher_cmd = (
-                f"MERGE (c:Capability {{id: '{c_id}'}})-[p:PREFERS]->(t:Tool {{id: '{req.tool_id}'}}) "
-                f"SET p.weight = {new_weight}"
-            )
-            cypher_writes.append(cypher_cmd)
-            self.execute_cypher(cypher_cmd)
+                # Atomic Cypher delta command (multi-writer safe, eliminates lost updates)
+                cypher_cmd = (
+                    f"MERGE (c:Capability {{id: '{c_id}'}})-[p:PREFERS]->(t:Tool {{id: '{req.tool_id}'}}) "
+                    f"SET p.weight = coalesce(p.weight, 1.0) + {delta}"
+                )
+                cypher_writes.append(cypher_cmd)
+                self.execute_cypher(cypher_cmd)
 
-        self._build_graphblas_matrix()
+            self._build_graphblas_matrix()
 
         # Dynamic held-out test evaluation after weight update
         from eval.tasks_dataset import TASKS_DATASET

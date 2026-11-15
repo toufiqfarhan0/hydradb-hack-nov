@@ -247,6 +247,8 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
         
         result_data = {
             "status": "warning",
+            "simulated": True,
+            "transport": "mock_upstream",
             "host": host,
             "database": db,
             "max_connections": 400,
@@ -278,6 +280,8 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
 
         result_data = {
             "status": "delivered",
+            "simulated": True,
+            "transport": "mock_upstream",
             "channel_id": channel_id,
             "severity": severity,
             "timestamp": "1731638400.019200",
@@ -298,13 +302,32 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
         }
 
     elif name == "sqlite_query":
-        query = args.get("query", "SELECT 1;")
-        # Safe read-only mock inspection
+        query = args.get("query", "SELECT * FROM services;")
+        import sqlite3
+        try:
+            conn = sqlite3.connect(":memory:")
+            c = conn.cursor()
+            c.execute("CREATE TABLE services (id INT, service TEXT, status TEXT, latency_p99_ms REAL);")
+            c.execute("INSERT INTO services VALUES (1, 'hydra-router', 'healthy', 0.72), (2, 'hydra-worker', 'degraded', 14.8), (3, 'pgbouncer-pool', 'exhausted', 184.2);")
+            if query.strip().upper().startswith("SELECT"):
+                cur = c.execute(query)
+                cols = [desc[0] for desc in cur.description]
+                rows = [dict(zip(cols, row)) for row in cur.fetchall()]
+            else:
+                rows = []
+            conn.close()
+            status = "success"
+        except Exception as e:
+            rows = []
+            status = f"error: {str(e)}"
+
         result_data = {
-            "status": "success",
+            "status": status,
+            "simulated": False,
+            "transport": "local_sqlite_engine",
             "query": query,
-            "rows": [{"id": 1, "service": "hydra-router", "status": "healthy"}],
-            "row_count": 1,
+            "rows": rows,
+            "row_count": len(rows),
             "engine_served_by": engine_served_by
         }
         return {

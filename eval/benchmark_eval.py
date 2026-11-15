@@ -174,14 +174,17 @@ def run_evaluation():
     print("-" * 90)
 
     seeds = [42, 123, 999]
-    trajectories = [engine._compute_continual_learning_trajectory(seed=s) for s in seeds]
+    trajectories = [engine._compute_continual_learning_trajectory(seed=s, restore_weights=True) for s in seeds]
 
     checkpoints = [1, 3, 6, 10, 15, 20]
     for idx, cp in enumerate(checkpoints):
         scores = [traj[idx]["test_accuracy_pct"] for traj in trajectories]
         mean_score = float(np.mean(scores))
-        std_score = float(np.std(scores))
-        print(f"Iter {cp:<7} | {scores[0]:>5.1f}%          | {scores[1]:>5.1f}%          | {scores[2]:>5.1f}%          | {mean_score:5.1f}% ± {std_score:3.1f}%")
+        std_score = float(np.std(scores, ddof=1))
+        h0 = trajectories[0][idx]['test_hits']
+        h1 = trajectories[1][idx]['test_hits']
+        h2 = trajectories[2][idx]['test_hits']
+        print(f"Iter {cp:<7} | {scores[0]:>5.1f}% ({h0:>5}) | {scores[1]:>5.1f}% ({h1:>5}) | {scores[2]:>5.1f}% ({h2:>5}) | {mean_score:5.1f}% ± {std_score:3.1f}%")
 
     print("-" * 90)
     print("  Key Finding: All seeds demonstrate authentic non-monotonic exploration curves,")

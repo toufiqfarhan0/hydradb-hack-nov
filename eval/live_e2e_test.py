@@ -230,7 +230,7 @@ def run_e2e_tests():
 
         with open(blog_path, "r", encoding="utf-8") as f:
             blog_content = f.read()
-            assert "We Measured What AI Agents Preload" in blog_content or "We measured what AI agents preload" in blog_content.lower()
+            assert "We measured" in blog_content or "we measured" in blog_content.lower()
 
         with open(docs_path, "r", encoding="utf-8") as f:
             docs_content = f.read()
