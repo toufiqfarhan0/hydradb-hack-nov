@@ -246,3 +246,34 @@ def cmd_serve(args):
     host = args.host or "127.0.0.1"
     print_banner()
     print(f"{BOLD}Starting Lucen Web Server on http://{host}:{port}{RESET}")
+    uvicorn.run("backend.server:app", host=host, port=port, reload=False)
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="lucen",
+        description="Lucen CLI — Graph-Native Agent Context Layer for HydraDB"
+    )
+    parser.add_argument("--json", action="store_true", help="Output results in JSON format")
+
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # Command: stats
+    p_stats = subparsers.add_parser("stats", help="Display graph topology and HydraDB engine status")
+    p_stats.add_argument("--json", action="store_true", help="Output in JSON")
+
+    # Command: traverse
+    p_trav = subparsers.add_parser("traverse", help="Execute OpenCypher & GraphBLAS context traversal for an agent task")
+    p_trav.add_argument("task", type=str, help="Natural language agent task (e.g. 'Postgres pool leak')")
+    p_trav.add_argument("--top-k", type=int, default=2, help="Number of candidate tools to isolate (default: 2)")
+    p_trav.add_argument("-v", "--verbose", action="store_true", help="Display generated OpenCypher query")
+    p_trav.add_argument("--json", action="store_true", help="Output in JSON")
+
+    # Command: bench
+    p_bench = subparsers.add_parser("bench", aliases=["benchmark"], help="Run empirical benchmark comparison suite")
+    p_bench.add_argument("--json", action="store_true", help="Output in JSON")
+
+    # Command: verify
+    p_ver = subparsers.add_parser("verify", help="Run full engine verification & assertion checks")
+
+    # Command: feedback
+    p_fb = subparsers.add_parser("feedback", help="Record execution feedback to reweight graph edges dynamically")
