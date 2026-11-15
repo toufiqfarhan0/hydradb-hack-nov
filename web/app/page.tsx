@@ -774,3 +774,100 @@ export default function Home() {
                       Target DB credentials, hostnames, and channel IDs are missing. Agent requires 2–3 discovery roundtrips.
                     </div>
                     <div className="text-red-400 text-[11px] font-semibold">
+                      Outcome: Attention diluted · 28.6% tool confusion & hallucination rate
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Lucen HydraDB Graph Context */}
+              <div className="bg-white p-5 swiss-border border-2 border-[#0033A0] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 swiss-border-b mb-3">
+                    <span className="text-xs font-swiss-mono font-bold uppercase text-[#0033A0]">
+                      Lucen HydraDB Graph Context
+                    </span>
+                    <span className="text-xs font-swiss-mono px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold border border-emerald-200">
+                      {traversalResult.tokens} TOKENS (-{traversalResult.reduction}%)
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#1A1A1A]/70 mb-4">
+                    Isolated Subgraph: Traversed via HydraDB OpenCypher, bounding only reachable tools and runtime entity states.
+                  </p>
+
+                  <div className="bg-[#0E1117] text-white p-4 font-swiss-mono text-xs rounded-none border border-white/10 space-y-3">
+                    <div className="text-sky-400 font-bold flex justify-between border-b border-white/10 pb-2">
+                      <span>HYDRADB CONTEXT ENVELOPE: {traversalResult.tokens} TOKENS</span>
+                      <span className="text-emerald-400 text-[10px]">-{traversalResult.reduction}% SAVED</span>
+                    </div>
+
+                    <div className="text-gray-400 text-[11px]">
+                      // Isolated Tools (Pruned via OpenCypher in 1.8ms):
+                    </div>
+                    <div className="space-y-1.5">
+                      {traversalResult.tools.map(t => (
+                        <div key={t.name} className="p-2 bg-white/5 border border-sky-500/30 border-l-2 border-l-sky-400 flex items-center justify-between text-[11px]">
+                          <div>
+                            <span className="text-sky-400 font-bold">✔ {t.name}</span>
+                            <span className="text-gray-400 text-[10px] ml-2">[{t.server}]</span>
+                          </div>
+                          <span className="text-sky-200 text-[10px] px-1.5 py-0.5 bg-sky-500/10 border border-sky-500/20">{t.cost} tok</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="text-gray-400 text-[11px]">
+                      // Pre-Bound Runtime Entities (Resolved in same query):
+                    </div>
+                    <div className="space-y-1.5">
+                      {traversalResult.entities.map(e => (
+                        <div key={e.name} className="p-2 bg-white/5 border border-emerald-500/30 border-l-2 border-l-emerald-400 text-[11px]">
+                          <div className="text-emerald-400 font-bold text-[11px] mb-0.5">
+                            ⚡ [{e.type}] {e.name}
+                          </div>
+                          <div className="text-gray-400 text-[10px] leading-tight">
+                            {Object.entries(e.props || {}).map(([k, v]) => `${k}: "${v}"`).join(" · ")}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="text-emerald-400 text-[11px] font-semibold">
+                      Outcome: Zero schema hallucination · 98.4% accuracy · 1.8ms traversal
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Generated Cypher Terminal */}
+            <div className="mt-8 bg-[#1A1A1A] p-5 swiss-border text-white">
+              <div className="flex items-center justify-between pb-3 swiss-border-b border-white/10 mb-3 text-xs font-swiss-mono">
+                <span className="text-gray-400 uppercase font-bold">GENERATED HYDRADB OPENCYPHER TRAVERSAL</span>
+                <button
+                  onClick={copyCypher}
+                  className="px-3 py-1 bg-white/10 hover:bg-[#D82C2C] text-xs font-swiss-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  {copiedCypher ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedCypher ? "COPIED" : "COPY CYPHER"}</span>
+                </button>
+              </div>
+              <pre className="text-xs font-swiss-mono text-emerald-400 overflow-x-auto leading-relaxed">
+{`MATCH (c:Capability) WHERE c.id IN ["cap_db_diagnostics", "cap_incident_alerting"]
+MATCH (t:Tool)-[:PROVIDES]->(c)
+OPTIONAL MATCH (c)-[p:PREFERS]->(t)
+WITH t, c, coalesce(p.weight, 1.0) AS relevance_weight
+OPTIONAL MATCH (t)-[r:REQUIRES_ENTITY|RESOLVES_ENTITY]->(e:Entity)
+RETURN t, c, e, relevance_weight
+ORDER BY relevance_weight DESC
+LIMIT 2;`}
+              </pre>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            3. TOPOLOGY VISUALIZER SECTION (#visualizer)
+        ───────────────────────────────────────────────────────────── */}
+        <section id="visualizer" className="py-16 bg-white swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
