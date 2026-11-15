@@ -287,6 +287,12 @@ def main():
     p_srv.add_argument("--port", type=int, default=8000, help="Port to listen on (default: 8000)")
     p_srv.add_argument("--host", type=str, default="127.0.0.1", help="Host interface (default: 127.0.0.1)")
 
+    # Command: mcp-gateway
+    subparsers.add_parser("mcp-gateway", help="Launch the Model Context Protocol (MCP) stdio gateway for Claude Desktop & Cursor")
+
+    # Command: ablation
+    subparsers.add_parser("ablation", help="Run the empirical flat store (Python Dict / SQLite) vs HydraDB ablation benchmark")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -296,6 +302,14 @@ def main():
 
     if args.command == "serve":
         cmd_serve(args)
+        return
+    elif args.command == "mcp-gateway":
+        from backend.mcp_gateway import run_mcp_gateway
+        run_mcp_gateway()
+        return
+    elif args.command == "ablation":
+        from eval.ablation_flat_store import run_ablation_benchmarks
+        run_ablation_benchmarks()
         return
 
     # Initialize engine
