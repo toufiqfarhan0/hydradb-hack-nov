@@ -34,3 +34,21 @@ MCP_SERVERS = [
         transport="stdio"
     ),
     MCPServerNode(
+        id="mcp_sentry",
+        name="Sentry Telemetry",
+        description="Real-time crash stacktraces, unhandled exceptions, error grouping, and affected user metrics",
+        version="1.3.5",
+        transport="stdio"
+    ),
+    MCPServerNode(
+        id="mcp_docker",
+        name="Docker Container Runtime",
+        description="Inspect running containers, stream stderr logs, trigger zero-downtime rolling restarts",
+        version="1.9.0",
+        transport="stdio"
+    ),
+    MCPServerNode(
+        id="mcp_linear",
+        name="Linear Issue Tracker",
+        description="Create urgent incident tickets, link GitHub PRs, assign engineering owners, update cycles",
+        version="2.1.0",
