@@ -1162,3 +1162,100 @@ LIMIT 2;`}
                   a: "Vector databases calculate cosine similarity over dense semantic embeddings. While effective for fuzzy text retrieval, vector search cannot enforce deterministic relational constraints. HydraDB leverages SuiteSparse GraphBLAS to execute multi-hop breadth-first searches (BFS) as matrix-vector multiplications over Compressed Sparse Column (CSC) indices in 1.8 ms, guaranteeing zero semantic hallucination."
                 },
                 {
+                  q: "03 // How does Lucen eliminate tool parameter hallucination and redundant API discovery roundtrips?",
+                  a: "When enterprise agents select tools from an unrestricted registry, attention dilution causes models to confuse similar tools or hallucinate missing parameters. Lucen solves this through two deterministic mechanisms: first, it topologically bounds the tool space so only tools with a verified path to the task capability are exposed to the LLM. Second, Lucen pre-binds active entity instances (such as database hostnames, Slack channel IDs, and PR numbers) directly into the returned Context Envelope, eliminating 2–3 exploratory API roundtrips."
+                },
+                {
+                  q: "04 // What is Continual Learning in Lucen and how does it prevent catastrophic forgetting?",
+                  a: "When an agent discovers a novel resolution or resolves an unmapped schema constraint, Lucen dynamically writes an episodic observation node linked to existing capabilities via dynamic edge weights. Future traversals re-weight these paths via GraphBLAS semiring operations. This allows the agent's contextual intelligence to compound continuously over time without modifying base system prompts."
+                },
+                {
+                  q: "05 // Can Lucen integrate with LangChain, LlamaIndex, AutoGen, and native MCP agents?",
+                  a: "Yes. Lucen exposes a REST API (/api/traverse, /api/feedback, /api/benchmark) alongside a direct OpenCypher query endpoint. Any agent framework can treat Lucen as a high-speed context broker, querying for pre-filtered tool subsets and schema bounds before executing actions."
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-[#F2F2F2] swiss-border p-4 transition-colors">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                    className="w-full text-left flex items-center justify-between font-swiss-mono text-sm font-bold text-[#1A1A1A] cursor-pointer"
+                  >
+                    <span>{item.q}</span>
+                    <span className="text-[#D82C2C] text-lg font-bold">{openFaq === idx ? "−" : "+"}</span>
+                  </button>
+                  {openFaq === idx && (
+                    <div className="mt-3 pt-3 border-t border-[#E2E6E6] text-xs font-swiss-mono text-[#1A1A1A]/80 leading-relaxed">
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            07 // INTERACTIVE CLI SIMULATOR 
+        ───────────────────────────────────────────────────────────── */}
+        <section id="cli" className="py-16 bg-[#F2F2F2] swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              07 // TERMINAL CLI SPECIMEN
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              Tested via Browser. Verified via CLI.
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Lucen provides a high-throughput standalone command-line interface directly for engineers, CI pipelines, and autonomous agent loops.
+            </p>
+
+            <div className="bg-[#1A1A1A] swiss-border overflow-hidden shadow-sm text-white font-swiss-mono">
+              {/* Tab Selector */}
+              <div className="flex flex-wrap items-center justify-between border-b border-white/10 p-3 bg-black/40 text-xs">
+                <div className="flex flex-wrap items-center gap-2">
+                  {[
+                    { label: "1. Traverse Task", cmd: 'python lucen.py traverse "Production Postgres connection pool exhausted"' },
+                    { label: "2. Graph Stats", cmd: "python lucen.py stats" },
+                    { label: "3. Verify Suite (5/5)", cmd: "python lucen.py verify" },
+                    { label: "4. Dynamic Reward", cmd: "python lucen.py feedback --tool pg_check_connection_pool --reward" }
+                  ].map((tab, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedCliTab(idx)}
+                      className={`px-3 py-1.5 transition-colors cursor-pointer text-xs ${
+                        selectedCliTab === idx
+                          ? "bg-[#D82C2C] text-white font-bold"
+                          : "bg-white/5 hover:bg-white/10 text-gray-300"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => {
+                    const cmds = [
+                      'python lucen.py traverse "Production Postgres connection pool exhausted"',
+                      'python lucen.py stats',
+                      'python lucen.py verify',
+                      'python lucen.py feedback --tool pg_check_connection_pool --reward'
+                    ];
+                    navigator.clipboard.writeText(cmds[selectedCliTab]);
+                    setCopiedCli(true);
+                    setTimeout(() => setCopiedCli(false), 2000);
+                  }}
+                  className="px-3 py-1.5 bg-white/10 hover:bg-[#D82C2C] transition-colors cursor-pointer text-xs font-bold flex items-center gap-1.5"
+                >
+                  {copiedCli ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedCli ? "COPIED" : "COPY COMMAND"}</span>
+                </button>
+              </div>
+
+              {/* Terminal Screen */}
+              <div className="p-6 text-xs leading-relaxed overflow-x-auto max-h-[460px]">
+                {selectedCliTab === 0 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py traverse "Production Postgres connection pool exhausted"
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
