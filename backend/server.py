@@ -38,3 +38,11 @@ async def get_graph_stats():
         "edges": len(engine.edges),
         "iterations_logged": len(engine.iteration_history),
         "current_accuracy": engine.iteration_history[-1]["accuracy_pct"],
+        "token_reduction_pct": engine.iteration_history[-1]["token_reduction_pct"]
+    }
+
+@app.get("/api/graph/data")
+async def get_graph_data():
+    return engine.get_full_graph()
+
+@app.post("/api/traverse", response_model=TraversalResult)
