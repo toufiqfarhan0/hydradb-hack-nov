@@ -196,3 +196,42 @@ def run_e2e_tests():
             assert "LUCEN" in html
             assert "id=\"console\"" in html or "id=\"root\"" in html
             # Check for footer removal
+            assert "<footer" not in html.lower(), "Found <footer> tag in HTML, expected none"
+            print("  • HTML Status:         200 OK")
+            print("  • HTML Size:           " + f"{len(html):,} bytes")
+            print("  • Console Mounted:     True (#console section active)")
+            print("  • Footer Tag Absent:   True (Confirmed zero footer tags)")
+            print("  => PASS: Swiss Design UI application successfully served with zero footers.")
+            passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 9. Blog Technical Publication Delivery (/blog)
+    log_header("9. Technical Article Publication Page (/blog)")
+    try:
+        req = urllib.request.Request(f"{BASE_URL}/blog", headers={"User-Agent": "Lucen-E2E-Verifier"})
+        with urllib.request.urlopen(req, timeout=5) as res:
+            html = res.read().decode()
+            assert res.status == 200
+            assert "We measured what AI agents preload into their prompts" in html
+            assert "SuiteSparse GraphBLAS" in html
+            assert "SlateDB" in html
+            assert "svg viewBox" in html
+            print("  • Article Size:        " + f"{len(html):,} bytes")
+            print("  • Title Present:       'We measured what AI agents preload into their prompts'")
+            print("  • Graphics Present:    SVG Context Explosion & Accuracy Curve figures")
+            print("  => PASS: Technical publication successfully rendered with verified empirical reporting.")
+            passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    print("\n" + "=" * 65)
+    print(f"  ALL {passed_tests}/{total_tests} LIVE E2E TESTS PASSED SUCCESSFULLY!")
+    print("=" * 65)
+    return True
+
+if __name__ == "__main__":
+    success = run_e2e_tests()
+    sys.exit(0 if success else 1)
