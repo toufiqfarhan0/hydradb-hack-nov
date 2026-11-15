@@ -153,3 +153,34 @@ LIMIT $top_k"""
                 w = self.edge_weights.get((t_id, edge.target, "PROVIDES"), edge.weight)
                 pref_w = self.edge_weights.get((edge.target, t_id, "PREFERS"), 1.0)
                 score = w * pref_w
+                candidate_tools[t_id] = max(candidate_tools.get(t_id, 0.0), score)
+                tool_to_cap[t_id] = edge.target
+
+        # Sort candidate tools by highest weight
+        sorted_tools = sorted(candidate_tools.items(), key=lambda x: x[1], reverse=True)[:req.top_k_tools]
+        selected_tool_objs = [self.tools[t_id] for t_id, _ in sorted_tools if t_id in self.tools]
+
+        # Multi-hop: Traversal to pre-resolved entities
+        selected_tool_ids = {t.id for t in selected_tool_objs}
+        matched_entities: List[EntityNode] = []
+        subgraph_nodes = []
+        subgraph_edges = []
+
+        for t in selected_tool_objs:
+            subgraph_nodes.append({"id": t.id, "label": t.name, "type": "Tool", "server": t.server_id})
+            # Add server node
+            if t.server_id in self.servers:
+                s = self.servers[t.server_id]
+                subgraph_nodes.append({"id": s.id, "label": s.name, "type": "MCPServer"})
+                subgraph_edges.append({"source": t.id, "target": s.id, "relation": "BELONGS_TO"})
+
+        for c_id in matched_caps:
+            if c_id in self.capabilities:
+                c = self.capabilities[c_id]
+                subgraph_nodes.append({"id": c.id, "label": c.name, "type": "Capability"})
+
+        for edge in self.edges:
+            if edge.source in selected_tool_ids and edge.relation in ("REQUIRES_ENTITY", "RESOLVES_ENTITY"):
+                e_id = edge.target
+                if e_id in self.entities:
+                    e_obj = self.entities[e_id]
