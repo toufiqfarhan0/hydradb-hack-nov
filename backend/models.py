@@ -28,3 +28,11 @@ class CapabilityNode(BaseModel):
     domain: str
     keywords: List[str]
 
+class EntityNode(BaseModel):
+    id: str
+    name: str
+    entity_type: str  # e.g., 'DatabaseConnection', 'SlackChannel', 'GitBranch', 'AWSRegion', 'APICredential'
+    properties: Dict[str, Any]
+    resolved_at_task: Optional[str] = None
+    confidence: float = 1.0
+
