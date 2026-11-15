@@ -36,3 +36,10 @@ class EntityNode(BaseModel):
     resolved_at_task: Optional[str] = None
     confidence: float = 1.0
 
+class GraphEdge(BaseModel):
+    source: str
+    target: str
+    relation: str  # 'BELONGS_TO', 'PROVIDES', 'REQUIRES_ENTITY', 'RESOLVES_ENTITY', 'PREFERS'
+    weight: float = 1.0
+    properties: Dict[str, Any] = Field(default_factory=dict)
+
