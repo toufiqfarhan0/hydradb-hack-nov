@@ -49,3 +49,10 @@ class TraversalRequest(BaseModel):
     mode: str = "lucen_graph"  # "lucen_graph" or "naive_preload"
     top_k_tools: int = 4
 
+class TraversalStep(BaseModel):
+    step_num: int
+    stage: str
+    opencypher_fragment: str
+    matched_nodes: List[str]
+    description: str
+
