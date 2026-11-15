@@ -23,7 +23,7 @@ from eval.tasks_dataset import TASKS_DATASET
 
 class HydraDBContextEngine:
     def __init__(self, endpoint: Optional[str] = None):
-        self.endpoint = endpoint or os.getenv("HYDRADB_ENDPOINT", "http://localhost:8080")
+        self.endpoint = endpoint or os.getenv("HYDRADB_ENDPOINT") or os.getenv("HYDRA_HTTP") or "http://localhost:8080"
         self.s3_endpoint = os.getenv("S3_ENDPOINT", "http://localhost:9000")
         self.s3_bucket = os.getenv("S3_BUCKET", "hydra-graph-store")
         self.connected_live = False

@@ -173,9 +173,10 @@ def call_gemini(api_key: str, model: str, payload: Dict[str, Any]) -> Dict[str, 
     with urllib.request.urlopen(req, timeout=20) as response:
         return json.loads(response.read().decode("utf-8"))
 
-def run_agent(task_prompt: str, api_key: Optional[str] = None, model: str = "gemini-flash-lite-latest"):
+def run_agent(task_prompt: str, api_key: Optional[str] = None, model: Optional[str] = None):
     print_banner()
     api_key = api_key or os.getenv("GEMINI_API_KEY", "")
+    model = model or os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest")
 
     print(f"{BOLD}AGENT TASK:{RESET} \"{task_prompt}\"")
     print(f"{BOLD}LLM ENGINE:{RESET} Google Gemini ({model})")
