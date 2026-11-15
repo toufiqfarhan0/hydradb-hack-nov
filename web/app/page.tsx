@@ -483,3 +483,100 @@ export default function Home() {
         draggedNodeIdxRef.current = i;
         dragOffsetRef.current = { x: x - n.x, y: y - n.y };
         drawTopology();
+        break;
+      }
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (draggedNodeIdxRef.current !== null) {
+      e.preventDefault();
+      const { x, y } = getCanvasCoords(e);
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const idx = draggedNodeIdxRef.current;
+      const n = nodesRef.current[idx];
+      if (n) {
+        n.x = Math.max(30, Math.min(canvas.width - 30, x - dragOffsetRef.current.x));
+        n.y = Math.max(30, Math.min(canvas.height - 30, y - dragOffsetRef.current.y));
+        drawTopology();
+      }
+    }
+  };
+
+  const handleResetLayout = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const w = canvas.width;
+    nodesRef.current = getInitialNodes(w);
+    drawTopology();
+  };
+
+  // Canvas Topology Drawer Effect
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const w = (canvas.width = canvas.parentElement?.clientWidth || 800);
+    canvas.height = 520;
+
+    if (nodesRef.current.length === 0) {
+      nodesRef.current = getInitialNodes(w);
+    }
+
+    drawTopology();
+  }, [graphFilter, traversalResult]);
+
+  return (
+    <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-sans selection:bg-[#D82C2C] selection:text-white">
+      <Navbar />
+
+      <main className="flex-1">
+        {/* ─────────────────────────────────────────────────────────────
+            1. HERO SECTION (ASYMMETRICAL 12-COL GRID)
+        ───────────────────────────────────────────────────────────── */}
+        <section className="relative swiss-border-b overflow-hidden bg-white">
+          <div className="max-w-[1280px] mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left 7 Columns */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider flex items-center gap-2">
+                <span className="w-2.5 h-2.5 bg-[#D82C2C] inline-block" />
+                <span>TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A] leading-[1.05]">
+                STOP PRELOADING. <br />
+                <span className="text-[#D82C2C]">TRAVERSE</span> THE GRAPH.
+              </h1>
+
+              <p className="text-base sm:text-lg text-[#1A1A1A]/85 max-w-xl leading-relaxed">
+                Modern coding agents serialize 19+ MCP tool schemas into every prompt, squandering <strong>18,450 tokens</strong> and triggering a 28% hallucination rate. 
+                <strong> Lucen</strong> makes <strong>HydraDB</strong> the primary context store: executing sub-2ms OpenCypher traversals over SuiteSparse GraphBLAS kernels to isolate the exact 2 tools and bound entities required.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <Link
+                  href="/console"
+                  className="btn-swiss-primary px-6 py-3.5 text-sm font-semibold tracking-wide flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Launch Traversal Console</span>
+                  <Sliders className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/blog"
+                  className="btn-swiss-secondary px-6 py-3.5 text-sm font-semibold tracking-wide flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Read Technical Paper</span>
+                  <ArrowRight className="w-4 h-4 text-[#D82C2C]" />
+                </Link>
+              </div>
+
+              {/* Technical Spec Matrix Ticker */}
+              <div className="pt-8 grid grid-cols-2 sm:grid-cols-3 gap-6 swiss-border-t text-xs font-swiss-mono">
+                <div>
+                  <div className="text-[#A9B2B1] uppercase text-[10px]">Context Reduction</div>
+                  <div className="font-bold text-[#D82C2C] mt-1">94.2% (-17,310 TOK)</div>
+                </div>
+                <div>
+                  <div className="text-[#A9B2B1] uppercase text-[10px]">Traversal Hop Latency</div>
+                  <div className="font-bold text-[#1A1A1A] mt-1">1.8 ms (GRAPHBLAS)</div>
+                </div>
