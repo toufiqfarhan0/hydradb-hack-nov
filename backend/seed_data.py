@@ -286,3 +286,21 @@ TOOLS = [
         parameters_schema={"type": "object", "properties": {"ticket_id": {"type": "string"}, "state": {"type": "string"}}, "required": ["ticket_id", "state"]},
         estimated_token_cost=410
     ),
+
+    # Brave Search Tools
+    ToolNode(
+        id="tool_brave_web_search",
+        name="brave_search_web_advisories",
+        server_id="mcp_brave",
+        description="Searches web for known upstream library vulnerabilities, GitHub issues, and official documentation",
+        parameters_schema={"type": "object", "properties": {"query": {"type": "string"}, "count": {"type": "integer", "default": 5}}, "required": ["query"]},
+        estimated_token_cost=450
+    )
+]
+
+EDGES = [
+    # Tool -> MCPServer
+    GraphEdge(source="tool_pg_slow_queries", target="mcp_postgres", relation="BELONGS_TO", weight=1.0),
+    GraphEdge(source="tool_pg_explain_analyze", target="mcp_postgres", relation="BELONGS_TO", weight=1.0),
+    GraphEdge(source="tool_pg_terminate_pid", target="mcp_postgres", relation="BELONGS_TO", weight=1.0),
+    GraphEdge(source="tool_pg_pool_metrics", target="mcp_postgres", relation="BELONGS_TO", weight=1.0),
