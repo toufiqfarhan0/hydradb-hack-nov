@@ -62,3 +62,11 @@ async def get_benchmark_suite():
     return {
         "suite": benchmarks,
         "summary": {
+            "avg_reduction_pct": round(sum(b.reduction_pct for b in benchmarks) / len(benchmarks), 1),
+            "avg_latency_reduction_ms": round(sum(b.naive_latency_ms - b.lucen_latency_ms for b in benchmarks) / len(benchmarks), 1),
+            "avg_accuracy_gain_pct": round(sum(b.accuracy_improvement_pct for b in benchmarks) / len(benchmarks), 1)
+        }
+    }
+
+@app.get("/api/learning-curve")
+async def get_learning_curve():
