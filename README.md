@@ -162,6 +162,56 @@ Rather than stuffing 500 tools into the prompt or blindly querying a vector inde
 
 ## System Architecture
 
+```mermaid
+flowchart TD
+    subgraph Clients ["Layer 1: Client Interfaces & MCP Gateway"]
+        Agent["Autonomous Agent\n(Claude Desktop / Cursor / Devin)"]
+        CLI["Standalone CLI\n(lucen.py)"]
+        WebUI["Next.js 15 Swiss Studio\n(localhost:3000)"]
+        Gateway["Lucen MCP Gateway\n(stdio JSON-RPC 2.0)"]
+        Agent --> Gateway
+    end
+
+    subgraph Broker ["Layer 2: Context Broker & REST Dispatch"]
+        API["FastAPI Dispatch Service\n(:8000 /api/traverse)"]
+        Intent["Intent Classifier\n(Domain Capability Projection)"]
+        FeedbackBroker["Continual Feedback Broker\n(/api/feedback)"]
+        Gateway --> API
+        CLI --> API
+        WebUI --> API
+        API --> Intent
+    end
+
+    subgraph Kernel ["Layer 3: GraphBLAS Traversal Engine"]
+        CSR["Sparse Adjacency Matrix\n(SciPy / GraphBLAS CSR)"]
+        Semiring["Matrix Multiplication\ny = x @ (A_provides ⊗ W_prefers)"]
+        Prune["Topological Reachability Pruning\n(500 tools -> 2-3 isolated tools)"]
+        EntityResolver["Entity Resolution Hop\n([:REQUIRES_ENTITY])"]
+        Intent --> CSR
+        CSR --> Semiring
+        Semiring --> Prune
+        Prune --> EntityResolver
+    end
+
+    subgraph Storage ["Layer 4: HydraDB & Storage Backend"]
+        HydraDB[("HydraDB Property Graph Kernel\nOpenCypher Engine")]
+        SlateDB["SlateDB Embedded LSM-Tree\n(Immutable SST Flush)"]
+        S3Store[("MinIO / AWS S3 Object Store\nhttp://localhost:9000/hydra-graph-store")]
+        HydraDB --> SlateDB
+        SlateDB --> S3Store
+    end
+
+    EntityResolver -.-> HydraDB
+    EntityResolver --> Envelope["Bound Context Envelope\n(2 Isolated Tools + Credentials · 1,214 tok)"]
+    Envelope --> LLM["Frontier LLM Inference Turn\n(Zero-Shot Deterministic Execution)"]
+    LLM --> Result{"Tool Execution Outcome?"}
+    Result -->|"Success (Exit 0)"| Reinforce["Atomic Cypher SET\n[:PREFERS] weight +0.15"]
+    Result -->|"Failure (Exit != 0)"| Penalize["Atomic Cypher SET\n[:PREFERS] weight -0.25"]
+    Reinforce --> FeedbackBroker
+    Penalize --> FeedbackBroker
+    FeedbackBroker --> HydraDB
+```
+
 ![4-Layer System Architecture](assets/architecture.svg)
 
 Lucen operates across four decoupled layers:
@@ -189,6 +239,22 @@ Lucen operates across four decoupled layers:
 ---
 
 ## The Resolution Loop, Step by Step
+
+```mermaid
+flowchart LR
+    Task["Agent Task Prompt\n'Postgres connection pool leak'"] --> Intent["Capability Mapping\ncap_db_diagnostics"]
+    Intent --> Cypher1["1. OpenCypher Pattern Match\nMATCH (t:Tool)-[:PROVIDES]->(c)"]
+    Cypher1 --> Semiring["2. GraphBLAS Matrix Semiring\ny = x @ (A ⊗ W) in 0.72ms"]
+    Semiring --> Prune["Topological Pruning\n498 Tools Eliminated (-99.6%)"]
+    Prune --> Cypher2["3. Entity Resolution Hop\nMATCH (t)-[:REQUIRES_ENTITY]->(e)"]
+    Cypher2 --> Envelope["Bound Context Envelope\nTools + Credentials (1,214 tok)"]
+    Envelope --> Exec["Agent Tool Execution\nTurn-0 Zero-Shot"]
+    Exec --> Feedback{"Execution Success?"}
+    Feedback -->|"Yes (+0.15)"| Reward["Dynamic Cypher SET\n[:PREFERS] weight reinforced"]
+    Feedback -->|"No (-0.25)"| Penalty["Dynamic Cypher SET\n[:PREFERS] weight penalized"]
+    Reward --> HydraStore[("HydraDB on MinIO S3")]
+    Penalty --> HydraStore
+```
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -438,7 +504,9 @@ For an enterprise team of 100 engineers executing 20,000 agent queries per day:
 
 Lucen features a production Next.js 15 web studio running at `http://localhost:3000` and `http://localhost:3000/console`:
 
-![Interactive GraphBLAS Matrix Viewer](assets/console-preview.png)
+<img src="assets/console-preview.png" alt="Interactive HydraDB GraphBLAS Matrix Viewer" width="100%" />
+
+*Live view of the 4-tier GraphBLAS context resolution canvas: MCP Servers (Blue), Capabilities (Yellow), Isolated Tools (Red), and Bound Entities (Emerald) connected via OpenCypher active paths.*
 
 ### Key Studio Capabilities
 - **Interactive Drag Engine**: Click and drag any node or label pill across 4 vertical swimlanes (Tier 1: MCP Servers, Tier 2: Capability Resolvers, Tier 3: Isolated vs Pruned Tools, Tier 4: Bound Entities). Connections redraw in real-time.
