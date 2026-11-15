@@ -277,3 +277,40 @@ def main():
 
     # Command: feedback
     p_fb = subparsers.add_parser("feedback", help="Record execution feedback to reweight graph edges dynamically")
+    p_fb.add_argument("--tool", type=str, required=True, help="Tool ID (e.g. tool_pg_pool_metrics)")
+    p_fb.add_argument("--success", action="store_true", default=True, help="Flag execution as successful (+0.15 reward)")
+    p_fb.add_argument("--failure", action="store_true", help="Flag execution as failure (-0.25 penalty)")
+    p_fb.add_argument("--json", action="store_true", help="Output in JSON")
+
+    # Command: serve
+    p_srv = subparsers.add_parser("serve", help="Launch the live web server and interactive visualizer")
+    p_srv.add_argument("--port", type=int, default=8000, help="Port to listen on (default: 8000)")
+    p_srv.add_argument("--host", type=str, default="127.0.0.1", help="Host interface (default: 127.0.0.1)")
+
+    args = parser.parse_args()
+
+    if not args.command:
+        print_banner()
+        parser.print_help()
+        sys.exit(0)
+
+    if args.command == "serve":
+        cmd_serve(args)
+        return
+
+    # Initialize engine
+    engine = HydraDBContextEngine()
+
+    if args.command == "stats":
+        cmd_stats(args, engine)
+    elif args.command == "traverse":
+        cmd_traverse(args, engine)
+    elif args.command in ("bench", "benchmark"):
+        cmd_benchmark(args, engine)
+    elif args.command == "verify":
+        cmd_verify(args, engine)
+    elif args.command == "feedback":
+        cmd_feedback(args, engine)
+
+if __name__ == "__main__":
+    main()
