@@ -246,3 +246,34 @@ LIMIT $top_k"""
             )
         ]
 
+        explanation = (
+            f"HydraDB OpenCypher traversal resolved {len(selected_tool_objs)} specialized tools from {len(self.tools)} available MCP tools. "
+            f"Context window was reduced from {baseline_tokens:,} tokens to {lucen_tokens:,} tokens ({reduction_pct}% reduction), "
+            f"eliminating prompt bloat and hallucination while retaining {len(matched_entities)} bound entity contexts."
+        )
+
+        return TraversalResult(
+            task=req.task,
+            mode=req.mode,
+            selected_tools=selected_tool_objs,
+            resolved_entities=matched_entities,
+            subgraph_nodes=unique_nodes,
+            subgraph_edges=subgraph_edges,
+            opencypher_query=full_cypher,
+            tokens_used=lucen_tokens,
+            baseline_tokens=baseline_tokens,
+            token_reduction_pct=reduction_pct,
+            estimated_cost_saved_pct=cost_saved_pct,
+            traversal_latency_ms=latency_ms,
+            explanation=explanation,
+            steps=steps
+        )
+
+    def record_feedback(self, req: FeedbackRequest) -> Dict[str, Any]:
+        """
+        Continual Learning Reinforcement:
+        Reweights graph edges dynamically. Successful tool executions reinforce PREFERS
+        edges between the task capability and the tool.
+        """
+        tool = self.tools.get(req.tool_id)
+        if not tool:
