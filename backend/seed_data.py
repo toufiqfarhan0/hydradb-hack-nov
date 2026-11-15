@@ -52,3 +52,21 @@ MCP_SERVERS = [
         name="Linear Issue Tracker",
         description="Create urgent incident tickets, link GitHub PRs, assign engineering owners, update cycles",
         version="2.1.0",
+        transport="sse"
+    ),
+    MCPServerNode(
+        id="mcp_brave",
+        name="Brave Search Engine",
+        description="Live external web query, official documentation retrieval, and known CVE vulnerability search",
+        version="1.1.0",
+        transport="stdio"
+    )
+]
+
+CAPABILITIES = [
+    CapabilityNode(id="cap_db_diagnostics", name="Database Diagnostics", domain="infrastructure", keywords=["database", "postgres", "slow query", "lock", "connection pool", "replica", "deadlock"]),
+    CapabilityNode(id="cap_incident_alerting", name="Incident Alerting", domain="collaboration", keywords=["slack", "channel", "page", "alert", "notify", "war room", "announcement", "oncall"]),
+    CapabilityNode(id="cap_code_review", name="Code Review & PR", domain="development", keywords=["github", "pull request", "pr", "commit", "diff", "branch", "git", "review"]),
+    CapabilityNode(id="cap_cloud_telemetry", name="Cloud Metrics & Autoscaling", domain="infrastructure", keywords=["aws", "rds", "cloudwatch", "cpu", "memory", "ecs", "alarm", "metrics"]),
+    CapabilityNode(id="cap_error_tracking", name="Exception Stacktrace Analysis", domain="observability", keywords=["sentry", "error", "exception", "crash", "stacktrace", "unhandled", "500"]),
+    CapabilityNode(id="cap_container_mgmt", name="Container Lifecycle", domain="infrastructure", keywords=["docker", "container", "restart", "logs", "oomkill", "healthcheck"]),
