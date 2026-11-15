@@ -253,20 +253,23 @@ export default function Home() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const w = canvas.width;
-    const h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
+    const w = canvas.width || 1100;
+    const h = canvas.height || 520;
 
-    // 4 Vertical Lanes
+    // Fill background solid first to ensure no transparent/blank canvas state
+    ctx.fillStyle = "#0E1117";
+    ctx.fillRect(0, 0, w, h);
+
+    // 4 Vertical Lanes with updated enterprise node counts
     const lanes = [
-      { name: "TIER 1 // MCP SERVERS (8)", x: w * 0.14, color: "#60A5FA" },
-      { name: "TIER 2 // CAPABILITIES (10)", x: w * 0.38, color: "#FBBF24" },
-      { name: "TIER 3 // TOOLS (19)", x: w * 0.65, color: "#EF4444" },
-      { name: "TIER 4 // BOUND ENTITIES (7)", x: w * 0.88, color: "#34D399" }
+      { name: "TIER 1 // MCP SERVERS (50)", x: w * 0.14, color: "#60A5FA" },
+      { name: "TIER 2 // CAPABILITIES (100)", x: w * 0.38, color: "#FBBF24" },
+      { name: "TIER 3 // TOOLS (500)", x: w * 0.65, color: "#EF4444" },
+      { name: "TIER 4 // BOUND ENTITIES (80)", x: w * 0.88, color: "#34D399" }
     ];
 
     lanes.forEach(lane => {
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.10)";
       ctx.setLineDash([4, 6]);
       ctx.beginPath();
       ctx.moveTo(lane.x, 35);
@@ -280,8 +283,10 @@ export default function Home() {
       ctx.fillText(lane.name, lane.x, 26);
     });
 
+    if (!nodesRef.current || nodesRef.current.length === 0) {
+      nodesRef.current = getInitialNodes(w);
+    }
     const nodes = nodesRef.current;
-    if (!nodes || nodes.length === 0) return;
 
     // Draw Inactive Background Edges
     const inactiveEdges: [number, number][] = [
@@ -291,11 +296,11 @@ export default function Home() {
       inactiveEdges.forEach(([sIdx, tIdx]) => {
         const s = nodes[sIdx];
         const t = nodes[tIdx];
-        if (!s || !t) return;
+        if (!s || !t || isNaN(s.x) || isNaN(s.y) || isNaN(t.x) || isNaN(t.y)) return;
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
         ctx.lineWidth = 1;
         ctx.stroke();
       });
@@ -308,7 +313,7 @@ export default function Home() {
     activeEdges.forEach(([sIdx, tIdx]) => {
       const s = nodes[sIdx];
       const t = nodes[tIdx];
-      if (!s || !t) return;
+      if (!s || !t || isNaN(s.x) || isNaN(s.y) || isNaN(t.x) || isNaN(t.y)) return;
       if (graphFilter === "active" && (!s.active || !t.active)) return;
 
       ctx.beginPath();
@@ -321,6 +326,12 @@ export default function Home() {
 
     // Draw Nodes
     nodes.forEach((n, idx) => {
+      if (!n) return;
+      if (isNaN(n.x) || isNaN(n.y)) {
+        const fallback = getInitialNodes(w);
+        n.x = fallback[idx]?.x || w * 0.5;
+        n.y = fallback[idx]?.y || 200;
+      }
       if (graphFilter === "active" && !n.active) return;
       const isDragged = draggedNodeIdxRef.current === idx;
 
@@ -343,7 +354,7 @@ export default function Home() {
 
       // Label with pill backdrop
       ctx.font = n.active ? "bold 9.5px 'JetBrains Mono', monospace" : "8.5px 'JetBrains Mono', monospace";
-      const metrics = ctx.measureText(n.label);
+      const metrics = ctx.measureText(n.label || "");
       const bw = metrics.width + 12;
       const bh = 18;
       let lx = n.x;
@@ -381,14 +392,14 @@ export default function Home() {
         : n.active
         ? "rgba(216, 44, 44, 0.95)"
         : "rgba(15, 23, 42, 0.85)";
-      ctx.strokeStyle = isDragged ? "#FFFFFF" : (n.active ? "#FFFFFF" : "rgba(255, 255, 255, 0.15)");
+      ctx.strokeStyle = isDragged ? "#FFFFFF" : (n.active ? "#FFFFFF" : "rgba(255, 255, 255, 0.2)");
       ctx.lineWidth = isDragged ? 2 : 1;
       ctx.fillRect(rx, ly - 12, bw, bh);
       ctx.strokeRect(rx, ly - 12, bw, bh);
 
       ctx.fillStyle = n.active || isDragged ? "#FFFFFF" : "#C9D1D9";
       ctx.textAlign = align;
-      ctx.fillText(n.label, lx, ly);
+      ctx.fillText(n.label || "", lx, ly);
       ctx.restore();
     });
   };
@@ -397,6 +408,7 @@ export default function Home() {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
+    if (!rect || rect.width <= 0 || rect.height <= 0) return { x: 0, y: 0 };
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
@@ -411,21 +423,26 @@ export default function Home() {
       clientX = e.clientX;
       clientY = e.clientY;
     }
+    const computedX = (clientX - rect.left) * scaleX;
+    const computedY = (clientY - rect.top) * scaleY;
     return {
-      x: (clientX - rect.left) * scaleX,
-      y: (clientY - rect.top) * scaleY
+      x: isNaN(computedX) ? 0 : computedX,
+      y: isNaN(computedY) ? 0 : computedY
     };
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
+    if (isNaN(x) || isNaN(y)) return;
     const nodes = nodesRef.current;
+    if (!nodes || nodes.length === 0) return;
     for (let i = nodes.length - 1; i >= 0; i--) {
       const n = nodes[i];
+      if (!n) continue;
       if (graphFilter === "active" && !n.active) continue;
       const dist = Math.hypot(x - n.x, y - n.y);
       const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
-      if (dist <= 20 || inBox) {
+      if (dist <= 24 || inBox) {
         draggedNodeIdxRef.current = i;
         dragOffsetRef.current = { x: x - n.x, y: y - n.y };
         if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
@@ -438,14 +455,16 @@ export default function Home() {
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || isNaN(x) || isNaN(y)) return;
 
     if (draggedNodeIdxRef.current !== null) {
       const idx = draggedNodeIdxRef.current;
       const n = nodesRef.current[idx];
       if (n) {
-        n.x = Math.max(30, Math.min(canvas.width - 30, x - dragOffsetRef.current.x));
-        n.y = Math.max(30, Math.min(canvas.height - 30, y - dragOffsetRef.current.y));
+        const offX = isNaN(dragOffsetRef.current.x) ? 0 : dragOffsetRef.current.x;
+        const offY = isNaN(dragOffsetRef.current.y) ? 0 : dragOffsetRef.current.y;
+        n.x = Math.max(30, Math.min(canvas.width - 30, x - offX));
+        n.y = Math.max(30, Math.min(canvas.height - 30, y - offY));
         drawTopology();
       }
     } else {
@@ -453,10 +472,11 @@ export default function Home() {
       let hovered = false;
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
+        if (!n) continue;
         if (graphFilter === "active" && !n.active) continue;
         const dist = Math.hypot(x - n.x, y - n.y);
         const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
-        if (dist <= 20 || inBox) {
+        if (dist <= 24 || inBox) {
           hovered = true;
           break;
         }
@@ -473,9 +493,12 @@ export default function Home() {
 
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     const { x, y } = getCanvasCoords(e);
+    if (isNaN(x) || isNaN(y)) return;
     const nodes = nodesRef.current;
+    if (!nodes || nodes.length === 0) return;
     for (let i = nodes.length - 1; i >= 0; i--) {
       const n = nodes[i];
+      if (!n) continue;
       if (graphFilter === "active" && !n.active) continue;
       const dist = Math.hypot(x - n.x, y - n.y);
       const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
@@ -493,12 +516,14 @@ export default function Home() {
       e.preventDefault();
       const { x, y } = getCanvasCoords(e);
       const canvas = canvasRef.current;
-      if (!canvas) return;
+      if (!canvas || isNaN(x) || isNaN(y)) return;
       const idx = draggedNodeIdxRef.current;
       const n = nodesRef.current[idx];
       if (n) {
-        n.x = Math.max(30, Math.min(canvas.width - 30, x - dragOffsetRef.current.x));
-        n.y = Math.max(30, Math.min(canvas.height - 30, y - dragOffsetRef.current.y));
+        const offX = isNaN(dragOffsetRef.current.x) ? 0 : dragOffsetRef.current.x;
+        const offY = isNaN(dragOffsetRef.current.y) ? 0 : dragOffsetRef.current.y;
+        n.x = Math.max(30, Math.min(canvas.width - 30, x - offX));
+        n.y = Math.max(30, Math.min(canvas.height - 30, y - offY));
         drawTopology();
       }
     }
@@ -507,23 +532,50 @@ export default function Home() {
   const handleResetLayout = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const w = canvas.width;
+    const w = canvas.width || 1100;
     nodesRef.current = getInitialNodes(w);
     drawTopology();
   };
 
-  // Canvas Topology Drawer Effect
+  // Canvas Topology Drawer Effect with resilient hydration & resize observers
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const w = (canvas.width = canvas.parentElement?.clientWidth || 800);
-    canvas.height = 520;
 
-    if (nodesRef.current.length === 0) {
-      nodesRef.current = getInitialNodes(w);
-    }
+    const setupCanvas = () => {
+      const containerWidth = canvas.parentElement?.clientWidth || 0;
+      const w = containerWidth > 100 ? containerWidth : 1100;
+      canvas.width = w;
+      canvas.height = 520;
 
-    drawTopology();
+      if (!nodesRef.current || nodesRef.current.length === 0) {
+        nodesRef.current = getInitialNodes(w);
+      }
+      drawTopology();
+    };
+
+    // Immediate draw
+    setupCanvas();
+
+    // Next-frame draw when layout and fonts settle
+    const animId = requestAnimationFrame(() => {
+      setupCanvas();
+    });
+
+    const timer = setTimeout(() => {
+      setupCanvas();
+    }, 150);
+
+    const handleResize = () => {
+      setupCanvas();
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [graphFilter, traversalResult]);
 
   return (
@@ -927,6 +979,8 @@ LIMIT 2;`}
               <div className="w-full relative select-none">
                 <canvas
                   ref={canvasRef}
+                  width={1100}
+                  height={520}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
                   onMouseUp={handleMouseUp}
@@ -934,7 +988,7 @@ LIMIT 2;`}
                   onTouchStart={handleTouchStart}
                   onTouchMove={handleTouchMove}
                   onTouchEnd={handleMouseUp}
-                  className="w-full block select-none cursor-default"
+                  className="w-full block select-none cursor-default bg-[#0E1117]"
                 />
               </div>
 
