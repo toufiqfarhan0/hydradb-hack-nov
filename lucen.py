@@ -184,3 +184,34 @@ def cmd_verify(args, engine: HydraDBContextEngine):
     print(f"[2/5] Testing Postgres Outage Context Reduction... ", end="", flush=True)
     res = engine.traverse(TraversalRequest(task="Postgres connection pool exhausted", top_k_tools=2))
     if res.token_reduction_pct >= 90.0:
+        print(f"{GREEN}[PASS]{RESET} ({res.tokens_used} tok vs {res.baseline_tokens} tok, {GREEN}-{res.token_reduction_pct}%{RESET})")
+        passed += 1
+    else:
+        print(f"{RED}[FAIL]{RESET} (got {res.token_reduction_pct}%)")
+
+    # Check 3: GraphBLAS Hop Latency Bound (< 10ms)
+    print(f"[3/5] Asserting Sparse Matrix Hop Latency (<10ms)... ", end="", flush=True)
+    if res.traversal_latency_ms <= 10.0:
+        print(f"{GREEN}[PASS]{RESET} ({CYAN}{res.traversal_latency_ms} ms{RESET})")
+        passed += 1
+    else:
+        print(f"{RED}[FAIL]{RESET} (latency was {res.traversal_latency_ms} ms)")
+
+    # Check 4: Dynamic Edge Reweighting (Continual Learning)
+    print(f"[4/5] Testing Dynamic PREFERS Edge Reweighting... ", end="", flush=True)
+    fb = engine.record_feedback(FeedbackRequest(tool_id="tool_pg_pool_metrics", success=True, task="Postgres test"))
+    if fb.get("status") == "success" and fb.get("reward") == "+0.15":
+        print(f"{GREEN}[PASS]{RESET} (weight +0.15, accuracy: {GREEN}{fb['current_accuracy_pct']}%{RESET})")
+        passed += 1
+    else:
+        print(f"{RED}[FAIL]{RESET}")
+
+    # Check 5: Multi-Hop Entity Resolution Parity
+    print(f"[5/5] Asserting Pre-Resolved Entity Parity... ", end="", flush=True)
+    if len(res.resolved_entities) >= 1 and any("pg-cluster" in str(e.properties) for e in res.resolved_entities):
+        print(f"{GREEN}[PASS]{RESET} (Bound: pg-cluster-prod.internal:5432)")
+        passed += 1
+    else:
+        print(f"{RED}[FAIL]{RESET}")
+
+    print("=" * 68)
