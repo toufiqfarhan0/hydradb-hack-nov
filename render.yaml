@@ -1,0 +1,20 @@
+# ==============================================================================
+# Render Blueprint Specification for Lucen — HydraDB Context Layer
+# Deploy free to https://dashboard.render.com
+# ==============================================================================
+
+services:
+  # Option 1: Unified Docker Deployment (Recommended - Runs both on 1 Free Instance)
+  - type: web
+    name: lucen-app
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HYDRADB_ENDPOINT
+        value: http://localhost:8080
+      - key: S3_ENDPOINT
+        value: http://localhost:9000

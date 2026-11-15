@@ -20,11 +20,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const taskText = (body.task || "").toLowerCase();
 
-    // Attempt to proxy to local FastAPI backend if running
+    // Attempt to proxy to FastAPI backend if running
     try {
+      const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:8000";
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 1200);
-      const res = await fetch("http://127.0.0.1:8000/api/traverse", {
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(`${backendUrl}/api/traverse`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

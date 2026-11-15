@@ -610,7 +610,12 @@ hydradb-hack-nov/
 ├── tools/                           # Build & Asset Generators
 │   ├── build_full_seed_py.py        # 500-tool dataset compiler
 │   └── generate_readme_assets.py    # SVG diagram generator
+├── docs/                            # Deployment & Production Guides
+│   └── RENDER_DEPLOYMENT.md         # Step-by-step Render Free Tier deployment guide
 ├── lucen.py                         # Standalone Lucen CLI tool
+├── run_production.py                # Unified production runner (FastAPI + Next.js)
+├── Dockerfile                       # Multi-stage production container
+├── render.yaml                      # Render Blueprint 1-click specification
 ├── docker-compose.yml               # MinIO S3 Object Store & SlateDB stack
 └── README.md                        # Master specification documentation
 ```
@@ -667,6 +672,19 @@ Open your browser to:
 - **Technical Documentation**: `http://localhost:3000/docs`
 - **Research Paper**: `http://localhost:3000/blog`
 - **OpenAPI Swagger UI**: `http://localhost:8000/docs`
+
+---
+
+## Deploy Free to Render
+
+You can deploy the complete Lucen end-to-end stack (FastAPI HydraDB Backend + Next.js 15 Web Studio) to Render's free tier in one click:
+
+### 1-Click Render Blueprint:
+1. Open the [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** &rarr; **Blueprint**.
+3. Connect `https://github.com/toufiqfarhan0/hydradb-hack-nov`.
+4. Render automatically detects [`render.yaml`](render.yaml) and deploys the unified multi-stage container on the **Free Plan** ($0/month).
+5. Detailed manual and separate-service deployment guides are documented in [docs/RENDER_DEPLOYMENT.md](docs/RENDER_DEPLOYMENT.md).
 
 ---
 

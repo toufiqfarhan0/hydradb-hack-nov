@@ -82,3 +82,8 @@ async def root():
         "web_ui": "http://localhost:3000",
         "api_docs": "/docs"
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("backend.server:app", host="0.0.0.0", port=port, reload=False)
