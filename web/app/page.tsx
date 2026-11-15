@@ -1065,3 +1065,100 @@ LIMIT 2;`}
                     <th className="p-3 uppercase tracking-wider font-bold">Token Reduction</th>
                     <th className="p-3 uppercase tracking-wider font-bold">Latency Reduction</th>
                     <th className="p-3 uppercase tracking-wider font-bold">Accuracy Gain</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E2E6E6]">
+                  {BENCHMARKS.map((b, i) => (
+                    <tr key={i} className="hover:bg-[#F2F2F2] transition-colors">
+                      <td className="p-3 font-bold text-[#1A1A1A]">{b.task_name}</td>
+                      <td className="p-3 text-gray-500">
+                        <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 text-[10px]">
+                          {b.domain}
+                        </span>
+                      </td>
+                      <td className="p-3 text-red-700 font-semibold">{b.naive_tokens.toLocaleString()} tok ({b.naive_lat}ms)</td>
+                      <td className="p-3 text-emerald-700 font-bold">{b.lucen_tokens.toLocaleString()} tok ({b.lucen_lat}ms)</td>
+                      <td className="p-3">
+                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
+                          -{b.reduction_pct}%
+                        </span>
+                      </td>
+                      <td className="p-3 text-[#0033A0] font-semibold">-{b.naive_lat - b.lucen_lat}ms</td>
+                      <td className="p-3 text-[#D82C2C] font-bold">+{b.accuracy_gain}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            6. ARCHITECTURE SECTION (#architecture)
+        ───────────────────────────────────────────────────────────── */}
+        <section id="architecture" className="py-16 bg-[#F2F2F2] swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              05 // SYSTEM ARCHITECTURE
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              Built on HydraDB Open-Source Engine
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Why does this fall apart on a plain key-value or vector store? Agent context requires multi-hop relationship traversal: connecting a natural language task to capabilities, mapping capabilities to tools, and linking tools to active runtime entities.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-6 swiss-border">
+                <div className="text-xs font-swiss-mono font-bold text-[#D82C2C] mb-1">01 / PERSISTENCE</div>
+                <h3 className="font-bold text-base mb-2 font-swiss-display">Object-Store Native</h3>
+                <p className="text-xs text-[#1A1A1A]/80 leading-relaxed">
+                  HydraDB persists write-ahead logs, graph manifests, and Compressed Sparse Column (CSC) indices directly to <strong>MinIO / S3</strong> via SlateDB, eliminating the local filesystem <code>PutMode::Update</code> bottleneck.
+                </p>
+              </div>
+
+              <div className="bg-white p-6 swiss-border">
+                <div className="text-xs font-swiss-mono font-bold text-[#0033A0] mb-1">02 / MATRIX ALGEBRA</div>
+                <h3 className="font-bold text-base mb-2 font-swiss-display">GraphBLAS Traversal</h3>
+                <p className="text-xs text-[#1A1A1A]/80 leading-relaxed">
+                  Instead of pointer-chasing through millions of edges, HydraDB leverages SuiteSparse GraphBLAS linear algebra kernels, pruning multi-hop tool-entity paths in single-digit milliseconds.
+                </p>
+              </div>
+
+              <div className="bg-white p-6 swiss-border">
+                <div className="text-xs font-swiss-mono font-bold text-[#166534] mb-1">03 / DECLARATIVE QUERY</div>
+                <h3 className="font-bold text-base mb-2 font-swiss-display">OpenCypher Syntax</h3>
+                <p className="text-xs text-[#1A1A1A]/80 leading-relaxed">
+                  Standard Cypher syntax enables dynamic matching of tools and entity states with snapshot read consistency across autonomous agent sessions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            7. FAQ ACCORDION SECTION (#faq)
+        ───────────────────────────────────────────────────────────── */}
+        <section id="faq" className="py-16 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              06 // FREQUENTLY ASKED QUESTIONS
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              System Knowledge Base
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Core architectural principles powering Lucen's GraphBLAS traversal, contextual entity binding, and deterministic agent execution.
+            </p>
+
+            <div className="space-y-3">
+              {[
+                {
+                  q: "01 // How does Lucen eliminate LLM context rot in autonomous agent workflows?",
+                  a: "Rather than blindly dumping dozens of Model Context Protocol (MCP) tool schemas into system prompts (which costs 15,000+ tokens and causes prompt degradation), Lucen models tools, runtime parameters, past trajectories, and database entities as a directed property graph inside HydraDB. At inference time, Lucen retrieves only the 1-hop and 2-hop active subgraph via OpenCypher, delivering an empirical 94.2% token context reduction while keeping tool calling 100% deterministic."
+                },
+                {
+                  q: "02 // Why does Lucen use GraphBLAS sparse linear algebra instead of vector databases?",
+                  a: "Vector databases calculate cosine similarity over dense semantic embeddings. While effective for fuzzy text retrieval, vector search cannot enforce deterministic relational constraints. HydraDB leverages SuiteSparse GraphBLAS to execute multi-hop breadth-first searches (BFS) as matrix-vector multiplications over Compressed Sparse Column (CSC) indices in 1.8 ms, guaranteeing zero semantic hallucination."
+                },
+                {
