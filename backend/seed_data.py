@@ -268,3 +268,21 @@ TOOLS = [
         parameters_schema={"type": "object", "properties": {"container_id": {"type": "string"}, "timeout": {"type": "integer", "default": 10}}, "required": ["container_id"]},
         estimated_token_cost=400
     ),
+
+    # Linear Tools
+    ToolNode(
+        id="tool_linear_create_issue",
+        name="linear_create_incident_ticket",
+        server_id="mcp_linear",
+        description="Files engineering triage ticket in Linear with priority, team assignee, and linked commit",
+        parameters_schema={"type": "object", "properties": {"title": {"type": "string"}, "priority": {"type": "string"}, "description": {"type": "string"}}, "required": ["title"]},
+        estimated_token_cost=470
+    ),
+    ToolNode(
+        id="tool_linear_update_status",
+        name="linear_update_ticket_status",
+        server_id="mcp_linear",
+        description="Updates ticket state (In Progress, In Review, Done) and adds resolution note",
+        parameters_schema={"type": "object", "properties": {"ticket_id": {"type": "string"}, "state": {"type": "string"}}, "required": ["ticket_id", "state"]},
+        estimated_token_cost=410
+    ),
