@@ -192,3 +192,100 @@ export default function Home() {
       } else {
         fallbackClientTraversal();
       }
+    } catch {
+      fallbackClientTraversal();
+    } finally {
+      setIsTraversing(false);
+    }
+  };
+
+  const fallbackClientTraversal = () => {
+    const matched = PRESETS.find(p =>
+      taskPrompt.toLowerCase().includes(p.id.split("_")[1])
+    ) || PRESETS[selectedPreset];
+    setTraversalResult(matched);
+  };
+
+  const handleSimulateFeedback = (success: boolean) => {
+    const delta = success ? 0.8 : -1.2;
+    const newAcc = Math.min(Math.max(Number((accuracy + delta).toFixed(1)), 70.0), 99.4);
+    setAccuracy(newAcc);
+
+    const toolName = traversalResult.tools[0]?.name || "pg_check_connection_pool";
+    const time = new Date().toLocaleTimeString();
+    const entry = success
+      ? `[REWARD +0.15] ${time}: Reinforced (:Capability)-[:PREFERS]->(${toolName}). Accuracy: ${newAcc}%`
+      : `[PENALTY -0.25] ${time}: Decayed (:Capability)-[:PREFERS]->(${toolName}). Accuracy: ${newAcc}%`;
+
+    setFeedbackLog(prev => [entry, ...prev.slice(0, 4)]);
+  };
+
+  const copyCypher = () => {
+    const query = `MATCH (c:Capability) WHERE c.id IN ["cap_db_diagnostics", "cap_incident_alerting"]\nMATCH (t:Tool)-[:PROVIDES]->(c)\nOPTIONAL MATCH (c)-[p:PREFERS]->(t)\nWITH t, c, coalesce(p.weight, 1.0) AS relevance_weight\nOPTIONAL MATCH (t)-[r:REQUIRES_ENTITY|RESOLVES_ENTITY]->(e:Entity)\nRETURN t, c, e, relevance_weight\nORDER BY relevance_weight DESC\nLIMIT 2;`;
+    navigator.clipboard.writeText(query);
+    setCopiedCypher(true);
+    setTimeout(() => setCopiedCypher(false), 2000);
+  };
+
+  const getInitialNodes = (w: number) => [
+    { id: "s1", label: "PostgreSQL Inspector", type: "MCPServer", x: w * 0.14, y: 120, active: true },
+    { id: "s2", label: "Slack Enterprise", type: "MCPServer", x: w * 0.14, y: 220, active: true },
+    { id: "s3", label: "GitHub Repo Mgr", type: "MCPServer", x: w * 0.14, y: 320, active: false },
+    { id: "s4", label: "AWS Cloud Ops", type: "MCPServer", x: w * 0.14, y: 420, active: false },
+
+    { id: "c1", label: "Database Diagnostics", type: "Capability", x: w * 0.38, y: 160, active: true },
+    { id: "c2", label: "Incident Alerting", type: "Capability", x: w * 0.38, y: 270, active: true },
+    { id: "c3", label: "Code Review & PR", type: "Capability", x: w * 0.38, y: 380, active: false },
+
+    { id: "t1", label: "pg_check_connection_pool", type: "Tool", x: w * 0.65 - 18, y: 150, active: true },
+    { id: "t2", label: "slack_post_incident_bulletin", type: "Tool", x: w * 0.65 + 18, y: 240, active: true },
+    { id: "t3", label: "docker_restart_container", type: "Tool", x: w * 0.65 - 18, y: 330, active: false },
+    { id: "t4", label: "aws_fetch_rds_metrics", type: "Tool", x: w * 0.65 + 18, y: 410, active: false },
+
+    { id: "e1", label: "Production DB Primary", type: "Entity", x: w * 0.88, y: 160, active: true },
+    { id: "e2", label: "Slack #incident-critical-ops", type: "Entity", x: w * 0.88, y: 260, active: true },
+    { id: "e3", label: "GitHub PR #842", type: "Entity", x: w * 0.88, y: 370, active: false }
+  ];
+
+  const drawTopology = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // 4 Vertical Lanes
+    const lanes = [
+      { name: "TIER 1 // MCP SERVERS (8)", x: w * 0.14, color: "#60A5FA" },
+      { name: "TIER 2 // CAPABILITIES (10)", x: w * 0.38, color: "#FBBF24" },
+      { name: "TIER 3 // TOOLS (19)", x: w * 0.65, color: "#EF4444" },
+      { name: "TIER 4 // BOUND ENTITIES (7)", x: w * 0.88, color: "#34D399" }
+    ];
+
+    lanes.forEach(lane => {
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.setLineDash([4, 6]);
+      ctx.beginPath();
+      ctx.moveTo(lane.x, 35);
+      ctx.lineTo(lane.x, h - 20);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.font = "bold 9.5px 'JetBrains Mono', monospace";
+      ctx.fillStyle = lane.color;
+      ctx.textAlign = "center";
+      ctx.fillText(lane.name, lane.x, 26);
+    });
+
+    const nodes = nodesRef.current;
+    if (!nodes || nodes.length === 0) return;
+
+    // Draw Inactive Background Edges
+    const inactiveEdges: [number, number][] = [
+      [2, 6], [3, 6], [6, 9], [6, 10], [9, 13], [10, 13]
+    ];
+    if (graphFilter === "all") {
+      inactiveEdges.forEach(([sIdx, tIdx]) => {
