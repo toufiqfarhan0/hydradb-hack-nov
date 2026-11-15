@@ -340,6 +340,12 @@ def main():
     # Command: concurrency
     subparsers.add_parser("concurrency", help="Assert atomic Cypher SET multi-agent concurrency (100 writers, 0 lost updates)")
 
+    # Command: gemini-agent
+    p_gemini = subparsers.add_parser("gemini-agent", help="Run live autonomous agent with Google Gemini & HydraDB context")
+    p_gemini.add_argument("--task", type=str, default="Production PostgreSQL database is exhausting connection pool. Inspect pool and broadcast alert to Slack war room.", help="Incident task query")
+    p_gemini.add_argument("--api-key", type=str, help="Google Gemini API key")
+    p_gemini.add_argument("--model", type=str, default="gemini-1.5-flash", help="Gemini model name")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -374,6 +380,9 @@ def main():
         cmd_feedback(args, engine)
     elif args.command == "concurrency":
         cmd_concurrency(args, engine)
+    elif args.command == "gemini-agent":
+        from tools.gemini_agent import run_agent
+        run_agent(task_prompt=args.task, api_key=args.api_key, model=args.model)
 
 if __name__ == "__main__":
     main()

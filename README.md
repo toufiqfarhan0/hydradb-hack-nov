@@ -76,6 +76,9 @@ python lucen.py ablation
 
 # 5. Execute 9/9 live integration tests against Next.js & HydraDB
 python eval/live_e2e_test.py
+
+# 6. Run live autonomous agent with Google Gemini & HydraDB context
+python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 ```
 
 ---
