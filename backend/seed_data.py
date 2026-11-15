@@ -250,3 +250,21 @@ TOOLS = [
         parameters_schema={"type": "object", "properties": {"issue_id": {"type": "string"}, "release": {"type": "string"}}, "required": ["issue_id"]},
         estimated_token_cost=390
     ),
+
+    # Docker Tools
+    ToolNode(
+        id="tool_docker_inspect_logs",
+        name="docker_stream_container_logs",
+        server_id="mcp_docker",
+        description="Streams recent stderr lines from container to diagnose crash loops or memory faults",
+        parameters_schema={"type": "object", "properties": {"container_id": {"type": "string"}, "tail": {"type": "integer", "default": 100}}, "required": ["container_id"]},
+        estimated_token_cost=430
+    ),
+    ToolNode(
+        id="tool_docker_restart_container",
+        name="docker_restart_container_instance",
+        server_id="mcp_docker",
+        description="Sends SIGTERM followed by SIGKILL to cleanly restart hung microservice container",
+        parameters_schema={"type": "object", "properties": {"container_id": {"type": "string"}, "timeout": {"type": "integer", "default": 10}}, "required": ["container_id"]},
+        estimated_token_cost=400
+    ),
