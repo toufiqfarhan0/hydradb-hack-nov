@@ -22,3 +22,9 @@ class ToolNode(BaseModel):
     invocation_count: int = 0
     avg_latency_ms: float = 120.0
 
+class CapabilityNode(BaseModel):
+    id: str
+    name: str
+    domain: str
+    keywords: List[str]
+
