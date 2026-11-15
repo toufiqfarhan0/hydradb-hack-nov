@@ -68,6 +68,15 @@ export default function DocsPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
+              <a
+                href="https://lucen-app.onrender.com"
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2.5 bg-[#0033A0] text-white hover:bg-[#002270] font-swiss-mono text-xs font-bold transition-colors flex items-center gap-1.5"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Live App (Render) &rarr;</span>
+              </a>
               <Link
                 href="/console"
                 className="px-4 py-2.5 bg-[#D82C2C] text-white hover:bg-[#b02222] font-swiss-mono text-xs font-bold transition-colors flex items-center gap-1.5"
@@ -245,7 +254,8 @@ npm install
 npm run dev
 
 # Open http://localhost:3000 in your browser
-# Console Studio: http://localhost:3000/console`}
+# Console Studio: http://localhost:3000/console
+# Or access the live deployment: https://lucen-app.onrender.com`}
                 </pre>
               </div>
             </section>

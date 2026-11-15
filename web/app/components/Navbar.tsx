@@ -45,6 +45,15 @@ export default function Navbar() {
               <span>Blog</span>
               <ArrowUpRight className="w-3 h-3" />
             </Link>
+            <a
+              href="https://lucen-app.onrender.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-300 text-[10px] font-swiss-mono font-bold hover:bg-emerald-100 transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+              <span>LIVE DEMO</span>
+            </a>
           </nav>
         </div>
       </div>

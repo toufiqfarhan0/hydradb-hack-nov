@@ -4,6 +4,7 @@
 
 &nbsp;
 
+[![Live Deployment](https://img.shields.io/badge/Render-Live_App-10b981?style=flat-square)](https://lucen-app.onrender.com)
 [![HydraDB Verify](https://img.shields.io/badge/HydraDB_Verify-5%2F5_Passed-10b981?style=flat-square)](https://github.com/toufiqfarhan0/hydradb-hack-nov)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-0033A0.svg?style=flat-square)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab?style=flat-square)](https://www.python.org/)
@@ -14,7 +15,7 @@
 
 **Why serialize 272,000+ tokens of Model Context Protocol (MCP) schemas into every system prompt when you can traverse the graph in 1.8 milliseconds?**
 
-[ Judge Lucen in 90 Seconds ](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [ Architecture ](#architecture) &nbsp;·&nbsp; [ Empirical Numbers ](#the-numbers) &nbsp;·&nbsp; [ Go-To-Market ](#go-to-market-strategy--commercial-adoption) &nbsp;·&nbsp; [ Live Console ](#the-live-console--graphblas-matrix-viewer)
+[ Live Deployment: lucen-app.onrender.com ](https://lucen-app.onrender.com) &nbsp;·&nbsp; [ Judge Lucen in 90 Seconds ](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [ Architecture ](#architecture) &nbsp;·&nbsp; [ Empirical Numbers ](#the-numbers) &nbsp;·&nbsp; [ Go-To-Market ](#go-to-market-strategy--commercial-adoption) &nbsp;·&nbsp; [ Live Console ](#the-live-console--graphblas-matrix-viewer)
 
 </div>
 
@@ -47,7 +48,7 @@ The standard industry workaround—**Vector Embedding Top-K Search**—fails on 
 
 ## Judge Lucen in 90 Seconds
 
-**Live Web Application: [http://localhost:3000](http://localhost:3000)** — Next.js 15 Swiss Modernist UI, standalone `/console` studio, `/docs` technical documentation, `/blog` research paper, and a live FastAPI traversal service backed by HydraDB, SuiteSparse GraphBLAS, and SlateDB on MinIO S3.
+**Live Production Deployment: [https://lucen-app.onrender.com](https://lucen-app.onrender.com)** (or locally at `http://localhost:3000`) — Next.js 15 Swiss Modernist UI, standalone `/console` studio, `/docs` technical documentation, `/blog` research paper, and a live FastAPI traversal service backed by HydraDB, SuiteSparse GraphBLAS, and SlateDB on MinIO S3.
 
 Five empirical measurements, all reproducible from this repository:
 
@@ -167,7 +168,7 @@ flowchart TD
     subgraph Clients ["Layer 1: Client Interfaces & MCP Gateway"]
         Agent["Autonomous Agent\n(Claude Desktop / Cursor / Devin)"]
         CLI["Standalone CLI\n(lucen.py)"]
-        WebUI["Next.js 15 Swiss Studio\n(localhost:3000)"]
+        WebUI["Next.js 15 Swiss Studio\n(lucen-app.onrender.com)"]
         Gateway["Lucen MCP Gateway\n(stdio JSON-RPC 2.0)"]
         Agent --> Gateway
     end
@@ -217,7 +218,7 @@ flowchart TD
 Lucen operates across four decoupled layers:
 
 ### Layer 1: Client Interfaces & MCP Gateway
-- **Next.js 15 Swiss Studio UI** (`http://localhost:3000`): Draggable GraphBLAS matrix canvas, real-time telemetry ticker, and dynamic feedback simulation.
+- **Next.js 15 Swiss Studio UI** ([https://lucen-app.onrender.com](https://lucen-app.onrender.com) or `http://localhost:3000`): Draggable GraphBLAS matrix canvas, real-time telemetry ticker, and dynamic feedback simulation.
 - **Standalone CLI Suite** (`python lucen.py`): Command-line tool for local execution, CI/CD verification, and headless agent orchestration.
 - **Zero-Code MCP Proxy Gateway** (`lucen://gateway`): Intercepts agent tool calls via stdio and SSE transport protocols, transparently pruning schemas before forwarding to models.
 
@@ -514,7 +515,7 @@ For an enterprise team of 100 engineers executing 20,000 agent queries per day a
 
 ## The Live Console & GraphBLAS Matrix Viewer
 
-Lucen features a production Next.js 15 web studio running at `http://localhost:3000` and `http://localhost:3000/console`:
+Lucen features a production Next.js 15 web studio running live at [https://lucen-app.onrender.com](https://lucen-app.onrender.com) (Console: [https://lucen-app.onrender.com/console](https://lucen-app.onrender.com/console)), also runnable locally at `http://localhost:3000`:
 
 [![Interactive HydraDB GraphBLAS Matrix Viewer](assets/matrix-viewer-live.png)](assets/matrix-viewer-live.png)
 
@@ -667,17 +668,21 @@ cd web && npm run dev
 ```
 
 Open your browser to:
-- **Interactive Home & Matrix Viewer**: `http://localhost:3000`
-- **Dedicated Traversal Console**: `http://localhost:3000/console`
-- **Technical Documentation**: `http://localhost:3000/docs`
-- **Research Paper**: `http://localhost:3000/blog`
-- **OpenAPI Swagger UI**: `http://localhost:8000/docs`
+- **Live Hosted Application**: [https://lucen-app.onrender.com](https://lucen-app.onrender.com)
+- **Live Traversal Console**: [https://lucen-app.onrender.com/console](https://lucen-app.onrender.com/console)
+- **Live Technical Documentation**: [https://lucen-app.onrender.com/docs](https://lucen-app.onrender.com/docs)
+- **Live Research Paper**: [https://lucen-app.onrender.com/blog](https://lucen-app.onrender.com/blog)
+- **Local Dev Web Studio**: `http://localhost:3000` (Console: `http://localhost:3000/console`)
+- **Local OpenAPI Swagger UI**: `http://localhost:8000/docs`
 
 ---
 
 ## Deploy Free to Render
 
-You can deploy the complete Lucen end-to-end stack (FastAPI HydraDB Backend + Next.js 15 Web Studio) to Render's free tier in one click:
+The complete Lucen end-to-end stack (FastAPI HydraDB Backend + Next.js 15 Web Studio) is currently live on Render at:
+**[https://lucen-app.onrender.com](https://lucen-app.onrender.com)**
+
+To deploy your own instance to Render's free tier in one click:
 
 ### 1-Click Render Blueprint:
 1. Open the [Render Dashboard](https://dashboard.render.com/).

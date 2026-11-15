@@ -591,9 +591,20 @@ export default function Home() {
           <div className="max-w-[1280px] mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left 7 Columns */}
             <div className="lg:col-span-7 space-y-8">
-              <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider flex items-center gap-2">
-                <span className="w-2.5 h-2.5 bg-[#D82C2C] inline-block" />
-                <span>TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</span>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 bg-[#D82C2C] inline-block" />
+                  <span>TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</span>
+                </div>
+                <a
+                  href="https://lucen-app.onrender.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-300 text-[10px] font-swiss-mono font-bold hover:bg-emerald-100 transition-colors"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                  <span>LIVE: LUCEN-APP.ONRENDER.COM</span>
+                </a>
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A] leading-[1.05]">
