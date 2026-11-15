@@ -1174,7 +1174,7 @@ LIMIT 2;`}
         </section>
 
         {/* ─────────────────────────────────────────────────────────────
-            07 // INTERACTIVE CLI SIMULATOR 
+            07 // INTERACTIVE CLI SIMULATOR
         ───────────────────────────────────────────────────────────── */}
         <section id="cli" className="py-16 bg-[#F2F2F2] swiss-border-b">
           <div className="max-w-[1280px] mx-auto px-6">

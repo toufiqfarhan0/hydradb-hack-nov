@@ -755,4 +755,3 @@ python eval/live_e2e_test.py
 - **License**: Apache License 2.0. Open-source for personal, academic, and enterprise usage.
 - **Track 2 Submission**: Built for **Hack Hydra 2026 (Track 2: Agent Context Layer)**.
 - **HydraDB Reference**: Built on the core principles of [HydraDB](https://github.com/hydra-db/hydradb), SuiteSparse GraphBLAS matrix semirings, and SlateDB object-store LSM architectures.
-
