@@ -618,9 +618,16 @@ hydradb-hack-nov/
 ├── tools/                           # Build & Asset Generators
 │   ├── build_full_seed_py.py        # 500-tool dataset compiler
 │   └── generate_readme_assets.py    # SVG diagram generator
-├── docs/                            # Deployment & Production Guides
-│   └── RENDER_DEPLOYMENT.md         # Step-by-step Render Free Tier deployment guide
-├── lucen.py                         # Standalone Lucen CLI tool
+├── docs/                            # Empirical Documentation & Submission Suite
+│   ├── SUBMISSION.md                # Hack Hydra Hackathon submission form answers
+│   ├── latency.md                   # Micro-benchmark profile & hop scaling
+│   ├── fidelity-differential.md     # Multi-hop environment disambiguation analysis
+│   ├── engine-scaling.md            # Concurrency & 100-thread atomic delta verification
+│   ├── negative-control.md          # Edge deletion ablation & noise resistance tests
+│   ├── reuse-policy.md              # Attribution & open-source component disclosures
+│   └── launch_thread.md             # Complete 7-part Twitter/X distribution thread
+├── .env.example                     # Environment template (Gemini API key & endpoints)
+├── lucen.py                         # Standalone Lucen CLI tool (verify, traverse, concurrency, agent)
 ├── run_production.py                # Unified production runner (FastAPI + Next.js)
 ├── Dockerfile                       # Multi-stage production container
 ├── render.yaml                      # Render Blueprint 1-click specification
@@ -636,6 +643,21 @@ hydradb-hack-nov/
 - Python 3.11+
 - Node.js 18+ & npm
 - Docker (optional, for standalone MinIO S3 instance)
+
+### Environment Configuration & Live Runs
+
+Every deterministic result in Lucen—GraphBLAS traversal, -99.6% token pruning, 5/5 automated assertions, 100-worker concurrency tests, and benchmark evaluations—**runs 100% locally with zero external API keys needed**.
+
+If you wish to execute live autonomous agent runs against frontier LLMs:
+```bash
+cp .env.example .env
+# Set GEMINI_API_KEY=your_gemini_api_key in .env
+```
+
+To run a live autonomous execution:
+- **From CLI**: `python lucen.py gemini-agent --task "Production Postgres connection pool exhausted"`
+- **From Browser**: Open `http://localhost:3000/console` and click **"Run Gemini Agent (Live)"**.
+- **On Cloud / Render**: If hosting on Render.com, add `GEMINI_API_KEY` as an Environment Variable in the Render Dashboard (**Environment -> Add Environment Variable**).
 
 ### 1. Clone Repository & Install Dependencies
 ```bash
