@@ -91,3 +91,34 @@ def cmd_traverse(args, engine: HydraDBContextEngine):
             "reduction_pct": res.token_reduction_pct,
             "traversal_latency_ms": res.traversal_latency_ms,
             "selected_tools": [t.name for t in res.selected_tools],
+            "resolved_entities": [
+                {"name": e.name, "type": e.entity_type, "properties": e.properties}
+                for e in res.resolved_entities
+            ],
+            "opencypher_query": res.opencypher_query
+        }
+        print(json.dumps(output, indent=2))
+        return
+
+    print_banner()
+    print(f"{BOLD}TASK INTENT:{RESET} \"{task}\"")
+    print("=" * 68)
+    
+    # Selected Tools
+    print(f"\n{BOLD}{CYAN}1. ISOLATED TOOLS ({len(res.selected_tools)} selected from {len(engine.tools)} total):{RESET}")
+    for t in res.selected_tools:
+        print(f"   {GREEN}✔{RESET} {BOLD}{t.name}{RESET} {DIM}(server: {t.server_id}, cost: {t.estimated_token_cost} tok){RESET}")
+        print(f"     {DIM}{t.description}{RESET}")
+
+    # Bound Entities
+    print(f"\n{BOLD}{YELLOW}2. PRE-BOUND RUNTIME ENTITIES ({len(res.resolved_entities)} resolved):{RESET}")
+    for e in res.resolved_entities:
+        print(f"   {YELLOW}⚡{RESET} {BOLD}{e.name}{RESET} {DIM}(type: {e.entity_type}){RESET}")
+        for k, v in e.properties.items():
+            print(f"      • {k}: {CYAN}{v}{RESET}")
+
+    # Economics & Latency
+    print("\n" + "=" * 68)
+    print(f"{BOLD}TOKEN ECONOMICS & LATENCY COMPARISON{RESET}")
+    print("-" * 68)
+    print(f"  • Naive Prompt Preload:  {RED}{res.baseline_tokens:,} tokens{RESET} {DIM}(All 19 tools + MCP boilerplate){RESET}")
