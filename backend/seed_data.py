@@ -88,3 +88,21 @@ ENTITIES = [
         id="ent_slack_war_room",
         name="Slack #incident-critical-ops",
         entity_type="SlackChannel",
+        properties={"channel_id": "C08A91KL2", "topic": "Live P0/P1 Outages and Incident Mitigation", "tier": "P0"},
+        confidence=1.0
+    ),
+    EntityNode(
+        id="ent_github_hotfix_pr",
+        name="GitHub PR #842 (Fix connection pool leak)",
+        entity_type="PullRequest",
+        properties={"repo": "hydra-corp/core-api", "pr_number": 842, "branch": "fix/db-pool-exhaustion", "status": "draft"},
+        confidence=0.95
+    ),
+    EntityNode(
+        id="ent_aws_rds_instance",
+        name="AWS RDS 'hydra-aurora-prod'",
+        entity_type="CloudResource",
+        properties={"arn": "arn:aws:rds:us-east-1:991283:cluster:hydra-aurora-prod", "region": "us-east-1", "engine": "aurora-postgresql"},
+        confidence=0.98
+    ),
+    EntityNode(
