@@ -70,3 +70,15 @@ async def get_benchmark_suite():
 
 @app.get("/api/learning-curve")
 async def get_learning_curve():
+    return engine.iteration_history
+
+@app.get("/")
+async def root():
+    return {
+        "status": "online",
+        "service": "Lucen - HydraDB Agent Context Layer",
+        "version": "1.0.0",
+        "engine": "SuiteSparse GraphBLAS 9.3 + SlateDB",
+        "web_ui": "http://localhost:3000",
+        "api_docs": "/docs"
+    }
