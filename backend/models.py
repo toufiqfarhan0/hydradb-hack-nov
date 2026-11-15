@@ -59,6 +59,7 @@ class TraversalStep(BaseModel):
 class TraversalResult(BaseModel):
     task: str
     mode: str
+    engine_mode: str = "local_csr_fallback"
     selected_tools: List[ToolNode]
     resolved_entities: List[EntityNode]
     subgraph_nodes: List[Dict[str, Any]]

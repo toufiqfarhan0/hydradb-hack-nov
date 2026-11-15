@@ -43,7 +43,7 @@ def handle_initialize(msg_id: Any) -> Dict[str, Any]:
             },
             "serverInfo": {
                 "name": "lucen-hydradb-gateway",
-                "version": "1.0.0"
+                "version": "1.2.0"
             }
         }
     }
@@ -97,6 +97,71 @@ def handle_tools_list(msg_id: Any) -> Dict[str, Any]:
                 },
                 "required": ["tool_id", "success", "task"]
             }
+        },
+        {
+            "name": "pg_check_connection_pool",
+            "description": (
+                "Inspect PostgreSQL database connection pool utilization, idle timeouts, and waiting clients. "
+                "Requires host parameter pre-bound by Lucen."
+            ),
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "host": {
+                        "type": "string",
+                        "description": "PostgreSQL cluster host endpoint (e.g. 'pg-cluster-prod.internal:5432')"
+                    },
+                    "database": {
+                        "type": "string",
+                        "description": "Target database name (default: 'hydra_analytics')",
+                        "default": "hydra_analytics"
+                    }
+                },
+                "required": ["host"]
+            }
+        },
+        {
+            "name": "slack_post_incident_bulletin",
+            "description": (
+                "Broadcast a structured incident bulletin to a target war-room Slack channel with live thread status."
+            ),
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "channel_id": {
+                        "type": "string",
+                        "description": "Pre-bound Slack channel ID (e.g. 'C08A91KL2')"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Incident bulletin title"
+                    },
+                    "severity": {
+                        "type": "string",
+                        "enum": ["P0", "P1", "P2", "INFO"],
+                        "default": "P0"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Markdown formatted incident report and mitigation steps"
+                    }
+                },
+                "required": ["channel_id", "title", "message"]
+            }
+        },
+        {
+            "name": "sqlite_query",
+            "description": "Execute a read-only SQL query against local SQLite diagnostics store.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Read-only SQL query string (SELECT only)"
+                    }
+                },
+                "required": ["query"]
+            }
         }
     ]
     return {
@@ -110,6 +175,7 @@ def handle_tools_list(msg_id: Any) -> Dict[str, Any]:
 def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContextEngine) -> Dict[str, Any]:
     name = params.get("name")
     args = params.get("arguments", {})
+    engine_served_by = "hydradb_cluster" if engine.connected_live else "local_csr"
 
     if name == "lucen_find_tools":
         task = args.get("task", "")
@@ -117,6 +183,7 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
         res = engine.traverse(TraversalRequest(task=task, top_k_tools=top_k))
         
         output_payload = {
+            "engine_served_by": engine_served_by,
             "selected_tools": [
                 {
                     "id": t.id,
@@ -159,6 +226,7 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
         success = args.get("success", True)
         task = args.get("task", "agent invocation")
         fb = engine.record_feedback(FeedbackRequest(tool_id=tool_id, success=success, task=task))
+        fb["engine_served_by"] = engine_served_by
         
         return {
             "jsonrpc": "2.0",
@@ -168,6 +236,85 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
                     {
                         "type": "text",
                         "text": json.dumps(fb, indent=2)
+                    }
+                ]
+            }
+        }
+
+    elif name == "pg_check_connection_pool":
+        host = args.get("host", "pg-cluster-prod.internal:5432")
+        db = args.get("database", "hydra_analytics")
+        
+        result_data = {
+            "status": "warning",
+            "host": host,
+            "database": db,
+            "max_connections": 400,
+            "active_connections": 387,
+            "idle_connections": 13,
+            "waiting_clients": 42,
+            "pool_utilization_pct": 96.75,
+            "recommendation": "Active connection pool near exhaustion. Execute idle connection purge or scale read replicas.",
+            "engine_served_by": engine_served_by
+        }
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(result_data, indent=2)
+                    }
+                ]
+            }
+        }
+
+    elif name == "slack_post_incident_bulletin":
+        channel_id = args.get("channel_id", "C08A91KL2")
+        title = args.get("title", "P0 Incident Bulletin")
+        severity = args.get("severity", "P0")
+        message = args.get("message", "")
+
+        result_data = {
+            "status": "delivered",
+            "channel_id": channel_id,
+            "severity": severity,
+            "timestamp": "1731638400.019200",
+            "bulletin_title": title,
+            "engine_served_by": engine_served_by
+        }
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(result_data, indent=2)
+                    }
+                ]
+            }
+        }
+
+    elif name == "sqlite_query":
+        query = args.get("query", "SELECT 1;")
+        # Safe read-only mock inspection
+        result_data = {
+            "status": "success",
+            "query": query,
+            "rows": [{"id": 1, "service": "hydra-router", "status": "healthy"}],
+            "row_count": 1,
+            "engine_served_by": engine_served_by
+        }
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(result_data, indent=2)
                     }
                 ]
             }

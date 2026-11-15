@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
+import MatrixViewer from "../components/MatrixViewer";
 import {
   Play,
   Terminal,
@@ -735,7 +736,7 @@ export default function ConsolePage() {
                     ))}
                   </div>
                   <div className="p-2.5 bg-red-500/10 border-l-2 border-red-500 text-[11px] text-gray-300">
-                    <strong className="text-red-400 block mb-0.5">⚠ ZERO RUNTIME ENTITIES BOUND</strong>
+                    <strong className="text-red-400 block mb-0.5">[CRITICAL] ZERO RUNTIME ENTITIES BOUND</strong>
                     Target DB credentials, hostnames, and channel IDs are missing. Agent requires 2–3 discovery roundtrips.
                   </div>
                   <div className="text-red-400 text-[11px] font-semibold">
@@ -773,7 +774,7 @@ export default function ConsolePage() {
                     {traversalResult.tools.map(t => (
                       <div key={t.name} className="p-2 bg-white/5 border border-sky-500/30 border-l-2 border-l-sky-400 flex items-center justify-between text-[11px]">
                         <div>
-                          <span className="text-sky-400 font-bold">✔ {t.name}</span>
+                          <span className="text-sky-400 font-bold">[ACTIVE] {t.name}</span>
                           <span className="text-gray-400 text-[10px] ml-2">[{t.server}]</span>
                         </div>
                         <span className="text-sky-200 text-[10px] px-1.5 py-0.5 bg-sky-500/10 border border-sky-500/20">{t.cost} tok</span>
@@ -788,7 +789,7 @@ export default function ConsolePage() {
                     {traversalResult.entities.map(e => (
                       <div key={e.name} className="p-2 bg-white/5 border border-emerald-500/30 border-l-2 border-l-emerald-400 text-[11px]">
                         <div className="text-emerald-400 font-bold text-[11px] mb-0.5">
-                          ⚡ [{e.type}] {e.name}
+                          [BOUND] [{e.type}] {e.name}
                         </div>
                         <div className="text-gray-400 text-[10px] leading-tight">
                           {Object.entries(e.props || {}).map(([k, v]) => `${k}: "${v}"`).join(" · ")}
@@ -830,84 +831,7 @@ LIMIT 2;`}
           </div>
 
           {/* Interactive GraphBLAS Matrix Viewer with Drag & Drop */}
-          <div className="bg-white p-6 swiss-border space-y-4">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div>
-                <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
-                  GRAPH TOPOLOGY VIEWER
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight font-swiss-display text-[#1A1A1A] mt-1">
-                  Interactive GraphBLAS Matrix Canvas
-                </h2>
-                <p className="text-xs font-swiss-mono text-[#A9B2B1] mt-1 flex items-center gap-1.5">
-                  <Move className="w-3.5 h-3.5 text-[#D82C2C]" />
-                  <span>Click and drag any node or label to reposition. Connections redraw in real-time.</span>
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setGraphFilter("all")}
-                  className={`px-3 py-1.5 text-xs font-swiss-mono border transition-colors cursor-pointer ${
-                    graphFilter === "all" ? "bg-[#1A1A1A] text-white border-[#1A1A1A] font-bold" : "bg-[#F2F2F2] border-[#E2E6E6]"
-                  }`}
-                >
-                  All Nodes
-                </button>
-                <button
-                  onClick={() => setGraphFilter("active")}
-                  className={`px-3 py-1.5 text-xs font-swiss-mono border transition-colors cursor-pointer ${
-                    graphFilter === "active" ? "bg-[#D82C2C] text-white border-[#D82C2C] font-bold" : "bg-[#F2F2F2] border-[#E2E6E6]"
-                  }`}
-                >
-                  Active Path Only
-                </button>
-                <button
-                  onClick={handleResetLayout}
-                  className="px-3 py-1.5 text-xs font-swiss-mono border border-[#E2E6E6] bg-[#F2F2F2] hover:bg-white text-[#1A1A1A] transition-colors flex items-center gap-1.5 cursor-pointer"
-                  title="Reset nodes to default lane positions"
-                >
-                  <RotateCcw className="w-3 h-3 text-[#D82C2C]" />
-                  <span>Reset Layout</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-[#0E1117] border border-[#23272F] overflow-hidden shadow-sm">
-              <div className="flex items-center justify-between p-3.5 bg-[#161B22] border-b border-[#23272F] text-xs font-swiss-mono">
-                <div className="flex items-center gap-3 text-gray-300">
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#60A5FA]" /> MCP Servers</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#FBBF24]" /> Capabilities</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#EF4444]" /> Tools</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#34D399]" /> Entities</span>
-                </div>
-                <span className="text-emerald-400 font-bold">730 NODES · 2,421 EDGES · 1.8ms LATENCY</span>
-              </div>
-
-              <div className="w-full relative select-none">
-                <canvas
-                  ref={canvasRef}
-                  width={1100}
-                  height={520}
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleMouseUp}
-                  className="w-full block select-none cursor-default bg-[#0E1117]"
-                />
-              </div>
-
-              <div className="grid grid-cols-4 bg-[#161B22] border-t border-[#23272F] p-3 text-[11px] font-swiss-mono text-center text-gray-400">
-                <div>TIER 1: MCP SERVERS</div>
-                <div>TIER 2: CAPABILITY RESOLVERS</div>
-                <div>TIER 3: ISOLATED VS PRUNED TOOLS</div>
-                <div>TIER 4: BOUND ENTITIES</div>
-              </div>
-            </div>
-          </div>
+          <MatrixViewer />
 
           {/* Continual Learning Feedback Simulator */}
           <div className="bg-[#F2F2F2] p-6 swiss-border space-y-6">
