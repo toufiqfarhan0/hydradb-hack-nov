@@ -106,3 +106,21 @@ ENTITIES = [
         confidence=0.98
     ),
     EntityNode(
+        id="ent_sentry_issue_id",
+        name="Sentry Issue #ERR-9104 (PoolTimeout: queue full)",
+        entity_type="TelemetryIssue",
+        properties={"issue_id": "ERR-9104", "events_24h": 4120, "first_seen": "12 mins ago", "culprit": "db.connection_pool.get_connection"},
+        confidence=0.97
+    ),
+    EntityNode(
+        id="ent_linear_p0_ticket",
+        name="Linear Ticket #ENG-3921",
+        entity_type="ProjectTicket",
+        properties={"ticket_id": "ENG-3921", "title": "P0: Connection Pool Exhaustion in US-East-1", "priority": "Urgent"},
+        confidence=1.0
+    ),
+    EntityNode(
+        id="ent_docker_worker_service",
+        name="Docker Container 'hydra-worker-api-4'",
+        entity_type="ContainerInstance",
+        properties={"container_id": "a918f0cb18a2", "image": "hydra/api:v3.1.2", "status": "unhealthy (OOM alert)"},
