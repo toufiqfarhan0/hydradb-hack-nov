@@ -160,3 +160,21 @@ TOOLS = [
         server_id="mcp_postgres",
         description="Queries PgBouncer or native connection pool utilization, idle timeouts, and waiting clients",
         parameters_schema={"type": "object", "properties": {"pool_name": {"type": "string"}}},
+        estimated_token_cost=380
+    ),
+
+    # Slack Tools
+    ToolNode(
+        id="tool_slack_post_incident",
+        name="slack_post_incident_bulletin",
+        server_id="mcp_slack",
+        description="Broadcasts structured P0/P1 incident alert to targeted war-room channel with live updates",
+        parameters_schema={"type": "object", "properties": {"channel": {"type": "string"}, "severity": {"type": "string"}, "summary": {"type": "string"}}, "required": ["channel", "severity", "summary"]},
+        estimated_token_cost=480
+    ),
+    ToolNode(
+        id="tool_slack_page_oncall",
+        name="slack_page_oncall_engineer",
+        server_id="mcp_slack",
+        description="Initiates urgent PagerDuty/Slack emergency ping to the designated primary rotation lead",
+        parameters_schema={"type": "object", "properties": {"team": {"type": "string"}, "incident_summary": {"type": "string"}}, "required": ["team", "incident_summary"]},
