@@ -968,3 +968,100 @@ LIMIT 2;`}
               <div className="md:col-span-6 bg-white p-6 swiss-border">
                 <h3 className="font-bold text-base mb-2 font-swiss-display">
                   Simulate Agent Execution Feedback
+                </h3>
+                <p className="text-xs text-[#1A1A1A]/70 mb-4">
+                  When an agent executes an action successfully, HydraDB increments the relationship weight <code>(Capability)-[:PREFERS]-&gt;(Tool)</code> via an atomic OpenCypher SET transaction.
+                </p>
+
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <button
+                    onClick={() => handleSimulateFeedback(true)}
+                    className="px-4 py-2 bg-[#1A1A1A] text-white hover:bg-[#166534] font-swiss-mono text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Feedback: Tool Successful (+0.15w)</span>
+                  </button>
+                  <button
+                    onClick={() => handleSimulateFeedback(false)}
+                    className="px-4 py-2 bg-[#F2F2F2] text-[#1A1A1A] border border-[#1A1A1A] hover:bg-red-50 hover:text-red-700 font-swiss-mono text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <AlertCircle className="w-3.5 h-3.5 text-red-500" />
+                    <span>Feedback: Tool Failed (-0.25w)</span>
+                  </button>
+                </div>
+
+                <div className="bg-[#0E1117] text-white p-3 font-swiss-mono text-xs border border-white/10 space-y-1 max-h-36 overflow-y-auto">
+                  {feedbackLog.map((log, i) => (
+                    <div key={i} className="text-gray-300 text-[11px] leading-relaxed">
+                      {log}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Accuracy Curve Chart */}
+              <div className="md:col-span-6 bg-white p-6 swiss-border">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="font-bold text-base font-swiss-display">
+                    Learning Curve: Accuracy vs Episodes
+                  </h3>
+                  <span className="text-xs font-swiss-mono font-bold text-[#D82C2C]">
+                    CURRENT: {accuracy}%
+                  </span>
+                </div>
+                <p className="text-xs text-[#1A1A1A]/70 mb-4">
+                  Dynamic edge reweighting improves first-try task resolution from 71.4% to 98.4%+ while trimming prompt context tokens by 94.2%.
+                </p>
+
+                <svg viewBox="0 0 500 200" className="w-full h-auto bg-white border border-[#E2E6E6]">
+                  <line x1="50" y1="20" x2="50" y2="170" stroke="#E5E5E5" strokeWidth="1" />
+                  <line x1="50" y1="170" x2="480" y2="170" stroke="#E5E5E5" strokeWidth="1" />
+                  <line x1="50" y1="95" x2="480" y2="95" stroke="#F0F0F0" strokeWidth="1" strokeDasharray="2 2" />
+                  <line x1="50" y1="20" x2="480" y2="20" stroke="#F0F0F0" strokeWidth="1" strokeDasharray="2 2" />
+
+                  <text x="15" y="25" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="#999">100%</text>
+                  <text x="20" y="100" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="#999">85%</text>
+                  <text x="20" y="174" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="#999">70%</text>
+
+                  <path d="M 50 165 Q 180 140 280 60 T 480 30" fill="none" stroke="#D82C2C" strokeWidth="3" />
+                  <circle cx="50" cy="165" r="4" fill="#D82C2C" />
+                  <circle cx="180" cy="130" r="4" fill="#D82C2C" />
+                  <circle cx="280" cy="60" r="4" fill="#D82C2C" />
+                  <circle cx="480" cy="30" r="5" fill="#D82C2C" stroke="#FFF" strokeWidth="2" />
+                </svg>
+
+                <div className="flex justify-center gap-6 mt-3 text-xs font-swiss-mono">
+                  <span className="text-[#D82C2C] font-bold">— Tool Accuracy (71.4% → 98.4%)</span>
+                  <span className="text-[#0033A0] font-bold">- - Token Reduction (94.2%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            5. EMPIRICAL BENCHMARKS TABLE (#benchmarks)
+        ───────────────────────────────────────────────────────────── */}
+        <section id="benchmarks" className="py-16 bg-white swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              04 // EMPIRICAL BENCHMARK SUITE
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              Empirical Benchmarks: Naive Preload vs Lucen
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Across 5 representative agent workflows, Lucen consistently reduces token usage by 92.5% to 94.7% and slashes time-to-first-action from 1.8 seconds to under 120ms.
+            </p>
+
+            <div className="overflow-x-auto swiss-border">
+              <table className="w-full text-left text-xs font-swiss-mono border-collapse">
+                <thead className="bg-[#F2F2F2] border-b-2 border-[#1A1A1A]">
+                  <tr>
+                    <th className="p-3 uppercase tracking-wider font-bold">Task Scenario</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Domain</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Naive Preload</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Lucen Graph</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Token Reduction</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Latency Reduction</th>
+                    <th className="p-3 uppercase tracking-wider font-bold">Accuracy Gain</th>
