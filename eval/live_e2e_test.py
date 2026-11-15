@@ -64,3 +64,36 @@ def run_e2e_tests():
 
     # 2. Graph Stats
     log_header("2. Graph Topology Schema Statistics")
+    try:
+        stats = get_json("/api/graph/stats")
+        print(f"  • Servers: {stats['servers']}, Tools: {stats['tools']}, Caps: {stats['capabilities']}, Entities: {stats['entities']}, Edges: {stats['edges']}")
+        print(f"  • Accuracy: {stats['current_accuracy']}%, Token Reduction: -{stats['token_reduction_pct']}%")
+        assert stats["servers"] == 8
+        assert stats["tools"] == 19
+        assert stats["capabilities"] == 10
+        assert stats["entities"] == 7
+        assert stats["edges"] == 52
+        print("  => PASS: 100% of seed schema nodes and GraphBLAS edges verified.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 3. Full Graph Data Serialization
+    log_header("3. Graph Data Serialization (/api/graph/data)")
+    try:
+        data = get_json("/api/graph/data")
+        nodes = data.get("nodes", [])
+        edges = data.get("edges", [])
+        print(f"  • Serialized Nodes: {len(nodes)}")
+        print(f"  • Serialized Edges: {len(edges)}")
+        assert len(nodes) == 44
+        assert len(edges) == 52
+        node_types = set(n["type"] for n in nodes)
+        assert {"MCPServer", "Tool", "Capability", "Entity"}.issubset(node_types)
+        print(f"  • Node Types Present: {sorted(list(node_types))}")
+        print("  => PASS: Graph serialization matches specification.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
