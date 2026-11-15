@@ -386,3 +386,100 @@ export default function Home() {
       ctx.fillRect(rx, ly - 12, bw, bh);
       ctx.strokeRect(rx, ly - 12, bw, bh);
 
+      ctx.fillStyle = n.active || isDragged ? "#FFFFFF" : "#C9D1D9";
+      ctx.textAlign = align;
+      ctx.fillText(n.label, lx, ly);
+      ctx.restore();
+    });
+  };
+
+  const getCanvasCoords = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    let clientX = 0;
+    let clientY = 0;
+    if ("touches" in e) {
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
+    };
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getCanvasCoords(e);
+    const nodes = nodesRef.current;
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const n = nodes[i];
+      if (graphFilter === "active" && !n.active) continue;
+      const dist = Math.hypot(x - n.x, y - n.y);
+      const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
+      if (dist <= 20 || inBox) {
+        draggedNodeIdxRef.current = i;
+        dragOffsetRef.current = { x: x - n.x, y: y - n.y };
+        if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
+        drawTopology();
+        break;
+      }
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getCanvasCoords(e);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (draggedNodeIdxRef.current !== null) {
+      const idx = draggedNodeIdxRef.current;
+      const n = nodesRef.current[idx];
+      if (n) {
+        n.x = Math.max(30, Math.min(canvas.width - 30, x - dragOffsetRef.current.x));
+        n.y = Math.max(30, Math.min(canvas.height - 30, y - dragOffsetRef.current.y));
+        drawTopology();
+      }
+    } else {
+      const nodes = nodesRef.current;
+      let hovered = false;
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (graphFilter === "active" && !n.active) continue;
+        const dist = Math.hypot(x - n.x, y - n.y);
+        const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
+        if (dist <= 20 || inBox) {
+          hovered = true;
+          break;
+        }
+      }
+      canvas.style.cursor = hovered ? "grab" : "default";
+    }
+  };
+
+  const handleMouseUp = () => {
+    draggedNodeIdxRef.current = null;
+    if (canvasRef.current) canvasRef.current.style.cursor = "default";
+    drawTopology();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const { x, y } = getCanvasCoords(e);
+    const nodes = nodesRef.current;
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const n = nodes[i];
+      if (graphFilter === "active" && !n.active) continue;
+      const dist = Math.hypot(x - n.x, y - n.y);
+      const inBox = n.bbox && x >= n.bbox.x && x <= n.bbox.x + n.bbox.w && y >= n.bbox.y && y <= n.bbox.y + n.bbox.h;
+      if (dist <= 24 || inBox) {
+        draggedNodeIdxRef.current = i;
+        dragOffsetRef.current = { x: x - n.x, y: y - n.y };
+        drawTopology();
