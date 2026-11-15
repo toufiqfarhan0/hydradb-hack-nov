@@ -214,3 +214,21 @@ TOOLS = [
         parameters_schema={"type": "object", "properties": {"repo": {"type": "string"}, "pr_number": {"type": "integer"}}, "required": ["repo", "pr_number"]},
         estimated_token_cost=420
     ),
+
+    # AWS Tools
+    ToolNode(
+        id="tool_aws_rds_metrics",
+        name="aws_fetch_rds_metrics",
+        server_id="mcp_aws",
+        description="Retrieves CloudWatch CPUUtilization, DatabaseConnections, and FreeableMemory over last 60 minutes",
+        parameters_schema={"type": "object", "properties": {"instance_id": {"type": "string"}, "period_minutes": {"type": "integer"}}, "required": ["instance_id"]},
+        estimated_token_cost=470
+    ),
+    ToolNode(
+        id="tool_aws_ecs_restart",
+        name="aws_restart_ecs_service",
+        server_id="mcp_aws",
+        description="Forces new deployment of ECS service with zero-downtime rolling container replacement",
+        parameters_schema={"type": "object", "properties": {"cluster": {"type": "string"}, "service": {"type": "string"}}, "required": ["cluster", "service"]},
+        estimated_token_cost=490
+    ),
