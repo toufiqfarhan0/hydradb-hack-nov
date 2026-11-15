@@ -677,3 +677,100 @@ export default function Home() {
             <div className="bg-white p-3 swiss-border flex flex-col sm:flex-row gap-3 mb-6">
               <textarea
                 value={taskPrompt}
+                onChange={e => setTaskPrompt(e.target.value)}
+                rows={2}
+                placeholder="Enter autonomous agent instruction..."
+                className="flex-1 p-3 text-sm font-swiss-mono border border-[#E2E6E6] focus:border-[#D82C2C] outline-none resize-none"
+              />
+              <button
+                onClick={handleExecuteTraversal}
+                disabled={isTraversing}
+                className="btn-swiss-primary px-6 py-3 font-swiss-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
+              >
+                {isTraversing ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Traversing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 fill-current" />
+                    <span>Execute Traversal</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* 4-Column Horizontal Telemetry Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-5 swiss-border mb-8">
+              <div className="border-l-2 border-[#E2E6E6] pl-4 first:border-l-0 first:pl-0">
+                <div className="text-[10px] font-swiss-mono uppercase text-[#A9B2B1] font-bold">
+                  HydraDB Hop Latency
+                </div>
+                <div className="text-2xl font-bold font-swiss-mono text-[#1A1A1A] mt-0.5">
+                  1.8 ms
+                </div>
+              </div>
+              <div className="border-l-2 border-[#E2E6E6] pl-4">
+                <div className="text-[10px] font-swiss-mono uppercase text-[#A9B2B1] font-bold">
+                  Context Tokens Saved
+                </div>
+                <div className="text-2xl font-bold font-swiss-mono text-[#D82C2C] mt-0.5">
+                  {traversalResult.reduction}%
+                </div>
+              </div>
+              <div className="border-l-2 border-[#E2E6E6] pl-4">
+                <div className="text-[10px] font-swiss-mono uppercase text-[#A9B2B1] font-bold">
+                  Schema Prune Mode
+                </div>
+                <div className="text-2xl font-bold font-swiss-mono text-[#1A1A1A] mt-0.5">
+                  GraphBLAS BFS
+                </div>
+              </div>
+              <div className="border-l-2 border-[#E2E6E6] pl-4">
+                <div className="text-[10px] font-swiss-mono uppercase text-[#A9B2B1] font-bold">
+                  Bounded Runtime Entities
+                </div>
+                <div className="text-2xl font-bold font-swiss-mono text-[#1A1A1A] mt-0.5">
+                  {traversalResult.entities.length} Active
+                </div>
+              </div>
+            </div>
+
+            {/* Side-by-Side Comparison */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left: Naive MCP Preload Context */}
+              <div className="bg-white p-5 swiss-border flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 swiss-border-b mb-3">
+                    <span className="text-xs font-swiss-mono font-bold uppercase text-[#A9B2B1]">
+                      Naive MCP Preload Context
+                    </span>
+                    <span className="text-xs font-swiss-mono px-2 py-0.5 bg-red-100 text-red-800 font-bold border border-red-200">
+                      18,450 TOKENS
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#1A1A1A]/70 mb-4">
+                    Baseline: All 19 tool schemas and unbounded database credentials serialized into the system prompt.
+                  </p>
+
+                  <div className="bg-[#0E1117] text-white p-4 font-swiss-mono text-xs rounded-none border border-white/10 space-y-3">
+                    <div className="text-red-400 font-bold flex justify-between border-b border-white/10 pb-2">
+                      <span>PROMPT PREFILL: 18,450 TOKENS</span>
+                      <span className="text-gray-400 text-[10px]">TTFT: 1,840 ms</span>
+                    </div>
+                    <div className="text-gray-400 text-[11px]">
+                      // 19 MCP Tools dumped without topological bounds:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {["pg_check_connection_pool", "docker_restart", "aws_rds_metrics", "linear_ticket", "sentry_issues", "+ 14 others"].map(t => (
+                        <span key={t} className="px-2 py-0.5 bg-white/5 border border-white/10 text-[10px] text-gray-300">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="p-2.5 bg-red-500/10 border-l-2 border-red-500 text-[11px] text-gray-300">
+                      <strong className="text-red-400 block mb-0.5">⚠ ZERO RUNTIME ENTITIES BOUND</strong>
+                      Target DB credentials, hostnames, and channel IDs are missing. Agent requires 2–3 discovery roundtrips.
+                    </div>
+                    <div className="text-red-400 text-[11px] font-semibold">
