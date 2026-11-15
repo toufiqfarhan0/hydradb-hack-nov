@@ -95,3 +95,100 @@ const PRESETS: PresetItem[] = [
     task: "Review git diff for hotfix PR #842 and merge to main branch after verifying CI checks pass.",
     tools: [
       { name: "github_inspect_commit_diff", server: "mcp_github", cost: 460, desc: "Fetches unified diff for specific pull request" },
+      { name: "github_create_pull_request", server: "mcp_github", cost: 510, desc: "Automates branch creation, commits, and PR reviews" }
+    ],
+    entities: [
+      { name: "GitHub PR #842 (Fix pool leak)", type: "PullRequest", props: { repo: "hydra-corp/core-api", branch: "fix/db-pool-exhaustion" } }
+    ],
+    tokens: 1380,
+    reduction: 92.5
+  },
+  {
+    id: "aws_rds",
+    label: "AWS RDS CloudWatch",
+    task: "Fetch last 60 minutes CloudWatch metrics for AWS RDS instance and evaluate CPU utilization and memory pressure.",
+    tools: [
+      { name: "aws_fetch_rds_metrics", server: "mcp_aws", cost: 490, desc: "Retrieves CPU, ReadIOPS, and FreeableMemory CloudWatch metrics" },
+      { name: "aws_restart_ecs_service", server: "mcp_aws", cost: 530, desc: "Triggers rolling ECS service task update" }
+    ],
+    entities: [
+      { name: "AWS RDS 'hydra-aurora-prod'", type: "CloudResource", props: { arn: "arn:aws:rds:us-east-1:991283:hydra-aurora-prod" } }
+    ],
+    tokens: 1040,
+    reduction: 94.4
+  }
+];
+
+const BENCHMARKS = [
+  { task_name: "Outage Triage: Postgres Connection Exhaustion", domain: "Database Infrastructure", naive_tokens: 18450, lucen_tokens: 1140, reduction_pct: 93.8, naive_lat: 1840, lucen_lat: 115, accuracy_gain: 26.4 },
+  { task_name: "DevOps: Rolling Container Restart on OOM Alert", domain: "Container Runtime", naive_tokens: 18450, lucen_tokens: 1210, reduction_pct: 93.4, naive_lat: 1720, lucen_lat: 98, accuracy_gain: 31.2 },
+  { task_name: "Incident Response: PagerDuty Page & War-Room Bulletin", domain: "Collaboration", naive_tokens: 18450, lucen_tokens: 980, reduction_pct: 94.7, naive_lat: 1610, lucen_lat: 86, accuracy_gain: 19.8 },
+  { task_name: "Hotfix PR Review & Diff Verification", domain: "Software Engineering", naive_tokens: 18450, lucen_tokens: 1380, reduction_pct: 92.5, naive_lat: 1950, lucen_lat: 124, accuracy_gain: 24.5 },
+  { task_name: "Cloud Cost & RDS Provisioned IOPS Metrics", domain: "Cloud Operations", naive_tokens: 18450, lucen_tokens: 1040, reduction_pct: 94.4, naive_lat: 1680, lucen_lat: 92, accuracy_gain: 28.1 }
+];
+
+export default function Home() {
+  const [selectedPreset, setSelectedPreset] = useState<number>(0);
+  const [taskPrompt, setTaskPrompt] = useState<string>(PRESETS[0].task);
+  const [isTraversing, setIsTraversing] = useState<boolean>(false);
+  const [traversalResult, setTraversalResult] = useState<PresetItem>(PRESETS[0]);
+  const [copiedCypher, setCopiedCypher] = useState<boolean>(false);
+
+  // Continual Learning State
+  const [accuracy, setAccuracy] = useState<number>(98.4);
+  const [feedbackLog, setFeedbackLog] = useState<string[]>([
+    "System ready. Select a feedback action above to witness dynamic HydraDB weight adjustment."
+  ]);
+
+  // Topology Visualizer State & Interactive Drag Engine
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [graphFilter, setGraphFilter] = useState<"all" | "active">("all");
+  const nodesRef = useRef<any[]>([]);
+  const draggedNodeIdxRef = useRef<number | null>(null);
+  const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  // FAQ Accordion State
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // CLI Simulator State
+  const [selectedCliTab, setSelectedCliTab] = useState<number>(0);
+  const [copiedCli, setCopiedCli] = useState<boolean>(false);
+
+  const handleSelectPreset = (idx: number) => {
+    setSelectedPreset(idx);
+    const p = PRESETS[idx];
+    setTaskPrompt(p.task);
+    setTraversalResult(p);
+  };
+
+  const handleExecuteTraversal = async () => {
+    setIsTraversing(true);
+    try {
+      const res = await fetch("/api/traverse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task: taskPrompt, mode: "lucen_graph" })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTraversalResult({
+          id: "custom",
+          label: "Custom Query",
+          task: data.task,
+          tools: data.selected_tools.map((t: any) => ({
+            name: t.name,
+            server: t.server_id,
+            cost: t.estimated_token_cost,
+            desc: t.description
+          })),
+          entities: data.resolved_entities.map((e: any) => ({
+            name: e.name,
+            type: e.entity_type,
+            props: e.properties
+          })),
+          tokens: data.tokens_used,
+          reduction: data.token_reduction_pct
+        });
+      } else {
+        fallbackClientTraversal();
+      }
