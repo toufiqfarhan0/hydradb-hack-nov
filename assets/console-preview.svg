@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 760" width="100%" height="auto">
+  <defs>
+    <style>
+      .bg { fill: #0E1117; }
+      .grid { stroke: #161B22; stroke-width: 1; }
+      .header { fill: #1A1F26; stroke: #2D333B; stroke-width: 1; }
+      .title { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #FFFFFF; }
+      .sub { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 11px; fill: #8B949E; }
+      .col-header { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: bold; }
+      .node-text { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: bold; }
+      .node-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #8B949E; }
+      .badge-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: bold; }
+      .code-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+      .active-edge { stroke: #D82C2C; stroke-width: 3; fill: none; filter: drop-shadow(0 0 4px rgba(216, 44, 44, 0.6)); }
+      .dim-edge { stroke: #21262D; stroke-width: 1; fill: none; stroke-dasharray: 4 2; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="760" class="bg"/>
+
+  <!-- Grid lines -->
+  <g class="grid">
+    <line x1="0" y1="120" x2="1280" y2="120"/>
+    <line x1="0" y1="200" x2="1280" y2="200"/>
+    <line x1="0" y1="280" x2="1280" y2="280"/>
+    <line x1="0" y1="360" x2="1280" y2="360"/>
+    <line x1="0" y1="440" x2="1280" y2="440"/>
+    <line x1="0" y1="520" x2="1280" y2="520"/>
+    <line x1="0" y1="600" x2="1280" y2="600"/>
+    <line x1="280" y1="50" x2="280" y2="650"/>
+    <line x1="600" y1="50" x2="600" y2="650"/>
+    <line x1="920" y1="50" x2="920" y2="650"/>
+  </g>
+
+  <!-- Window Header -->
+  <rect x="0" y="0" width="1280" height="48" class="header"/>
+  <circle cx="22" cy="24" r="6" fill="#EF4444"/>
+  <circle cx="42" cy="24" r="6" fill="#F59E0B"/>
+  <circle cx="62" cy="24" r="6" fill="#10B981"/>
+
+  <text x="85" y="30" class="title">HydraDB GraphBLAS Matrix Viewer</text>
+  <text x="410" y="29" class="sub">// Interactive Context Visualizer (localhost:3000/console)</text>
+
+  <!-- Top Badges -->
+  <rect x="850" y="11" width="180" height="26" rx="4" fill="#1F2937" stroke="#374151"/>
+  <circle cx="865" cy="24" r="4" fill="#10B981"/>
+  <text x="878" y="28" class="badge-text" fill="#E5E7EB">730 NODES · 2,421 EDGES</text>
+
+  <rect x="1040" y="11" width="130" height="26" rx="4" fill="#3B1214" stroke="#D82C2C"/>
+  <text x="1052" y="28" class="badge-text" fill="#FCA5A5">0.72ms LATENCY</text>
+
+  <rect x="1180" y="11" width="84" height="26" rx="4" fill="#D82C2C"/>
+  <text x="1202" y="28" class="badge-text" fill="#FFFFFF">ACTIVE</text>
+
+  <!-- Swimlane Headers -->
+  <g>
+    <line x1="30" y1="56" x2="270" y2="56" stroke="#60A5FA" stroke-width="2"/>
+    <rect x="30" y="60" width="240" height="26" fill="#161B22" stroke="#2D333B"/>
+    <text x="45" y="77" class="col-header" fill="#60A5FA">TIER 1: MCP SERVERS (50)</text>
+
+    <line x1="330" y1="56" x2="590" y2="56" stroke="#FBBF24" stroke-width="2"/>
+    <rect x="330" y="60" width="260" height="26" fill="#161B22" stroke="#2D333B"/>
+    <text x="345" y="77" class="col-header" fill="#FBBF24">TIER 2: CAPABILITIES (100)</text>
+
+    <line x1="650" y1="56" x2="910" y2="56" stroke="#D82C2C" stroke-width="2"/>
+    <rect x="650" y="60" width="260" height="26" fill="#161B22" stroke="#2D333B"/>
+    <text x="665" y="77" class="col-header" fill="#D82C2C">TIER 3: ISOLATED TOOLS (500)</text>
+
+    <line x1="970" y1="56" x2="1250" y2="56" stroke="#34D399" stroke-width="2"/>
+    <rect x="970" y="60" width="280" height="26" fill="#161B22" stroke="#2D333B"/>
+    <text x="985" y="77" class="col-header" fill="#34D399">TIER 4: BOUND ENTITIES (80)</text>
+  </g>
+
+  <!-- Dimmed Background Edges -->
+  <path d="M 230 328 C 300 328, 300 388, 350 388" class="dim-edge"/>
+  <path d="M 230 418 C 300 418, 300 498, 350 498" class="dim-edge"/>
+  <path d="M 550 388 C 610 388, 610 358, 670 358" class="dim-edge"/>
+  <path d="M 550 498 C 610 498, 610 448, 670 448" class="dim-edge"/>
+
+  <!-- Active Glowing Edges -->
+  <!-- Path 1: mcp_postgres -> cap_db_diagnostics -> pg_check_pool -> pg-cluster -->
+  <path d="M 230 148 C 290 148, 290 168, 350 168" class="active-edge"/>
+  <path d="M 550 168 C 610 168, 610 158, 670 158" class="active-edge"/>
+  <path d="M 890 158 C 940 158, 940 158, 990 158" class="active-edge"/>
+
+  <!-- Path 2: mcp_slack -> cap_alerting -> slack_bulletin -> slack_room -->
+  <path d="M 230 238 C 290 238, 290 268, 350 268" class="active-edge"/>
+  <path d="M 550 268 C 610 268, 610 258, 670 258" class="active-edge"/>
+  <path d="M 890 258 C 940 258, 940 258, 990 258" class="active-edge"/>
+
+  <!-- Edge Labels -->
+  <rect x="260" y="140" width="65" height="18" rx="3" fill="#1E293B" stroke="#475569"/>
+  <text x="266" y="153" class="node-sub" fill="#94A3B8">PROVIDES</text>
+
+  <rect x="580" y="142" width="75" height="18" rx="3" fill="#3B1214" stroke="#D82C2C"/>
+  <text x="585" y="155" class="node-sub" fill="#FCA5A5">PREFERS 2.70</text>
+
+  <rect x="915" y="142" width="65" height="18" rx="3" fill="#1E293B" stroke="#475569"/>
+  <text x="922" y="155" class="node-sub" fill="#94A3B8">REQUIRES</text>
+
+  <!-- Nodes: Tier 1 MCP Servers -->
+  <!-- Active 1 -->
+  <rect x="40" y="130" width="190" height="38" rx="3" fill="#1E232B" stroke="#60A5FA" stroke-width="2"/>
+  <rect x="40" y="130" width="4" height="38" fill="#60A5FA"/>
+  <text x="54" y="146" class="node-text" fill="#FFFFFF">mcp_postgres</text>
+  <text x="54" y="160" class="node-sub">Database Cluster</text>
+
+  <!-- Active 2 -->
+  <rect x="40" y="220" width="190" height="38" rx="3" fill="#1E232B" stroke="#60A5FA" stroke-width="2"/>
+  <rect x="40" y="220" width="4" height="38" fill="#60A5FA"/>
+  <text x="54" y="236" class="node-text" fill="#FFFFFF">mcp_slack</text>
+  <text x="54" y="250" class="node-sub">Enterprise Incident Bot</text>
+
+  <!-- Dimmed -->
+  <rect x="40" y="310" width="190" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="54" y="326" class="node-text" fill="#6E7681">mcp_docker</text>
+  <text x="54" y="340" class="node-sub">Container Runtime</text>
+
+  <rect x="40" y="400" width="190" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="54" y="416" class="node-text" fill="#6E7681">mcp_aws_rds</text>
+  <text x="54" y="430" class="node-sub">Cloud Metrics</text>
+
+  <rect x="40" y="490" width="190" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="54" y="506" class="node-text" fill="#6E7681">mcp_k8s</text>
+  <text x="54" y="520" class="node-sub">Cluster Orchestration</text>
+
+  <rect x="40" y="580" width="190" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="54" y="596" class="node-text" fill="#6E7681">mcp_sentry</text>
+  <text x="54" y="610" class="node-sub">Error Tracing</text>
+
+  <!-- Nodes: Tier 2 Capabilities -->
+  <rect x="350" y="150" width="200" height="38" rx="3" fill="#1E232B" stroke="#FBBF24" stroke-width="2"/>
+  <rect x="350" y="150" width="4" height="38" fill="#FBBF24"/>
+  <text x="364" y="166" class="node-text" fill="#FFFFFF">cap_db_diagnostics</text>
+  <text x="364" y="180" class="node-sub">Connection Pool &amp; Queries</text>
+
+  <rect x="350" y="250" width="200" height="38" rx="3" fill="#1E232B" stroke="#FBBF24" stroke-width="2"/>
+  <rect x="350" y="250" width="4" height="38" fill="#FBBF24"/>
+  <text x="364" y="266" class="node-text" fill="#FFFFFF">cap_incident_alerting</text>
+  <text x="364" y="280" class="node-sub">War-Room Dispatch</text>
+
+  <rect x="350" y="370" width="200" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="364" y="386" class="node-text" fill="#6E7681">cap_container_ops</text>
+  <text x="364" y="400" class="node-sub">Lifecycle &amp; Restart</text>
+
+  <rect x="350" y="480" width="200" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="364" y="496" class="node-text" fill="#6E7681">cap_cloud_telemetry</text>
+  <text x="364" y="510" class="node-sub">RDS Provisioned IOPS</text>
+
+  <!-- Nodes: Tier 3 Tools -->
+  <rect x="670" y="140" width="220" height="38" rx="3" fill="#1E232B" stroke="#D82C2C" stroke-width="2"/>
+  <rect x="670" y="140" width="4" height="38" fill="#D82C2C"/>
+  <text x="684" y="156" class="node-text" fill="#FFFFFF">pg_check_connection_pool</text>
+  <text x="684" y="170" class="node-sub" fill="#34D399">Isolated · 480 tokens</text>
+
+  <rect x="670" y="240" width="220" height="38" rx="3" fill="#1E232B" stroke="#D82C2C" stroke-width="2"/>
+  <rect x="670" y="240" width="4" height="38" fill="#D82C2C"/>
+  <text x="684" y="256" class="node-text" fill="#FFFFFF">slack_post_incident_bulletin</text>
+  <text x="684" y="270" class="node-sub" fill="#34D399">Isolated · 520 tokens</text>
+
+  <rect x="670" y="340" width="220" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="684" y="356" class="node-text" fill="#484F58">docker_restart_container</text>
+  <text x="684" y="370" class="node-sub" fill="#484F58">Pruned (-99.6%)</text>
+
+  <rect x="670" y="430" width="220" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="684" y="446" class="node-text" fill="#484F58">aws_fetch_rds_metrics</text>
+  <text x="684" y="460" class="node-sub" fill="#484F58">Pruned (-99.6%)</text>
+
+  <rect x="670" y="520" width="220" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="684" y="536" class="node-text" fill="#484F58">k8s_describe_pod</text>
+  <text x="684" y="550" class="node-sub" fill="#484F58">Pruned (-99.6%)</text>
+
+  <!-- Nodes: Tier 4 Entities -->
+  <rect x="990" y="140" width="250" height="38" rx="3" fill="#1E232B" stroke="#34D399" stroke-width="2"/>
+  <rect x="990" y="140" width="4" height="38" fill="#34D399"/>
+  <text x="1004" y="156" class="node-text" fill="#FFFFFF">pg-cluster-prod.internal:5432</text>
+  <text x="1004" y="170" class="node-sub">active_conns: 387/400 · P0</text>
+
+  <rect x="990" y="240" width="250" height="38" rx="3" fill="#1E232B" stroke="#34D399" stroke-width="2"/>
+  <rect x="990" y="240" width="4" height="38" fill="#34D399"/>
+  <text x="1004" y="256" class="node-text" fill="#FFFFFF">Slack #incident-critical-ops</text>
+  <text x="1004" y="270" class="node-sub">channel_id: C08A91KL2</text>
+
+  <rect x="990" y="370" width="250" height="38" rx="3" fill="#161B22" stroke="#2D333B"/>
+  <text x="1004" y="386" class="node-text" fill="#6E7681">container-prod-core-api</text>
+  <text x="1004" y="400" class="node-sub">docker://c10928a</text>
+
+  <!-- Bottom Telemetry HUD -->
+  <rect x="0" y="650" width="1280" height="110" fill="#161B22" stroke="#2D333B" stroke-width="1"/>
+  
+  <rect x="16" y="662" width="1248" height="30" rx="3" fill="#0E1117" stroke="#30363D"/>
+  <text x="28" y="682" class="badge-text" fill="#D82C2C">ACTIVE TASK PROMPT:</text>
+  <text x="175" y="682" class="code-text" fill="#FFFFFF">"Production PostgreSQL database is exhausting connection pool and throwing 500s. Inspect pool &amp; war-room."</text>
+
+  <text x="28" y="725" class="node-sub">OPENCYPHER TRAVERSAL:</text>
+  <text x="175" y="725" class="code-text" fill="#60A5FA">MATCH (c:Capability WHERE c.id IN [...]) MATCH (t:Tool)-[:PROVIDES]->(c) OPTIONAL MATCH (t)-[:REQUIRES_ENTITY]->(e)</text>
+
+  <rect x="880" y="705" width="384" height="28" rx="4" fill="#1F2937" stroke="#374151"/>
+  <text x="892" y="723" class="badge-text" fill="#34D399">CONTEXT: 1,214 TOKENS (-99.6%) · 2 TOOLS · 2 BOUND ENTITIES</text>
+</svg>
