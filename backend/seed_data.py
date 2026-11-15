@@ -340,3 +340,22 @@ EDGES = [
     GraphEdge(source="tool_linear_create_issue", target="cap_issue_tracking", relation="PROVIDES", weight=1.0),
     GraphEdge(source="tool_linear_update_status", target="cap_issue_tracking", relation="PROVIDES", weight=0.85),
     GraphEdge(source="tool_brave_web_search", target="cap_cve_research", relation="PROVIDES", weight=1.0),
+
+    # Tool -> Entity resolution & requirements
+    GraphEdge(source="tool_pg_pool_metrics", target="ent_db_prod_replica", relation="REQUIRES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_pg_slow_queries", target="ent_db_prod_replica", relation="RESOLVES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_slack_post_incident", target="ent_slack_war_room", relation="RESOLVES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_gh_create_pr", target="ent_github_hotfix_pr", relation="RESOLVES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_sentry_get_stacktrace", target="ent_sentry_issue_id", relation="REQUIRES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_aws_rds_metrics", target="ent_aws_rds_instance", relation="REQUIRES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_linear_create_issue", target="ent_linear_p0_ticket", relation="RESOLVES_ENTITY", weight=1.0),
+    GraphEdge(source="tool_docker_restart_container", target="ent_docker_worker_service", relation="REQUIRES_ENTITY", weight=1.0),
+
+    # Continual Learning / Preference edges: (Capability)-[:PREFERS {weight, success_rate, uses}]->(Tool)
+    GraphEdge(source="cap_db_diagnostics", target="tool_pg_pool_metrics", relation="PREFERS", weight=1.85, properties={"success_rate": 0.98, "uses": 142}),
+    GraphEdge(source="cap_db_diagnostics", target="tool_pg_slow_queries", relation="PREFERS", weight=1.65, properties={"success_rate": 0.94, "uses": 118}),
+    GraphEdge(source="cap_incident_alerting", target="tool_slack_post_incident", relation="PREFERS", weight=1.90, properties={"success_rate": 0.99, "uses": 210}),
+    GraphEdge(source="cap_code_review", target="tool_gh_create_pr", relation="PREFERS", weight=1.75, properties={"success_rate": 0.96, "uses": 89}),
+    GraphEdge(source="cap_error_tracking", target="tool_sentry_get_stacktrace", relation="PREFERS", weight=1.80, properties={"success_rate": 0.97, "uses": 165}),
+    GraphEdge(source="cap_cloud_telemetry", target="tool_aws_rds_metrics", relation="PREFERS", weight=1.70, properties={"success_rate": 0.95, "uses": 94})
+]
