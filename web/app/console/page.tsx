@@ -659,23 +659,23 @@ export default function ConsolePage() {
                     Naive MCP Preload Context
                   </span>
                   <span className="text-xs font-swiss-mono px-2 py-0.5 bg-red-100 text-red-800 font-bold border border-red-200">
-                    18,450 TOKENS
+                    272,607 TOKENS
                   </span>
                 </div>
                 <p className="text-xs text-[#1A1A1A]/70 mb-4">
-                  Baseline: All 19 tool schemas and unbounded database credentials serialized into the system prompt.
+                  Baseline: All 500 tool schemas and unbounded database credentials serialized into the system prompt.
                 </p>
 
                 <div className="bg-[#0E1117] text-white p-4 font-swiss-mono text-xs rounded-none border border-white/10 space-y-3">
                   <div className="text-red-400 font-bold flex justify-between border-b border-white/10 pb-2">
-                    <span>PROMPT PREFILL: 18,450 TOKENS</span>
+                    <span>PROMPT PREFILL: 272,607 TOKENS</span>
                     <span className="text-gray-400 text-[10px]">TTFT: 1,840 ms</span>
                   </div>
                   <div className="text-gray-400 text-[11px]">
-                    // 19 MCP Tools dumped without topological bounds:
+                    // 500 MCP Tools dumped without topological bounds:
                   </div>
                   <div className="flex flex-wrap gap-1.5">
-                    {["pg_check_connection_pool", "docker_restart", "aws_rds_metrics", "linear_ticket", "sentry_issues", "+ 14 others"].map(t => (
+                    {["pg_check_connection_pool", "docker_restart", "aws_rds_metrics", "linear_ticket", "sentry_issues", "+ 495 others"].map(t => (
                       <span key={t} className="px-2 py-0.5 bg-white/5 border border-white/10 text-[10px] text-gray-300">
                         {t}
                       </span>
@@ -828,7 +828,7 @@ LIMIT 2;`}
                   <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#EF4444]" /> Tools</span>
                   <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#34D399]" /> Entities</span>
                 </div>
-                <span className="text-emerald-400 font-bold">44 NODES · 52 EDGES · 1.8ms LATENCY</span>
+                <span className="text-emerald-400 font-bold">730 NODES · 2,421 EDGES · 1.8ms LATENCY</span>
               </div>
 
               <div className="w-full relative select-none">

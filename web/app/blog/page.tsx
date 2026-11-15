@@ -97,18 +97,18 @@ LIMIT 2;`;
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 font-swiss-mono">
               <div>
                 <div className="text-[10px] text-[#A9B2B1] uppercase">Context Bloat</div>
-                <div className="text-2xl font-bold text-red-400 mt-1">18,450 TOK</div>
-                <div className="text-[11px] text-gray-400 mt-0.5">Average MCP Preload</div>
+                <div className="text-2xl font-bold text-red-400 mt-1">272k TOK</div>
+                <div className="text-[11px] text-gray-400 mt-0.5">500 MCP Tools Preload</div>
               </div>
               <div>
                 <div className="text-[10px] text-[#A9B2B1] uppercase">With HydraDB</div>
                 <div className="text-2xl font-bold text-emerald-400 mt-1">1,140 TOK</div>
-                <div className="text-[11px] text-gray-400 mt-0.5">-94.2% Reduction</div>
+                <div className="text-[11px] text-gray-400 mt-0.5">-99.6% Token Reduction</div>
               </div>
               <div>
-                <div className="text-[10px] text-[#A9B2B1] uppercase">Error Rate</div>
-                <div className="text-2xl font-bold text-[#D82C2C] mt-1">28.6% &rarr; 0.0%</div>
-                <div className="text-[11px] text-gray-400 mt-0.5">Zero Schema Hallucination</div>
+                <div className="text-[10px] text-[#A9B2B1] uppercase">Held-Out Accuracy</div>
+                <div className="text-2xl font-bold text-[#D82C2C] mt-1">46.7% &rarr; 93.3%</div>
+                <div className="text-[11px] text-gray-400 mt-0.5">Over Vector Top-K Baseline</div>
               </div>
             </div>
           </div>
@@ -116,26 +116,29 @@ LIMIT 2;`;
           {/* Section 1 */}
           <section className="space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight font-swiss-display text-[#1A1A1A]">
-              1. The 18,450-Token Problem: Why Modern Coding Agents Choke
+              1. The 272,000-Token Problem: Why Modern Coding Agents Choke
             </h2>
             <p>
               When developers build autonomous agents using frameworks like LangChain, AutoGen, or the Model Context Protocol (MCP), the standard practice is deceptively simple: inspect the client tools registry and serialize <em>every single installed tool schema</em> into the LLM system prompt.
             </p>
             <p>
-              In production setups with 8 MCP servers (Postgres, Slack, GitHub, Docker, AWS, Sentry, Redis, Datadog), this naive dump adds up to <strong>18,450 tokens</strong> of raw JSON schema definitions before the user has typed a single word.
+              In production enterprise setups with 50 MCP servers (Postgres, Slack, GitHub, Docker, AWS, Sentry, Redis, Datadog, Kubernetes, Vault, and 40 others), this naive dump adds up to <strong>272,607 tokens</strong> of raw JSON schema definitions before the user has typed a single word.
             </p>
             <p>
               The consequences are catastrophic:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-sm">
               <li>
-                <strong>Attention Dilution:</strong> Dense prompts degrade the attention heads of state-of-the-art models, resulting in a <strong>28.6% tool selection failure rate</strong>.
+                <strong>Attention Dilution:</strong> Dense prompts degrade the attention heads of state-of-the-art models, resulting in catastrophic tool selection failures.
               </li>
               <li>
-                <strong>TTFT Latency Tax:</strong> Pre-filling 18k tokens incurs an initial latency wall of <strong>1,840 ms</strong> on every turn.
+                <strong>TTFT Latency Tax:</strong> Pre-filling 272k tokens incurs massive latency on every turn and costs $800+ per 1,000 tasks.
               </li>
               <li>
-                <strong>Context Blindness:</strong> Despite 18,000 tokens of documentation, the model still possesses zero knowledge of active runtime entities (e.g. database hostnames, channel IDs, PR numbers).
+                <strong>Context Blindness:</strong> Despite thousands of tokens of documentation, the model possesses zero knowledge of active runtime entities (e.g. database hostnames, channel IDs, PR numbers).
+              </li>
+              <li>
+                <strong>Why Vector Top-K Fails:</strong> Standard semantic search top-k retrieval matches single words but is completely blind to multi-hop dependency chains and cannot pre-bind runtime infrastructure connections.
               </li>
             </ul>
           </section>
@@ -144,17 +147,17 @@ LIMIT 2;`;
           <section className="bg-white p-6 swiss-border space-y-4">
             <div className="flex items-center justify-between text-xs font-swiss-mono font-bold text-[#1A1A1A]">
               <span>FIGURE 1: PROMPT PAYLOAD SIZE COMPARISON</span>
-              <span className="text-[#D82C2C]">-94.2% TOKENS SAVED</span>
+              <span className="text-[#D82C2C]">-99.6% TOKENS SAVED</span>
             </div>
 
             <svg viewBox="0 0 600 130" className="w-full h-auto bg-[#F2F2F2] p-4">
               {/* Naive Bar */}
               <text x="10" y="32" fontFamily="'JetBrains Mono', monospace" fontSize="11" fill="#1A1A1A" fontWeight="bold">
-                Naive MCP Preload (18,450 tok)
+                Naive MCP Preload (272,607 tok)
               </text>
               <rect x="10" y="42" width="560" height="20" fill="#EF4444" />
-              <text x="470" y="56" fontFamily="'JetBrains Mono', monospace" fontSize="10" fill="#FFFFFF" fontWeight="bold">
-                18,450 TOK (100%)
+              <text x="440" y="56" fontFamily="'JetBrains Mono', monospace" fontSize="10" fill="#FFFFFF" fontWeight="bold">
+                272,607 TOK (100%)
               </text>
 
               {/* Lucen HydraDB Bar */}
