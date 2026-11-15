@@ -56,3 +56,19 @@ class TraversalStep(BaseModel):
     matched_nodes: List[str]
     description: str
 
+class TraversalResult(BaseModel):
+    task: str
+    mode: str
+    selected_tools: List[ToolNode]
+    resolved_entities: List[EntityNode]
+    subgraph_nodes: List[Dict[str, Any]]
+    subgraph_edges: List[Dict[str, Any]]
+    opencypher_query: str
+    tokens_used: int
+    baseline_tokens: int
+    token_reduction_pct: float
+    estimated_cost_saved_pct: float
+    traversal_latency_ms: float
+    explanation: str
+    steps: List[TraversalStep]
+
