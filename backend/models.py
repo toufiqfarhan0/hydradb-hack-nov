@@ -79,3 +79,14 @@ class FeedbackRequest(BaseModel):
     latency_ms: Optional[float] = None
     notes: Optional[str] = None
 
+class BenchmarkMetric(BaseModel):
+    task_name: str
+    domain: str
+    naive_tokens: int
+    lucen_tokens: int
+    reduction_pct: float
+    naive_latency_ms: float
+    lucen_latency_ms: float
+    accuracy_improvement_pct: float
+    tools_isolated: int
+    total_tools_available: int
