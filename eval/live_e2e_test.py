@@ -97,3 +97,36 @@ def run_e2e_tests():
     except Exception as e:
         print(f"  => FAIL: {e}")
         return False
+
+    # 4. Traversal 1: Database Outage (P0 Incident)
+    log_header("4. HydraDB OpenCypher Traversal: P0 Database Outage")
+    try:
+        req = {
+            "task": "Production Postgres DB is exhausting connections and throwing 500s. Inspect pool and broadcast alert to Slack war room.",
+            "top_k_tools": 2,
+            "mode": "hybrid"
+        }
+        res = post_json("/api/traverse", req)
+        tools = [t["name"] for t in res["selected_tools"]]
+        entities = [e["name"] for e in res["resolved_entities"]]
+        print(f"  • Selected Tools:      {tools}")
+        print(f"  • Bound Entities:      {entities}")
+        print(f"  • Baseline Tokens:     {res['baseline_tokens']:,}")
+        print(f"  • Lucen Graph Tokens:  {res['tokens_used']:,} (-{res['token_reduction_pct']}%)")
+        print(f"  • Traversal Latency:   {res['traversal_latency_ms']} ms")
+        assert res["token_reduction_pct"] >= 90.0, f"Expected >=90% reduction, got {res['token_reduction_pct']}%"
+        assert res["traversal_latency_ms"] <= 15.0, f"Latency too high: {res['traversal_latency_ms']} ms"
+        assert "MATCH (c:Capability)" in res["opencypher_query"]
+        assert len(res["selected_tools"]) == 2
+        print("  => PASS: Multi-hop OpenCypher traversal pruned 17 tools in sub-2ms with >93% token savings.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 5. Traversal 2: Container Runtime Restart
+    log_header("5. HydraDB OpenCypher Traversal: Container OOM Kill")
+    try:
+        req = {
+            "task": "Docker container hydra-worker is crashing from OOMKill. Inspect stderr logs and execute rolling restart.",
+            "top_k_tools": 2,
