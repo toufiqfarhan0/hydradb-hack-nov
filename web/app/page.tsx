@@ -289,3 +289,100 @@ export default function Home() {
     ];
     if (graphFilter === "all") {
       inactiveEdges.forEach(([sIdx, tIdx]) => {
+        const s = nodes[sIdx];
+        const t = nodes[tIdx];
+        if (!s || !t) return;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(t.x, t.y);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+    }
+
+    // Draw Active Edges
+    const activeEdges: [number, number][] = [
+      [0, 4], [1, 5], [4, 7], [5, 8], [7, 11], [8, 12]
+    ];
+    activeEdges.forEach(([sIdx, tIdx]) => {
+      const s = nodes[sIdx];
+      const t = nodes[tIdx];
+      if (!s || !t) return;
+      if (graphFilter === "active" && (!s.active || !t.active)) return;
+
+      ctx.beginPath();
+      ctx.moveTo(s.x, s.y);
+      ctx.lineTo(t.x, t.y);
+      ctx.strokeStyle = "#D82C2C";
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    });
+
+    // Draw Nodes
+    nodes.forEach((n, idx) => {
+      if (graphFilter === "active" && !n.active) return;
+      const isDragged = draggedNodeIdxRef.current === idx;
+
+      // Glow ring when dragging
+      if (isDragged) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 22, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(216, 44, 44, 0.25)";
+        ctx.fill();
+      }
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, isDragged ? 13 : (n.active ? 10 : 8), 0, Math.PI * 2);
+      ctx.fillStyle = n.active ? "#FFFFFF" : "#4B5563";
+      ctx.fill();
+
+      ctx.lineWidth = isDragged ? 3.5 : (n.active ? 2.5 : 1);
+      ctx.strokeStyle = isDragged ? "#FFFFFF" : (n.active ? "#D82C2C" : "rgba(255, 255, 255, 0.2)");
+      ctx.stroke();
+
+      // Label with pill backdrop
+      ctx.font = n.active ? "bold 9.5px 'JetBrains Mono', monospace" : "8.5px 'JetBrains Mono', monospace";
+      const metrics = ctx.measureText(n.label);
+      const bw = metrics.width + 12;
+      const bh = 18;
+      let lx = n.x;
+      let ly = n.y;
+      let align: CanvasTextAlign = "center";
+
+      if (n.type === "MCPServer") {
+        lx = n.x - 16;
+        ly = n.y + 4;
+        align = "right";
+      } else if (n.type === "Entity") {
+        lx = n.x + 16;
+        ly = n.y + 4;
+        align = "left";
+      } else if (n.type === "Tool") {
+        lx = n.x < w * 0.65 ? n.x - 14 : n.x + 14;
+        ly = n.y + 4;
+        align = n.x < w * 0.65 ? "right" : "left";
+      } else {
+        lx = n.x;
+        ly = n.y - 14;
+        align = "center";
+      }
+
+      ctx.save();
+      let rx = lx;
+      if (align === "center") rx = lx - bw / 2;
+      else if (align === "right") rx = lx - bw;
+
+      // Save hit box for collision detection
+      n.bbox = { x: rx, y: ly - 12, w: bw, h: bh };
+
+      ctx.fillStyle = isDragged
+        ? "#D82C2C"
+        : n.active
+        ? "rgba(216, 44, 44, 0.95)"
+        : "rgba(15, 23, 42, 0.85)";
+      ctx.strokeStyle = isDragged ? "#FFFFFF" : (n.active ? "#FFFFFF" : "rgba(255, 255, 255, 0.15)");
+      ctx.lineWidth = isDragged ? 2 : 1;
+      ctx.fillRect(rx, ly - 12, bw, bh);
+      ctx.strokeRect(rx, ly - 12, bw, bh);
+
