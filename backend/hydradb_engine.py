@@ -91,3 +91,34 @@ class HydraDBContextEngine:
             w = self.edge_weights.get((edge.source, edge.target, edge.relation), edge.weight)
             edge_list.append({
                 "source": edge.source,
+                "target": edge.target,
+                "relation": edge.relation,
+                "weight": round(w, 2),
+                "properties": edge.properties
+            })
+
+        return {"nodes": nodes, "edges": edge_list}
+
+    def _infer_capabilities(self, task_text: str) -> List[str]:
+        """Map agent task text to relevant graph capabilities via keyword matching and semantic domain tagging."""
+        text = task_text.lower()
+        matched = []
+        for cap in self.capabilities.values():
+            score = 0
+            for kw in cap.keywords:
+                if kw in text:
+                    score += 1
+            if score > 0:
+                matched.append((cap.id, score))
+
+        matched.sort(key=lambda x: x[1], reverse=True)
+        if not matched:
+            # Fallback to general observability & project management
+            return ["cap_db_diagnostics", "cap_incident_alerting"]
+        return [c[0] for c in matched[:3]]
+
+    def traverse(self, req: TraversalRequest) -> TraversalResult:
+        """
+        Execute Track 2 Graph Traversal:
+        Instead of preloading every MCP tool schema into LLM prompt (18k+ tokens),
+        traverse HydraDB via OpenCypher pattern matching to extract ONLY the exact tools
