@@ -23,6 +23,14 @@ from typing import Dict, Any, List, Optional
 # Ensure project root is in sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+if os.path.exists(env_path):
+    with open(env_path, "r") as f:
+        for line in f:
+            if "=" in line and not line.startswith("#"):
+                k, v = line.strip().split("=", 1)
+                os.environ.setdefault(k, v)
+
 from backend.hydradb_engine import HydraDBContextEngine
 from backend.models import TraversalRequest, FeedbackRequest
 
@@ -153,7 +161,9 @@ def execute_tool_call(tool_name: str, args: Dict[str, Any]) -> Dict[str, Any]:
 
 def call_gemini(api_key: str, model: str, payload: Dict[str, Any]) -> Dict[str, Any]:
     """Call Google Gemini generateContent REST endpoint."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    if not model.startswith("models/"):
+        model = f"models/{model}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/{model}:generateContent?key={api_key}"
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         url,
@@ -163,9 +173,9 @@ def call_gemini(api_key: str, model: str, payload: Dict[str, Any]) -> Dict[str, 
     with urllib.request.urlopen(req, timeout=20) as response:
         return json.loads(response.read().decode("utf-8"))
 
-def run_agent(task_prompt: str, api_key: Optional[str] = None, model: str = "gemini-1.5-flash"):
+def run_agent(task_prompt: str, api_key: Optional[str] = None, model: str = "gemini-flash-lite-latest"):
     print_banner()
-    api_key = api_key or os.getenv("GEMINI_API_KEY")
+    api_key = api_key or os.getenv("GEMINI_API_KEY", "")
 
     print(f"{BOLD}AGENT TASK:{RESET} \"{task_prompt}\"")
     print(f"{BOLD}LLM ENGINE:{RESET} Google Gemini ({model})")
@@ -314,7 +324,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run Live Gemini Agent with Lucen HydraDB Context")
     parser.add_argument("--task", type=str, default="Production PostgreSQL database is exhausting connection pool and throwing 500s. Inspect pool and broadcast alert to Slack war room.", help="Operational incident task prompt")
     parser.add_argument("--api-key", type=str, help="Google Gemini API key (or set GEMINI_API_KEY)")
-    parser.add_argument("--model", type=str, default="gemini-1.5-flash", help="Gemini model name (default: gemini-1.5-flash)")
+    parser.add_argument("--model", type=str, default="gemini-flash-lite-latest", help="Gemini model name (default: gemini-flash-lite-latest)")
     args = parser.parse_args()
 
     run_agent(task_prompt=args.task, api_key=args.api_key, model=args.model)

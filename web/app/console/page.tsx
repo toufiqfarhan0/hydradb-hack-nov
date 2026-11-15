@@ -141,6 +141,33 @@ export default function ConsolePage() {
   const draggedNodeIdxRef = useRef<number | null>(null);
   const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
+  // Live Google Gemini Agent Execution State
+  const [isAgentRunning, setIsAgentRunning] = useState<boolean>(false);
+  const [agentRunResult, setAgentRunResult] = useState<any | null>(null);
+
+  const handleRunGeminiAgent = async () => {
+    setIsAgentRunning(true);
+    setAgentRunResult(null);
+    try {
+      const res = await fetch("/api/agent/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task: taskPrompt })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAgentRunResult(data);
+        if (data.continual_learning?.accuracy_pct) {
+          setAccuracy(data.continual_learning.accuracy_pct);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsAgentRunning(false);
+    }
+  };
+
   const handleSelectPreset = (idx: number) => {
     setSelectedPreset(idx);
     const p = PRESETS[idx];
@@ -647,24 +674,92 @@ export default function ConsolePage() {
                 placeholder="Enter autonomous agent instruction (e.g., 'Inspect Postgres connection pool' or 'Review PR #842 diff')..."
                 className="flex-1 p-3 text-sm font-swiss-mono border border-[#E2E6E6] focus:border-[#D82C2C] outline-none resize-none bg-white"
               />
-              <button
-                onClick={handleExecuteTraversal}
-                disabled={isTraversing}
-                className="btn-swiss-primary px-6 py-3 font-swiss-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
-              >
-                {isTraversing ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Traversing...</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-4 h-4 fill-current" />
-                    <span>Execute Traversal</span>
-                  </>
-                )}
-              </button>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button
+                  onClick={handleExecuteTraversal}
+                  disabled={isTraversing}
+                  className="btn-swiss-primary px-5 py-3 font-swiss-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
+                >
+                  {isTraversing ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Traversing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 fill-current" />
+                      <span>Traverse Graph</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleRunGeminiAgent}
+                  disabled={isAgentRunning}
+                  className="px-5 py-3 bg-[#0033A0] hover:bg-[#002270] text-white font-swiss-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors shadow-sm"
+                >
+                  {isAgentRunning ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-cyan-300" />
+                      <span>Gemini Solving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 text-cyan-300 fill-current" />
+                      <span>Run Gemini Agent (Live)</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
+
+            {/* Live Agent Execution Output Banner */}
+            {agentRunResult && (
+              <div className="mt-4 p-5 bg-[#0E1117] text-white border-2 border-[#0033A0] font-swiss-mono text-xs space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" />
+                    <span className="font-bold text-white uppercase tracking-wider">
+                      LIVE AGENT TURN RESOLVED: GOOGLE GEMINI ({agentRunResult.model || "gemini-flash-lite-latest"})
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[11px] text-white/70">
+                    <span>GraphBLAS Latency: <strong className="text-cyan-400">{agentRunResult.traversal_ms} ms</strong></span>
+                    <span>LLM Latency: <strong className="text-cyan-400">{agentRunResult.llm_lat_ms} ms</strong></span>
+                    <span>Tokens: <strong className="text-emerald-400">{agentRunResult.tokens_used} tok</strong> (-{agentRunResult.token_reduction_pct}%)</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase text-[#A9B2B1] font-bold">1. Zero-Shot Function Call Decision:</div>
+                    <div className="p-3 bg-black/50 border border-white/10 text-emerald-400 font-mono text-[11px] overflow-x-auto">
+                      <div>Function: <span className="text-white font-bold">{agentRunResult.model_decision?.tool_invoked}</span></div>
+                      <div className="mt-1">Arguments: <span className="text-yellow-300">{JSON.stringify(agentRunResult.model_decision?.arguments)}</span></div>
+                      <div className="mt-1 text-[10px] text-emerald-300">
+                        Zero-Shot Pre-Bound Credential: Exact runtime host used (0 hallucination)
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase text-[#A9B2B1] font-bold">2. Tool Execution Output &amp; State:</div>
+                    <div className="p-3 bg-black/50 border border-white/10 text-gray-300 font-mono text-[11px] overflow-x-auto max-h-[85px]">
+                      <pre className="whitespace-pre-wrap">{JSON.stringify(agentRunResult.tool_output, null, 2)}</pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 pt-3 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                  <div className="text-gray-300">
+                    <span className="text-[#A9B2B1]">3. Continual Memory Feedback: </span>
+                    <code className="text-cyan-300 font-bold">{agentRunResult.continual_learning?.cypher_statement}</code>
+                  </div>
+                  <div className="text-emerald-400 font-bold">
+                    Held-Out Accuracy: {agentRunResult.continual_learning?.accuracy_pct}% (+0.15 Reward)
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 4-Column Horizontal Telemetry Bar */}

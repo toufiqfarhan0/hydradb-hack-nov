@@ -344,7 +344,7 @@ def main():
     p_gemini = subparsers.add_parser("gemini-agent", help="Run live autonomous agent with Google Gemini & HydraDB context")
     p_gemini.add_argument("--task", type=str, default="Production PostgreSQL database is exhausting connection pool. Inspect pool and broadcast alert to Slack war room.", help="Incident task query")
     p_gemini.add_argument("--api-key", type=str, help="Google Gemini API key")
-    p_gemini.add_argument("--model", type=str, default="gemini-1.5-flash", help="Gemini model name")
+    p_gemini.add_argument("--model", type=str, default="gemini-flash-lite-latest", help="Gemini model name")
 
     args = parser.parse_args()
 
