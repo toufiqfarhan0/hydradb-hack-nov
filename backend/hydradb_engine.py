@@ -122,3 +122,34 @@ class HydraDBContextEngine:
         Execute Track 2 Graph Traversal:
         Instead of preloading every MCP tool schema into LLM prompt (18k+ tokens),
         traverse HydraDB via OpenCypher pattern matching to extract ONLY the exact tools
+        and pre-resolved context entities required.
+        """
+        start_time = time.perf_counter()
+        matched_caps = self._infer_capabilities(req.task)
+        
+        # Step 1: OpenCypher capability match
+        cypher_step1 = f"""MATCH (c:Capability)
+WHERE c.id IN {json.dumps(matched_caps)}
+MATCH (t:Tool)-[:PROVIDES]->(c)"""
+
+        # Step 2: OpenCypher continual learning preference reweighting
+        cypher_step2 = """OPTIONAL MATCH (c)-[p:PREFERS]->(t)
+WITH t, c, coalesce(p.weight, 1.0) AS relevance_weight"""
+
+        # Step 3: Entity resolution traversal
+        cypher_step3 = """OPTIONAL MATCH (t)-[r:REQUIRES_ENTITY|RESOLVES_ENTITY]->(e:Entity)
+RETURN t, c, e, relevance_weight
+ORDER BY relevance_weight DESC
+LIMIT $top_k"""
+
+        full_cypher = f"{cypher_step1}\n{cypher_step2}\n{cypher_step3}"
+
+        # GraphBLAS-style traversal simulation across adjacency lists
+        candidate_tools: Dict[str, float] = {}
+        tool_to_cap: Dict[str, str] = {}
+        for edge in self.edges:
+            if edge.relation == "PROVIDES" and edge.target in matched_caps:
+                t_id = edge.source
+                w = self.edge_weights.get((t_id, edge.target, "PROVIDES"), edge.weight)
+                pref_w = self.edge_weights.get((edge.target, t_id, "PREFERS"), 1.0)
+                score = w * pref_w
