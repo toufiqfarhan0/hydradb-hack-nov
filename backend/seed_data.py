@@ -70,3 +70,21 @@ CAPABILITIES = [
     CapabilityNode(id="cap_cloud_telemetry", name="Cloud Metrics & Autoscaling", domain="infrastructure", keywords=["aws", "rds", "cloudwatch", "cpu", "memory", "ecs", "alarm", "metrics"]),
     CapabilityNode(id="cap_error_tracking", name="Exception Stacktrace Analysis", domain="observability", keywords=["sentry", "error", "exception", "crash", "stacktrace", "unhandled", "500"]),
     CapabilityNode(id="cap_container_mgmt", name="Container Lifecycle", domain="infrastructure", keywords=["docker", "container", "restart", "logs", "oomkill", "healthcheck"]),
+    CapabilityNode(id="cap_issue_tracking", name="Project & Issue Tracking", domain="project", keywords=["linear", "ticket", "issue", "bug", "triage", "sprint", "milestone"]),
+    CapabilityNode(id="cap_cve_research", name="Security & CVE Research", domain="security", keywords=["cve", "vulnerability", "patch", "exploit", "search", "docs", "advisory"]),
+    CapabilityNode(id="cap_schema_migration", name="Schema Migration & DDL", domain="database", keywords=["migration", "alter table", "create index", "schema", "ddl"]),
+    CapabilityNode(id="cap_access_revocation", name="Access Control & Secrets", domain="security", keywords=["revoke", "credential", "api key", "token", "iam", "rotate", "permission"])
+]
+
+ENTITIES = [
+    EntityNode(
+        id="ent_db_prod_replica",
+        name="Production DB Primary & Read Replica",
+        entity_type="DatabaseCluster",
+        properties={"host": "pg-cluster-prod.internal:5432", "database": "hydra_analytics", "max_connections": 400, "current_connections": 387},
+        confidence=0.99
+    ),
+    EntityNode(
+        id="ent_slack_war_room",
+        name="Slack #incident-critical-ops",
+        entity_type="SlackChannel",
