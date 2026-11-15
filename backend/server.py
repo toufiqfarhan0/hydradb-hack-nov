@@ -46,3 +46,11 @@ async def get_graph_data():
     return engine.get_full_graph()
 
 @app.post("/api/traverse", response_model=TraversalResult)
+async def traverse_graph(req: TraversalRequest):
+    try:
+        return engine.traverse(req)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/feedback")
+async def post_feedback(req: FeedbackRequest):
