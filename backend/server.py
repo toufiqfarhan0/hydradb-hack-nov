@@ -54,3 +54,11 @@ async def traverse_graph(req: TraversalRequest):
 
 @app.post("/api/feedback")
 async def post_feedback(req: FeedbackRequest):
+    return engine.record_feedback(req)
+
+@app.get("/api/benchmark")
+async def get_benchmark_suite():
+    benchmarks = engine.get_benchmarks()
+    return {
+        "suite": benchmarks,
+        "summary": {
