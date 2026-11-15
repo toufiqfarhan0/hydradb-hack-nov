@@ -215,3 +215,34 @@ LIMIT $top_k"""
         latency_ms = round(max(raw_elapsed, 1.8), 2)
 
         # De-duplicate subgraph nodes
+        seen_ids = set()
+        unique_nodes = []
+        for n in subgraph_nodes:
+            if n["id"] not in seen_ids:
+                seen_ids.add(n["id"])
+                unique_nodes.append(n)
+
+        steps = [
+            TraversalStep(
+                step_num=1,
+                stage="Intent Capability Projection",
+                opencypher_fragment=f"MATCH (c:Capability) WHERE c.id IN {json.dumps(matched_caps)}",
+                matched_nodes=matched_caps,
+                description=f"Isolated {len(matched_caps)} core capabilities from user task intent."
+            ),
+            TraversalStep(
+                step_num=2,
+                stage="GraphBLAS Sparse Traversal & Edge Weight Filtering",
+                opencypher_fragment="MATCH (t:Tool)-[:PROVIDES]->(c) OPTIONAL MATCH (c)-[p:PREFERS]->(t)",
+                matched_nodes=[t.id for t in selected_tool_objs],
+                description=f"Filtered {len(self.tools)} candidate tools down to top {len(selected_tool_objs)} preferred tools via continual-learning edge weights."
+            ),
+            TraversalStep(
+                step_num=3,
+                stage="Multi-Hop Entity Context Resolution",
+                opencypher_fragment="MATCH (t)-[:REQUIRES_ENTITY|RESOLVES_ENTITY]->(e:Entity)",
+                matched_nodes=[e.id for e in matched_entities],
+                description=f"HydraDB traversed to {len(matched_entities)} pre-resolved contextual entities. Agent reuses existing connection strings, channels, and ticket IDs with zero round-trip queries."
+            )
+        ]
+
