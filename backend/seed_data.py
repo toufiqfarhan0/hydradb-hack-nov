@@ -124,3 +124,21 @@ ENTITIES = [
         name="Docker Container 'hydra-worker-api-4'",
         entity_type="ContainerInstance",
         properties={"container_id": "a918f0cb18a2", "image": "hydra/api:v3.1.2", "status": "unhealthy (OOM alert)"},
+        confidence=0.94
+    )
+]
+
+TOOLS = [
+    # PostgreSQL Tools
+    ToolNode(
+        id="tool_pg_slow_queries",
+        name="pg_inspect_slow_queries",
+        server_id="mcp_postgres",
+        description="Returns top 10 running queries sorted by execution duration and lock wait time from pg_stat_activity",
+        parameters_schema={"type": "object", "properties": {"limit": {"type": "integer", "default": 10}, "min_duration_ms": {"type": "integer", "default": 500}}},
+        estimated_token_cost=420
+    ),
+    ToolNode(
+        id="tool_pg_explain_analyze",
+        name="pg_explain_query_plan",
+        server_id="mcp_postgres",
