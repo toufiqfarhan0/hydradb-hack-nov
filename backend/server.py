@@ -14,3 +14,11 @@ app = FastAPI(
 )
 
 # Enable CORS for local dev and embedded frontends
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
