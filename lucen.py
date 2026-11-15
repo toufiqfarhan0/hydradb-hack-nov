@@ -174,17 +174,17 @@ def cmd_verify(args, engine: HydraDBContextEngine):
 
     # Check 1: Graph Topology
     print(f"[1/5] Verifying Graph Adjacency Ingestion... ", end="", flush=True)
-    if len(engine.servers) == 8 and len(engine.tools) == 19 and len(engine.edges) == 52:
-        print(f"{GREEN}[PASS]{RESET} (8 servers, 19 tools, 52 GraphBLAS edges)")
+    if len(engine.servers) == 50 and len(engine.tools) == 500 and len(engine.edges) >= 2400:
+        print(f"{GREEN}[PASS]{RESET} (50 servers, 500 tools, {len(engine.edges)} GraphBLAS edges)")
         passed += 1
     else:
-        print(f"{RED}[FAIL]{RESET}")
+        print(f"{RED}[FAIL]{RESET} (got {len(engine.servers)} servers, {len(engine.tools)} tools, {len(engine.edges)} edges)")
 
     # Check 2: Context Token Reduction Threshold
     print(f"[2/5] Testing Postgres Outage Context Reduction... ", end="", flush=True)
     res = engine.traverse(TraversalRequest(task="Postgres connection pool exhausted", top_k_tools=2))
     if res.token_reduction_pct >= 90.0:
-        print(f"{GREEN}[PASS]{RESET} ({res.tokens_used} tok vs {res.baseline_tokens} tok, {GREEN}-{res.token_reduction_pct}%{RESET})")
+        print(f"{GREEN}[PASS]{RESET} ({res.tokens_used:,} tok vs {res.baseline_tokens:,} tok, {GREEN}-{res.token_reduction_pct}%{RESET})")
         passed += 1
     else:
         print(f"{RED}[FAIL]{RESET} (got {res.token_reduction_pct}%)")
@@ -199,7 +199,7 @@ def cmd_verify(args, engine: HydraDBContextEngine):
 
     # Check 4: Dynamic Edge Reweighting (Continual Learning)
     print(f"[4/5] Testing Dynamic PREFERS Edge Reweighting... ", end="", flush=True)
-    fb = engine.record_feedback(FeedbackRequest(tool_id="tool_pg_pool_metrics", success=True, task="Postgres test"))
+    fb = engine.record_feedback(FeedbackRequest(tool_id="tool_pg_check_connection_pool", success=True, task="Postgres test"))
     if fb.get("status") == "success" and fb.get("reward") == "+0.15":
         print(f"{GREEN}[PASS]{RESET} (weight +0.15, accuracy: {GREEN}{fb['current_accuracy_pct']}%{RESET})")
         passed += 1

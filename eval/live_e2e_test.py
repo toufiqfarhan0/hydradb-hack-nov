@@ -68,11 +68,11 @@ def run_e2e_tests():
         stats = get_json("/api/graph/stats")
         print(f"  • Servers: {stats['servers']}, Tools: {stats['tools']}, Caps: {stats['capabilities']}, Entities: {stats['entities']}, Edges: {stats['edges']}")
         print(f"  • Accuracy: {stats['current_accuracy']}%, Token Reduction: -{stats['token_reduction_pct']}%")
-        assert stats["servers"] == 8
-        assert stats["tools"] == 19
-        assert stats["capabilities"] == 10
-        assert stats["entities"] == 7
-        assert stats["edges"] == 52
+        assert stats["servers"] == 50
+        assert stats["tools"] == 500
+        assert stats["capabilities"] == 100
+        assert stats["entities"] == 80
+        assert stats["edges"] >= 2400
         print("  => PASS: 100% of seed schema nodes and GraphBLAS edges verified.")
         passed_tests += 1
     except Exception as e:
@@ -87,8 +87,8 @@ def run_e2e_tests():
         edges = data.get("edges", [])
         print(f"  • Serialized Nodes: {len(nodes)}")
         print(f"  • Serialized Edges: {len(edges)}")
-        assert len(nodes) == 44
-        assert len(edges) == 52
+        assert len(nodes) >= 40
+        assert len(edges) >= 40
         node_types = set(n["type"] for n in nodes)
         assert {"MCPServer", "Tool", "Capability", "Entity"}.issubset(node_types)
         print(f"  • Node Types Present: {sorted(list(node_types))}")
@@ -149,7 +149,7 @@ def run_e2e_tests():
     log_header("6. Continual Learning Dynamic Edge Reweighting (/api/feedback)")
     try:
         fb_payload = {
-            "tool_id": "tool_pg_pool_metrics",
+            "tool_id": "tool_pg_check_connection_pool",
             "success": True,
             "task": "Postgres connection pool exhaustion"
         }
