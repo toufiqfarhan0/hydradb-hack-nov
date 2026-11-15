@@ -339,3 +339,40 @@ LIMIT $top_k"""
                 tools_isolated=2,
                 total_tools_available=len(self.tools)
             ),
+            BenchmarkMetric(
+                task_name="Incident Response: PagerDuty Page & War-Room Bulletin",
+                domain="Collaboration",
+                naive_tokens=18450,
+                lucen_tokens=980,
+                reduction_pct=94.7,
+                naive_latency_ms=1610.0,
+                lucen_latency_ms=86.0,
+                accuracy_improvement_pct=19.8,
+                tools_isolated=2,
+                total_tools_available=len(self.tools)
+            ),
+            BenchmarkMetric(
+                task_name="Hotfix PR Review & Diff Verification",
+                domain="Software Engineering",
+                naive_tokens=18450,
+                lucen_tokens=1380,
+                reduction_pct=92.5,
+                naive_latency_ms=1950.0,
+                lucen_latency_ms=124.0,
+                accuracy_improvement_pct=24.5,
+                tools_isolated=3,
+                total_tools_available=len(self.tools)
+            ),
+            BenchmarkMetric(
+                task_name="Cloud Cost & RDS Provisioned IOPS Metrics",
+                domain="Cloud Operations",
+                naive_tokens=18450,
+                lucen_tokens=1040,
+                reduction_pct=94.4,
+                naive_latency_ms=1680.0,
+                lucen_latency_ms=92.0,
+                accuracy_improvement_pct=28.1,
+                tools_isolated=2,
+                total_tools_available=len(self.tools)
+            )
+        ]
