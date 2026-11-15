@@ -72,3 +72,10 @@ class TraversalResult(BaseModel):
     explanation: str
     steps: List[TraversalStep]
 
+class FeedbackRequest(BaseModel):
+    task: str
+    tool_id: str
+    success: bool
+    latency_ms: Optional[float] = None
+    notes: Optional[str] = None
+
