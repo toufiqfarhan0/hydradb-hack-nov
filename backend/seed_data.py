@@ -232,3 +232,21 @@ TOOLS = [
         parameters_schema={"type": "object", "properties": {"cluster": {"type": "string"}, "service": {"type": "string"}}, "required": ["cluster", "service"]},
         estimated_token_cost=490
     ),
+
+    # Sentry Tools
+    ToolNode(
+        id="tool_sentry_get_stacktrace",
+        name="sentry_fetch_issue_stacktrace",
+        server_id="mcp_sentry",
+        description="Retrieves full unminified stacktrace, culprit line, and local environment variables for issue ID",
+        parameters_schema={"type": "object", "properties": {"issue_id": {"type": "string"}}, "required": ["issue_id"]},
+        estimated_token_cost=440
+    ),
+    ToolNode(
+        id="tool_sentry_resolve_issue",
+        name="sentry_mark_issue_resolved",
+        server_id="mcp_sentry",
+        description="Marks Sentry crash issue as resolved in current release build to verify error rate decay",
+        parameters_schema={"type": "object", "properties": {"issue_id": {"type": "string"}, "release": {"type": "string"}}, "required": ["issue_id"]},
+        estimated_token_cost=390
+    ),
