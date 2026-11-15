@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+temp_sg/
+BOUNTIES.md
+node_modules/
+dist/
+.next/
+_backup_files/
+build_commit_history.py
+
