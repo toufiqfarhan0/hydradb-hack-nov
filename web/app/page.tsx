@@ -1259,3 +1259,100 @@ LIMIT 2;`}
 
     __    __  __  ______  ______    _   __
    / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+TASK INTENT: "Production Postgres connection pool exhausted"
+====================================================================
+
+1. ISOLATED TOOLS (2 selected from 19 total):
+   ✔ pg_check_connection_pool (server: mcp_postgres, cost: 380 tok)
+     Queries PgBouncer or native connection pool utilization, idle timeouts, and waiting clients
+   ✔ slack_post_incident_bulletin (server: mcp_slack, cost: 480 tok)
+     Broadcasts structured alert to targeted war-room channel with live resolution thread
+
+2. PRE-BOUND RUNTIME ENTITIES (2 resolved):
+   ⚡ Production DB Primary & Read Replica (type: DatabaseCluster)
+      • host: pg-cluster-prod.internal:5432
+      • database: hydra_analytics
+      • max_connections: 400
+      • current_connections: 387
+   ⚡ Slack #incident-critical-ops (type: SlackChannel)
+      • channel_id: C08A91KL2
+      • tier: P0
+
+====================================================================
+TOKEN ECONOMICS & LATENCY COMPARISON
+--------------------------------------------------------------------
+  • Naive Prompt Preload:  18,450 tokens (All 19 tools + MCP boilerplate)
+  • Lucen Graph Context:   1,140 tokens (Only 2 tools + bound entities)
+  • Context Reduction:     -93.8%
+  • GraphBLAS Latency:     1.8 ms (SuiteSparse Sparse Adjacency Kernel)
+  • Estimated TTFT Speedup: 16.2x faster (~115ms vs ~1,840ms LLM prefill)
+====================================================================`}
+                  </pre>
+                )}
+
+                {selectedCliTab === 1 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py stats
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+HYDRADB GRAPH TOPOLOGY & ENGINE STATUS
+============================================================
+  • Engine Kernel:      SuiteSparse GraphBLAS (CSC Matrix)
+  • Storage Backend:    SlateDB LSM-Tree on MinIO / AWS S3
+  • Query Dialect:      OpenCypher (Property Graph)
+------------------------------------------------------------
+  • MCP Servers:          8 indexed
+  • Tools Ingested:      19 tools across all servers
+  • Capabilities:        10 mapped domains
+  • Bound Entities:       7 pre-resolved runtime entities
+  • GraphBLAS Edges:     52 directed adjacency relationships
+------------------------------------------------------------
+  • Current Accuracy:   98.4% (Iter 20)
+  • Token Reduction:    -94.2% over naive preloading
+============================================================`}
+                  </pre>
+                )}
+
+                {selectedCliTab === 2 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py verify
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+RUNNING HYDRADB GRAPHBLAS ENGINE PARITY VERIFICATION
+====================================================================
+[1/5] Verifying Graph Adjacency Ingestion... [PASS] (8 servers, 19 tools, 52 edges)
+[2/5] Testing Postgres Outage Context Reduction... [PASS] (1141 tok vs 18450 tok, -93.8%)
+[3/5] Asserting Sparse Matrix Hop Latency (<10ms)... [PASS] (1.8 ms)
+[4/5] Testing Dynamic PREFERS Edge Reweighting... [PASS] (weight +0.15, accuracy: 99.2%)
+[5/5] Asserting Pre-Resolved Entity Parity... [PASS] (Bound: pg-cluster-prod.internal:5432)
+====================================================================
+VERIFICATION SUCCESSFUL: 5/5 CHECKS PASSED. EXIT CODE 0.`}
+                  </pre>
+                )}
+
+                {selectedCliTab === 3 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py feedback --tool pg_check_connection_pool --reward
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+CONTINUAL LEARNING FEEDBACK INGESTED
+====================================================================
