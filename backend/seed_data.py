@@ -178,3 +178,21 @@ TOOLS = [
         server_id="mcp_slack",
         description="Initiates urgent PagerDuty/Slack emergency ping to the designated primary rotation lead",
         parameters_schema={"type": "object", "properties": {"team": {"type": "string"}, "incident_summary": {"type": "string"}}, "required": ["team", "incident_summary"]},
+        estimated_token_cost=440
+    ),
+    ToolNode(
+        id="tool_slack_thread_update",
+        name="slack_append_thread_update",
+        server_id="mcp_slack",
+        description="Appends technical diagnosis or fix status to existing incident thread without notifying entire org",
+        parameters_schema={"type": "object", "properties": {"thread_ts": {"type": "string"}, "body": {"type": "string"}}, "required": ["thread_ts", "body"]},
+        estimated_token_cost=410
+    ),
+
+    # GitHub Tools
+    ToolNode(
+        id="tool_gh_create_pr",
+        name="github_create_pull_request",
+        server_id="mcp_github",
+        description="Opens hotfix PR against main branch with changelog description and reviewer assignment",
+        parameters_schema={"type": "object", "properties": {"repo": {"type": "string"}, "branch": {"type": "string"}, "title": {"type": "string"}, "body": {"type": "string"}}, "required": ["repo", "branch", "title"]},
