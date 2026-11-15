@@ -8,6 +8,4 @@ BOUNTIES.md
 node_modules/
 dist/
 .next/
-_backup_files/
-build_commit_history.py
 
