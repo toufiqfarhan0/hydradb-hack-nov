@@ -60,3 +60,34 @@ def cmd_stats(args, engine: HydraDBContextEngine):
     print("=" * 60)
     print(f"  • {BOLD}Engine Kernel:{RESET}      SuiteSparse GraphBLAS (CSC Matrix)")
     print(f"  • {BOLD}Storage Backend:{RESET}    SlateDB LSM-Tree on MinIO / AWS S3")
+    print(f"  • {BOLD}Query Dialect:{RESET}      OpenCypher (Property Graph)")
+    print("-" * 60)
+    print(f"  • {BOLD}MCP Servers:{RESET}        {len(engine.servers):>3} indexed")
+    print(f"  • {BOLD}Tools Ingested:{RESET}     {len(engine.tools):>3} tools across all servers")
+    print(f"  • {BOLD}Capabilities:{RESET}       {len(engine.capabilities):>3} mapped domains")
+    print(f"  • {BOLD}Bound Entities:{RESET}     {len(engine.entities):>3} pre-resolved runtime entities")
+    print(f"  • {BOLD}GraphBLAS Edges:{RESET}    {len(engine.edges):>3} directed adjacency relationships")
+    print("-" * 60)
+    last_iter = engine.iteration_history[-1]
+    print(f"  • {BOLD}Current Accuracy:{RESET}   {GREEN}{last_iter['accuracy_pct']}%{RESET} (Iter {last_iter['iteration']})")
+    print(f"  • {BOLD}Token Reduction:{RESET}    {GREEN}-{last_iter['token_reduction_pct']}%{RESET} over naive preloading")
+    print("=" * 60)
+
+def cmd_traverse(args, engine: HydraDBContextEngine):
+    task = args.task
+    if not task:
+        print(f"{RED}Error: Task prompt is required. Example: python lucen.py traverse \"Postgres connection pool exhausted\"{RESET}")
+        sys.exit(1)
+
+    top_k = args.top_k or 2
+    req = TraversalRequest(task=task, top_k_tools=top_k, mode="hybrid")
+    res = engine.traverse(req)
+
+    if args.json:
+        output = {
+            "task": res.task,
+            "baseline_tokens": res.baseline_tokens,
+            "lucen_tokens": res.tokens_used,
+            "reduction_pct": res.token_reduction_pct,
+            "traversal_latency_ms": res.traversal_latency_ms,
+            "selected_tools": [t.name for t in res.selected_tools],
