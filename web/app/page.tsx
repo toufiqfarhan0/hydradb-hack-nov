@@ -580,3 +580,100 @@ export default function Home() {
                   <div className="text-[#A9B2B1] uppercase text-[10px]">Traversal Hop Latency</div>
                   <div className="font-bold text-[#1A1A1A] mt-1">1.8 ms (GRAPHBLAS)</div>
                 </div>
+                <div>
+                  <div className="text-[#A9B2B1] uppercase text-[10px]">Schema Hallucination</div>
+                  <div className="font-bold text-[#166534] mt-1">0.0% (BOUNDED)</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right 5 Columns (Swiss Abstract Poster & Diagnostic Matrix) */}
+            <div className="lg:col-span-5 bg-[#1A1A1A] text-white p-6 sm:p-8 rounded-none border-2 border-[#1A1A1A] shadow-sm relative">
+              <div className="flex items-center justify-between swiss-border-b pb-4 mb-6 text-xs font-swiss-mono text-[#A9B2B1]">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-[#D82C2C]" />
+                  <span>HYDRADB CONTEXT SPEC</span>
+                </div>
+                <span>KERNEL: SUITESPARSE 9.3</span>
+              </div>
+
+              <div className="space-y-5 font-swiss-mono text-xs">
+                <div className="p-3 bg-white/5 border border-white/10 space-y-1">
+                  <div className="text-[#A9B2B1] text-[10px]">OPENCYPHER CONTEXT RESOLVER</div>
+                  <div className="text-[#F2F2F2] font-semibold">MATCH (t:Task)-[:REQUIRES_CAPABILITY]-&gt;(c:Capability)</div>
+                  <div className="text-emerald-400">MATCH (c)-[:RESOLVES_TOOL]-&gt;(m:Tool)</div>
+                  <div className="text-emerald-400">MATCH (m)-[:BOUND_TO]-&gt;(e:Entity)</div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-white/5 border border-white/10">
+                    <div className="text-[#A9B2B1] text-[10px]">NAIVE PRELOAD</div>
+                    <div className="text-red-400 font-bold text-sm mt-1">18,450 TOK</div>
+                    <div className="text-[#A9B2B1] text-[10px] mt-0.5">1,840ms TTFT Prefill</div>
+                  </div>
+                  <div className="p-3 bg-[#D82C2C]/15 border border-[#D82C2C]/40">
+                    <div className="text-[#D82C2C] text-[10px] font-bold">LUCEN HYDRADB</div>
+                    <div className="text-white font-bold text-sm mt-1">1,140 TOK</div>
+                    <div className="text-[#A9B2B1] text-[10px] mt-0.5">1.8ms Hop Latency</div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-black/40 border border-white/10 text-[11px] leading-relaxed text-[#A9B2B1]">
+                  <span className="text-white font-semibold">Information Architecture Proof: </span>
+                  Standard LLM tool calling forces agents to read 19 JSON schemas in natural language. 
+                  HydraDB prunes 94% of irrelevant tools via matrix semirings before inference, guaranteeing deterministic execution.
+                </div>
+
+                <div className="pt-2 flex items-center justify-between text-[11px] text-[#A9B2B1]">
+                  <span>E2E VERIFICATION SUITE</span>
+                  <span className="text-emerald-400 font-bold">9 / 9 PASSED (100%)</span>
+                </div>
+              </div>
+
+              {/* Swiss Red Corner Badge */}
+              <div className="absolute -bottom-3 -right-3 w-8 h-8 bg-[#D82C2C] text-white flex items-center justify-center font-bold text-xs">
+                +
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            2. INTERACTIVE CONSOLE SECTION (#console)
+        ───────────────────────────────────────────────────────────── */}
+        <section id="console" className="py-16 bg-[#F2F2F2] swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              01 // QUERY-TIME CONTEXT RESOLUTION
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              Live Traversal Studio
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Select an enterprise scenario or type any custom task. Watch Lucen query HydraDB via OpenCypher, prune irrelevant MCP schemas, and bind credentials in microseconds.
+            </p>
+
+            {/* Presets Bar */}
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="text-xs font-swiss-mono font-bold text-[#A9B2B1] uppercase mr-2">
+                SCENARIOS:
+              </span>
+              {PRESETS.map((p, idx) => (
+                <button
+                  key={p.id}
+                  onClick={() => handleSelectPreset(idx)}
+                  className={`px-3 py-1.5 text-xs font-swiss-mono transition-colors border ${
+                    selectedPreset === idx
+                      ? "bg-[#1A1A1A] text-white border-[#1A1A1A] font-bold"
+                      : "bg-white text-[#1A1A1A] border-[#E2E6E6] hover:border-[#1A1A1A]"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Input Box */}
+            <div className="bg-white p-3 swiss-border flex flex-col sm:flex-row gap-3 mb-6">
+              <textarea
+                value={taskPrompt}
