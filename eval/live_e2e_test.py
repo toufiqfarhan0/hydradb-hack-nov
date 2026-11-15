@@ -130,3 +130,36 @@ def run_e2e_tests():
         req = {
             "task": "Docker container hydra-worker is crashing from OOMKill. Inspect stderr logs and execute rolling restart.",
             "top_k_tools": 2,
+            "mode": "hybrid"
+        }
+        res = post_json("/api/traverse", req)
+        tools = [t["name"] for t in res["selected_tools"]]
+        print(f"  • Selected Tools:      {tools}")
+        print(f"  • Baseline Tokens:     {res['baseline_tokens']:,}")
+        print(f"  • Lucen Graph Tokens:  {res['tokens_used']:,} (-{res['token_reduction_pct']}%)")
+        assert res["token_reduction_pct"] >= 90.0
+        assert any("docker" in t for t in tools)
+        print("  => PASS: Correct container lifecycle tools isolated.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 6. Continual Learning Feedback
+    log_header("6. Continual Learning Dynamic Edge Reweighting (/api/feedback)")
+    try:
+        fb_payload = {
+            "tool_id": "tool_pg_pool_metrics",
+            "success": True,
+            "task": "Postgres connection pool exhaustion"
+        }
+        fb_res = post_json("/api/feedback", fb_payload)
+        print(f"  • Reinforced Tool:     {fb_res['tool_id']}")
+        print(f"  • Reward Delta:        {fb_res['reward']}")
+        print(f"  • Updated PREFERS:     {fb_res['updated_edges']}")
+        print(f"  • Trajectory Accuracy: {fb_res['current_accuracy_pct']}%")
+        assert fb_res["status"] == "success"
+        assert len(fb_res["updated_edges"]) > 0
+        print("  => PASS: Dynamic edge reweighting applied without modifying base prompt.")
+        passed_tests += 1
+    except Exception as e:
