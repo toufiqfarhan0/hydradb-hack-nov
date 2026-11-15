@@ -142,3 +142,21 @@ TOOLS = [
         id="tool_pg_explain_analyze",
         name="pg_explain_query_plan",
         server_id="mcp_postgres",
+        description="Generates EXPLAIN (ANALYZE, BUFFERS) execution plan for suspect SQL query to identify seq scans",
+        parameters_schema={"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+        estimated_token_cost=460
+    ),
+    ToolNode(
+        id="tool_pg_terminate_pid",
+        name="pg_terminate_backend_pid",
+        server_id="mcp_postgres",
+        description="Gracefully cancels or kills stuck Postgres PID holding exclusive table locks",
+        parameters_schema={"type": "object", "properties": {"pid": {"type": "integer"}, "grace_seconds": {"type": "integer", "default": 5}}, "required": ["pid"]},
+        estimated_token_cost=390
+    ),
+    ToolNode(
+        id="tool_pg_pool_metrics",
+        name="pg_check_connection_pool",
+        server_id="mcp_postgres",
+        description="Queries PgBouncer or native connection pool utilization, idle timeouts, and waiting clients",
+        parameters_schema={"type": "object", "properties": {"pool_name": {"type": "string"}}},
