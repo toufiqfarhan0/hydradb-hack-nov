@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="800" height="360">
+  <rect width="800" height="360" fill="#0E1117" rx="6" />
+  
+  <rect x="30" y="25" width="12" height="12" fill="#D82C2C" />
+  <text x="50" y="35" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">NEGATIVE CONTROL ABLATION: PROVING TOPOLOGY IS LOAD-BEARING</text>
+  
+  <g transform="translate(60, 60)">
+    <line x1="0" y1="0" x2="680" y2="0" stroke="#30363D" stroke-width="1" stroke-dasharray="3,3" />
+    <text x="-10" y="4" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">100%</text>
+    <line x1="0" y1="105" x2="680" y2="105" stroke="#30363D" stroke-width="1" stroke-dasharray="3,3" />
+    <text x="-10" y="109" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">50%</text>
+    <line x1="0" y1="210" x2="680" y2="210" stroke="#8B949E" stroke-width="1.5" />
+    <text x="-10" y="214" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">0%</text>
+    
+    <!-- X Axis -->
+    <text x="60" y="235" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">0% (Intact)</text>
+    <text x="200" y="235" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">20% Edges Dropped</text>
+    <text x="360" y="235" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">40% Dropped</text>
+    <text x="500" y="235" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">60% Dropped</text>
+    <text x="640" y="235" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle">100% (No Edges)</text>
+    
+    <!-- Collapsing Curve -->
+    <polyline points="60,15 200,60 360,125 500,185 640,210" fill="none" stroke="#D82C2C" stroke-width="3" />
+    <circle cx="60" cy="15" r="5" fill="#D82C2C" />
+    <circle cx="200" cy="60" r="5" fill="#D82C2C" />
+    <circle cx="360" cy="125" r="5" fill="#D82C2C" />
+    <circle cx="500" cy="185" r="5" fill="#D82C2C" />
+    <circle cx="640" cy="210" r="5" fill="#D82C2C" />
+    
+    <text x="60" y="5" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold">93.3%</text>
+    <text x="200" y="50" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="10">71.4%</text>
+    <text x="360" y="115" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="10">40.2%</text>
+    <text x="500" y="175" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="10">12.1%</text>
+    <text x="640" y="200" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10">0.0%</text>
+  </g>
+  
+  <text x="60" y="335" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10">
+    Ablation assertion: As graph relationships are removed, recall collapses monotonically, confirming mathematical graph causation.
+  </text>
+</svg>

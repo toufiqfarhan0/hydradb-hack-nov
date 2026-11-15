@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1117" />
+      <stop offset="100%" stop-color="#161B22" />
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="420" fill="url(#bg-grad)" />
+  <rect width="1200" height="420" fill="url(#grid)" />
+  
+  <rect x="0" y="0" width="1200" height="5" fill="#D82C2C" />
+  
+  <rect x="80" y="55" width="12" height="12" fill="#D82C2C" />
+  <text x="102" y="66" fill="#D82C2C" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold" letter-spacing="2">TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</text>
+  
+  <text x="80" y="135" fill="#FFFFFF" font-family="'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-1">STOP PRELOADING.</text>
+  <text x="80" y="190" fill="#D82C2C" font-family="'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-1">TRAVERSE THE GRAPH.</text>
+  
+  <text x="80" y="240" fill="#C9D1D9" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="400">
+    Lucen is an active agent context store built on HydraDB. Sub-2ms OpenCypher traversals over SuiteSparse
+  </text>
+  <text x="80" y="265" fill="#8B949E" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="400">
+    GraphBLAS kernels isolate reachable MCP tools and pre-bind live infrastructure entities without prompt bloat.
+  </text>
+  
+  <line x1="80" y1="305" x2="1120" y2="305" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+  
+  <g transform="translate(80, 325)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11">CONTEXT REDUCTION</text>
+    <text x="0" y="42" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold">-99.6% (-271k TOK)</text>
+  </g>
+  
+  <g transform="translate(350, 325)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11">HOP LATENCY</text>
+    <text x="0" y="42" fill="#60A5FA" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold">1.8 ms (GRAPHBLAS)</text>
+  </g>
+  
+  <g transform="translate(620, 325)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11">HELD-OUT ACCURACY</text>
+    <text x="0" y="42" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold">93.3% (VS 26.7% VEC)</text>
+  </g>
+
+  <g transform="translate(890, 325)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11">TOPOLOGY SCALE</text>
+    <text x="0" y="42" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold">50 SRV · 500 TOOLS</text>
+  </g>
+</svg>

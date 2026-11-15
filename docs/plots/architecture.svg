@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" width="1100" height="620">
+  <rect width="1100" height="620" fill="#0E1117" />
+  
+  <rect x="0" y="0" width="1100" height="40" fill="#161B22" />
+  <rect x="25" y="14" width="12" height="12" fill="#D82C2C" />
+  <text x="45" y="24" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">LUCEN // 4-LAYER AGENT CONTEXT ARCHITECTURE</text>
+  <text x="1075" y="24" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="end">SUITESPARSE GRAPHBLAS 9.3 + SLATEDB</text>
+  
+  <!-- Layer 1 -->
+  <g transform="translate(40, 65)">
+    <rect width="1020" height="100" fill="#161B22" stroke="#30363D" stroke-width="1" />
+    <rect x="0" y="0" width="6" height="100" fill="#60A5FA" />
+    <text x="25" y="28" fill="#60A5FA" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">LAYER 1 // CLIENT INTERFACES &amp; MCP AGENT GATEWAY</text>
+    
+    <g transform="translate(25, 42)">
+      <rect width="300" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Next.js 15 Swiss Studio UI</text>
+      <text x="285" y="25" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">:3000</text>
+    </g>
+    <g transform="translate(345, 42)">
+      <rect width="320" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Standalone CLI Suite (lucen.py)</text>
+      <text x="305" y="25" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">CLI</text>
+    </g>
+    <g transform="translate(685, 42)">
+      <rect width="310" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">MCP Proxy Gateway (stdio/SSE)</text>
+      <text x="295" y="25" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">lucen://</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 1 to 2 -->
+  <line x1="550" y1="165" x2="550" y2="195" stroke="#D82C2C" stroke-width="2" stroke-dasharray="4,4" />
+  
+  <!-- Layer 2 -->
+  <g transform="translate(40, 195)">
+    <rect width="1020" height="100" fill="#161B22" stroke="#30363D" stroke-width="1" />
+    <rect x="0" y="0" width="6" height="100" fill="#FBBF24" />
+    <text x="25" y="28" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">LAYER 2 // CONTEXT BROKER &amp; DISPATCH PIPELINE</text>
+    
+    <g transform="translate(25, 42)">
+      <rect width="300" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Natural Language Intent Parser</text>
+    </g>
+    <g transform="translate(345, 42)">
+      <rect width="320" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">FastAPI Endpoints (/api/traverse)</text>
+      <text x="305" y="25" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">:8000</text>
+    </g>
+    <g transform="translate(685, 42)">
+      <rect width="310" height="42" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="25" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Dynamic PREFERS Edge Reweighter</text>
+      <text x="295" y="25" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">+0.15w</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 2 to 3 -->
+  <line x1="550" y1="295" x2="550" y2="325" stroke="#D82C2C" stroke-width="2" stroke-dasharray="4,4" />
+  
+  <!-- Layer 3 -->
+  <g transform="translate(40, 325)">
+    <rect width="1020" height="110" fill="#161B22" stroke="#30363D" stroke-width="1" />
+    <rect x="0" y="0" width="6" height="110" fill="#EF4444" />
+    <text x="25" y="28" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">LAYER 3 // GRAPHBLAS TRAVERSAL &amp; REACHABILITY ENGINE</text>
+    
+    <g transform="translate(25, 45)">
+      <rect width="300" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">SuiteSparse / SciPy CSR Kernel</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">Indexed Edge Inverted List</text>
+      <text x="285" y="30" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="end">1.8 ms</text>
+    </g>
+    <g transform="translate(345, 45)">
+      <rect width="320" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Multi-Hop Path Pruner</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">Eliminates 99.6% Irrelevant Tools</text>
+      <text x="305" y="30" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="end">2/500 Tools</text>
+    </g>
+    <g transform="translate(685, 45)">
+      <rect width="310" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">Runtime Entity Pre-Binding</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">Binds DB Hosts, War Rooms, PRs</text>
+      <text x="295" y="30" fill="#60A5FA" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="end">Zero RTT</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 3 to 4 -->
+  <line x1="550" y1="435" x2="550" y2="465" stroke="#D82C2C" stroke-width="2" stroke-dasharray="4,4" />
+  
+  <!-- Layer 4 -->
+  <g transform="translate(40, 465)">
+    <rect width="1020" height="110" fill="#161B22" stroke="#30363D" stroke-width="1" />
+    <rect x="0" y="0" width="6" height="110" fill="#34D399" />
+    <text x="25" y="28" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">LAYER 4 // HYDRADB KERNEL &amp; SLATEDB S3 OBJECT STORE</text>
+    
+    <g transform="translate(25, 45)">
+      <rect width="300" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">HydraDB OpenCypher Engine</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">MATCH (c)&lt;-[:PROVIDES]-(t)</text>
+      <text x="285" y="30" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">CYPHER</text>
+    </g>
+    <g transform="translate(345, 45)">
+      <rect width="320" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">SlateDB Embedded LSM-Tree</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">Immutable SSTs + WAL Storage</text>
+      <text x="305" y="30" fill="#60A5FA" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">LSM</text>
+    </g>
+    <g transform="translate(685, 45)">
+      <rect width="310" height="48" fill="#0E1117" stroke="#30363D" />
+      <text x="15" y="22" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11">MinIO S3 Compatible Object Store</text>
+      <text x="15" y="38" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">http://localhost:9000/hydra-store</text>
+      <text x="295" y="30" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="end">S3</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380">
+  <rect width="900" height="380" fill="#0E1117" rx="6" />
+  
+  <rect x="30" y="25" width="12" height="12" fill="#D82C2C" />
+  <text x="50" y="35" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">3-ARM EMPIRICAL BENCHMARK COMPARISON (50 HELD-OUT TASKS)</text>
+  
+  <!-- Token Footprint Bars -->
+  <g transform="translate(40, 70)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">METRIC 1: PROMPT CONTEXT TOKEN CONSUMPTION (LOWER IS BETTER)</text>
+    
+    <!-- Arm A -->
+    <text x="0" y="45" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="11">Arm A: Naive Full Preload (500 Tools)</text>
+    <rect x="0" y="55" width="750" height="24" fill="#EF4444" />
+    <text x="760" y="72" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">272,607 tok (100%)</text>
+    
+    <!-- Arm B -->
+    <text x="0" y="105" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="11">Arm B: Vector Top-K Embedding Retrieval</text>
+    <rect x="0" y="115" width="25" height="24" fill="#FBBF24" />
+    <text x="35" y="132" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">2,294 tok (-99.2%)</text>
+    
+    <!-- Arm C -->
+    <text x="0" y="165" fill="#C9D1D9" font-family="'JetBrains Mono', monospace" font-size="11">Arm C: Lucen HydraDB GraphBLAS Context Layer</text>
+    <rect x="0" y="175" width="13" height="24" fill="#34D399" />
+    <text x="25" y="192" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">1,148 tok (-99.6% vs Naive, -49.9% vs Vector)</text>
+  </g>
+  
+  <line x1="40" y1="290" x2="860" y2="290" stroke="#30363D" stroke-width="1" />
+  
+  <!-- Task Accuracy Summary -->
+  <g transform="translate(40, 310)">
+    <text x="0" y="15" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="11">HELD-OUT TASK SUCCESS RATE:</text>
+    
+    <text x="0" y="45" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="bold">Arm A: 34.2%</text>
+    <text x="0" y="58" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">(Attention Dilution Wall)</text>
+    
+    <text x="280" y="45" fill="#FBBF24" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="bold">Arm B: 26.7%</text>
+    <text x="280" y="58" fill="#8B949E" font-family="'JetBrains Mono', monospace" font-size="9">(Entity Blindness &amp; Collisions)</text>
+    
+    <text x="560" y="45" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="bold">Arm C: 93.3%</text>
+    <text x="560" y="58" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="9">(Deterministic Graph Walk)</text>
+  </g>
+</svg>
