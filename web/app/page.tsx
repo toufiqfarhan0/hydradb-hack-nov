@@ -1356,3 +1356,100 @@ VERIFICATION SUCCESSFUL: 5/5 CHECKS PASSED. EXIT CODE 0.`}
 
 CONTINUAL LEARNING FEEDBACK INGESTED
 ====================================================================
+  • Tool Node:       tool_pg_pool_metrics (pg_check_connection_pool)
+  • Capability:      cap_db_diagnostics
+  • Action:          REWARD (+0.15)
+  • Previous Weight: 1.85
+  • New Weight:      2.00
+  • GraphBLAS Edge:  (:Capability)-[:PREFERS {weight: 2.0}]->(:Tool)
+  • Model Accuracy:  98.4% -> 99.2% (+0.8%)
+====================================================================
+HydraDB memory edge updated atomically. No prompt changes required.`}
+                  </pre>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            08 // MCP REGISTRY & SCHEMA CATALOG MATRIX
+        ───────────────────────────────────────────────────────────── */}
+        <section id="registry" className="py-16 bg-white swiss-border-b">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider mb-2">
+              08 // INGESTED PROTOCOL SPEC
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+              Indexed MCP Server & Tool Registry
+            </h2>
+            <p className="text-sm text-[#1A1A1A]/80 max-w-2xl mt-1 mb-8">
+              Lucen ingests schemas across 8 production infrastructure servers. While naive agents choke under all 19 definitions at once, HydraDB dynamically isolates the exact subgraph needed.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-swiss-mono text-xs">
+              {[
+                { server: "PostgreSQL Inspector", id: "mcp_postgres", tools: 3, cost: "1,180 tok", domain: "Database Operations", badge: "Live Bounded", color: "text-[#60A5FA]" },
+                { server: "Slack Enterprise", id: "mcp_slack", tools: 2, cost: "890 tok", domain: "Incident Alerting", badge: "Live Bounded", color: "text-[#FBBF24]" },
+                { server: "GitHub Repo Mgr", id: "mcp_github", tools: 2, cost: "970 tok", domain: "Code Review & PRs", badge: "Ready", color: "text-[#EF4444]" },
+                { server: "Docker Runtime", id: "mcp_docker", tools: 2, cost: "960 tok", domain: "Container Lifecycle", badge: "Ready", color: "text-[#34D399]" },
+                { server: "AWS Cloud Ops", id: "mcp_aws", tools: 2, cost: "1,020 tok", domain: "Cloud Metrics & ECS", badge: "Ready", color: "text-[#A78BFA]" },
+                { server: "Sentry Telemetry", id: "mcp_sentry", tools: 2, cost: "840 tok", domain: "Stacktraces & Issues", badge: "Ready", color: "text-[#F472B6]" },
+                { server: "Redis Client", id: "mcp_redis", tools: 2, cost: "720 tok", domain: "Cache & Memory", badge: "Ready", color: "text-[#FB923C]" },
+                { server: "Datadog & Splunk", id: "mcp_datadog", tools: 4, cost: "1,820 tok", domain: "Log Aggregation", badge: "Ready", color: "text-[#38BDF8]" }
+              ].map(item => (
+                <div key={item.id} className="bg-white p-4 swiss-border shadow-sm flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="flex items-center justify-between text-[10px] text-[#A9B2B1] mb-1">
+                      <span>{item.id}</span>
+                      <span className="px-1.5 py-0.5 bg-gray-100 border border-gray-200 text-[#1A1A1A] font-semibold">{item.badge}</span>
+                    </div>
+                    <div className="font-bold text-sm text-[#1A1A1A]">{item.server}</div>
+                    <div className="text-[#A9B2B1] text-[11px] mt-0.5">{item.domain}</div>
+                  </div>
+                  <div className="pt-2 border-t border-[#E2E6E6] flex items-center justify-between text-[11px]">
+                    <span className="text-gray-500">{item.tools} Tools Indexed</span>
+                    <span className="font-bold text-[#D82C2C]">{item.cost}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─────────────────────────────────────────────────────────────
+            09 // BOTTOM SWISS MODERNIST CTA BLOCK (Q-FRAME / ETH STYLE)
+        ───────────────────────────────────────────────────────────── */}
+        <section className="bg-[#1A1A1A] text-white py-16 sm:py-20 swiss-border-t">
+          <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-block px-2.5 py-1 bg-[#D82C2C] text-white text-xs font-swiss-mono font-bold">
+                TRACK 02 // THE AGENT CONTEXT LAYER
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-swiss-display leading-tight">
+                DETERMINISTIC CONTEXT READINESS FOR AUTONOMOUS AGENTS.
+              </h2>
+              <p className="text-sm sm:text-base text-white/70 max-w-xl">
+                Engine authored from scratch, 100% passing test suites, and sub-2ms GraphBLAS traversal over SlateDB on S3.
+              </p>
+            </div>
+            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
+              <Link
+                href="/console"
+                className="btn-swiss-primary text-center px-6 py-4 text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                Launch Context Console &rarr;
+              </Link>
+              <Link
+                href="/blog"
+                className="btn-swiss-secondary border-white text-white hover:bg-white hover:text-[#1A1A1A] text-center px-6 py-4 text-xs font-bold uppercase tracking-wider cursor-pointer"
+              >
+                Read Technical Paper &rarr;
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
