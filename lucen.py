@@ -215,3 +215,34 @@ def cmd_verify(args, engine: HydraDBContextEngine):
         print(f"{RED}[FAIL]{RESET}")
 
     print("=" * 68)
+    if passed == total:
+        print(f"{GREEN}{BOLD}VERIFICATION SUCCESSFUL: {passed}/{total} CHECKS PASSED. EXIT CODE 0.{RESET}\n")
+        sys.exit(0)
+    else:
+        print(f"{RED}{BOLD}VERIFICATION FAILED: {passed}/{total} CHECKS PASSED. EXIT CODE 1.{RESET}\n")
+        sys.exit(1)
+
+def cmd_feedback(args, engine: HydraDBContextEngine):
+    tool_id = args.tool
+    success = not args.failure
+    res = engine.record_feedback(FeedbackRequest(tool_id=tool_id, success=success, task="CLI execution"))
+    if args.json:
+        print(json.dumps(res, indent=2))
+        return
+
+    print_banner()
+    if res.get("status") == "success":
+        print(f"{GREEN}{BOLD}✔ FEEDBACK RECORDED IN HYDRADB{RESET}")
+        print(f"  • Tool ID:             {res['tool_id']}")
+        print(f"  • Reward Delta:        {GREEN}{res['reward']}{RESET}")
+        print(f"  • Updated PREFERS:     {res['updated_edges']}")
+        print(f"  • Cumulative Accuracy: {CYAN}{BOLD}{res['current_accuracy_pct']}%{RESET}")
+    else:
+        print(f"{RED}Error: {res.get('error', 'Unknown error')}{RESET}")
+
+def cmd_serve(args):
+    import uvicorn
+    port = args.port or 8000
+    host = args.host or "127.0.0.1"
+    print_banner()
+    print(f"{BOLD}Starting Lucen Web Server on http://{host}:{port}{RESET}")
