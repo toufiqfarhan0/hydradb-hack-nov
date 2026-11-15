@@ -516,7 +516,7 @@ For an enterprise team of 100 engineers executing 20,000 agent queries per day a
 
 Lucen features a production Next.js 15 web studio running at `http://localhost:3000` and `http://localhost:3000/console`:
 
-<img src="assets/console-preview.png" alt="Interactive HydraDB GraphBLAS Matrix Viewer" width="100%" />
+[![Interactive HydraDB GraphBLAS Matrix Viewer](assets/matrix-viewer-live.png)](assets/matrix-viewer-live.png)
 
 *Live view of the 4-tier GraphBLAS context resolution canvas: MCP Servers (Blue), Capabilities (Yellow), Isolated Tools (Red), and Bound Entities (Emerald) connected via OpenCypher active paths.*
 
@@ -587,7 +587,8 @@ hydradb-hack-nov/
 │   ├── fig-recall.svg               # Held-out tool recall curves
 │   ├── fig-latency.svg              # Hop latency vs graph density
 │   ├── fig-negative-control.svg     # Causal edge ablation curve
-│   └── console-preview.png          # Real running visualizer screenshot
+│   ├── console-preview.png          # Real running visualizer screenshot
+│   └── matrix-viewer-live.png       # High-fidelity 4-tier Matrix Viewer screenshot
 ├── backend/                         # Core HydraDB & GraphBLAS Engine
 │   ├── hydradb_engine.py            # SuiteSparse GraphBLAS kernel & Cypher traverser
 │   ├── baseline_retriever.py        # Vector embedding Top-K retrieval baseline

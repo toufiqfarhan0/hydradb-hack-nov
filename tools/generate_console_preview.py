@@ -197,7 +197,9 @@ draw.text((170, HEIGHT - 54), "MATCH (c:Capability WHERE c.id IN [...]) MATCH (t
 draw.rectangle([(WIDTH - 380, HEIGHT - 58), (WIDTH - 20, HEIGHT - 30)], fill="#1F2937", outline="#374151")
 draw.text((WIDTH - 368, HEIGHT - 51), "CONTEXT: 1,214 TOKENS (-99.6%)  ·  2 TOOLS  ·  2 BOUND ENTITIES", fill="#34D399", font=f_badge)
 
-# Save high-res PNG
-output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "console-preview.png")
-im.save(output_path, "PNG", optimize=True)
-print(f"SUCCESS: Generated {output_path} ({os.path.getsize(output_path):,} bytes)")
+# Save high-res PNG to all asset targets (ensuring cache-busting for GitHub)
+assets_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets")
+for filename in ["console-preview.png", "matrix-viewer-live.png", "graphblas-matrix-viewer.png"]:
+    out_p = os.path.join(assets_dir, filename)
+    im.save(out_p, "PNG", optimize=True)
+    print(f"SUCCESS: Generated {out_p} ({os.path.getsize(out_p):,} bytes)")
