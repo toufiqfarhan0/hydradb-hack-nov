@@ -9,6 +9,7 @@ import time
 import httpx
 import numpy as np
 import scipy.sparse as sp
+from collections import defaultdict
 from typing import Dict, List, Any, Optional, Tuple, Set
 
 from backend.models import (
@@ -68,8 +69,17 @@ class HydraDBContextEngine:
         self.idx_to_node = {i: nid for i, nid in enumerate(self.all_node_ids)}
         self.num_nodes = len(self.all_node_ids)
 
+        self.edges_by_source = defaultdict(list)
+        self.edges_by_target = defaultdict(list)
+        self.edges_by_rel_target = defaultdict(list)
+        self.edges_by_rel_source = defaultdict(list)
+
         rows, cols, data = [], [], []
         for edge in self.edges:
+            self.edges_by_source[edge.source].append(edge)
+            self.edges_by_target[edge.target].append(edge)
+            self.edges_by_rel_target[(edge.relation, edge.target)].append(edge)
+            self.edges_by_rel_source[(edge.relation, edge.source)].append(edge)
             if edge.source in self.node_to_idx and edge.target in self.node_to_idx:
                 r = self.node_to_idx[edge.source]
                 c = self.node_to_idx[edge.target]
@@ -205,23 +215,22 @@ LIMIT $top_k"""
         # 1-Hop GraphBLAS matrix vector multiplication: v1 = v0 @ A (Capabilities -> Tools via PREFERS)
         v1 = v0 @ self.adj_matrix
 
-        # Extract tools with non-zero reachability scores
+        # Extract tools with non-zero reachability scores using indexed edges
         candidate_tools: Dict[str, float] = {}
-        for edge in self.edges:
-            if edge.relation == "PROVIDES" and edge.target in matched_caps:
+        for cid in matched_caps:
+            for edge in self.edges_by_rel_target.get(("PROVIDES", cid), []):
                 t_id = edge.source
-                w = self.edge_weights.get((t_id, edge.target, "PROVIDES"), edge.weight)
-                pref_w = self.edge_weights.get((edge.target, t_id, "PREFERS"), 1.0)
+                w = self.edge_weights.get((t_id, cid, "PROVIDES"), edge.weight)
+                pref_w = self.edge_weights.get((cid, t_id, "PREFERS"), 1.0)
                 score = w * pref_w
                 candidate_tools[t_id] = max(candidate_tools.get(t_id, 0.0), score)
 
         # Chained tools: Check if any candidate tool has CHAINED_TO target
         for t_id in list(candidate_tools.keys()):
-            for edge in self.edges:
-                if edge.source == t_id and edge.relation == "CHAINED_TO":
-                    target_tool = edge.target
-                    if target_tool in self.tools:
-                        candidate_tools[target_tool] = candidate_tools.get(target_tool, 0.0) + 1.2
+            for edge in self.edges_by_rel_source.get(("CHAINED_TO", t_id), []):
+                target_tool = edge.target
+                if target_tool in self.tools:
+                    candidate_tools[target_tool] = candidate_tools.get(target_tool, 0.0) + 1.2
 
         # Sort candidate tools by highest score
         sorted_tools = sorted(candidate_tools.items(), key=lambda x: x[1], reverse=True)[:req.top_k_tools]
@@ -245,8 +254,8 @@ LIMIT $top_k"""
                 c = self.capabilities[c_id]
                 subgraph_nodes.append({"id": c.id, "label": c.name, "type": "Capability"})
 
-        for edge in self.edges:
-            if edge.source in selected_tool_ids and edge.relation in ("REQUIRES_ENTITY", "RESOLVES_ENTITY"):
+        for t_id in selected_tool_ids:
+            for edge in self.edges_by_rel_source.get(("REQUIRES_ENTITY", t_id), []) + self.edges_by_rel_source.get(("RESOLVES_ENTITY", t_id), []):
                 e_id = edge.target
                 if e_id in self.entities:
                     e_obj = self.entities[e_id]
@@ -255,11 +264,14 @@ LIMIT $top_k"""
                         subgraph_nodes.append({"id": e_obj.id, "label": e_obj.name, "type": "Entity", "properties": e_obj.properties})
                     subgraph_edges.append({"source": edge.source, "target": edge.target, "relation": edge.relation})
 
-            if edge.source in selected_tool_ids and edge.relation == "PROVIDES" and edge.target in matched_caps:
-                subgraph_edges.append({"source": edge.source, "target": edge.target, "relation": edge.relation})
-            
-            if edge.source in matched_caps and edge.relation == "PREFERS" and edge.target in selected_tool_ids:
-                subgraph_edges.append({"source": edge.source, "target": edge.target, "relation": "PREFERS", "weight": self.edge_weights.get((edge.source, edge.target, "PREFERS"), edge.weight)})
+            for edge in self.edges_by_rel_source.get(("PROVIDES", t_id), []):
+                if edge.target in matched_caps:
+                    subgraph_edges.append({"source": edge.source, "target": edge.target, "relation": edge.relation})
+
+        for c_id in matched_caps:
+            for edge in self.edges_by_rel_source.get(("PREFERS", c_id), []):
+                if edge.target in selected_tool_ids:
+                    subgraph_edges.append({"source": edge.source, "target": edge.target, "relation": "PREFERS", "weight": self.edge_weights.get((edge.source, edge.target, "PREFERS"), edge.weight)})
 
         # Real Token Economics against 500-tool catalog
         total_tools_tokens = sum(t.estimated_token_cost for t in self.tools.values())
