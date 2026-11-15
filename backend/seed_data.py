@@ -196,3 +196,21 @@ TOOLS = [
         server_id="mcp_github",
         description="Opens hotfix PR against main branch with changelog description and reviewer assignment",
         parameters_schema={"type": "object", "properties": {"repo": {"type": "string"}, "branch": {"type": "string"}, "title": {"type": "string"}, "body": {"type": "string"}}, "required": ["repo", "branch", "title"]},
+        estimated_token_cost=510
+    ),
+    ToolNode(
+        id="tool_gh_get_diff",
+        name="github_inspect_commit_diff",
+        server_id="mcp_github",
+        description="Fetches raw git diff of target commit or branch to isolate introduced code regression",
+        parameters_schema={"type": "object", "properties": {"repo": {"type": "string"}, "ref": {"type": "string"}}, "required": ["repo", "ref"]},
+        estimated_token_cost=450
+    ),
+    ToolNode(
+        id="tool_gh_merge_pr",
+        name="github_merge_pull_request",
+        server_id="mcp_github",
+        description="Triggers auto-merge (squash or rebase) once all CI checks and approvals pass",
+        parameters_schema={"type": "object", "properties": {"repo": {"type": "string"}, "pr_number": {"type": "integer"}}, "required": ["repo", "pr_number"]},
+        estimated_token_cost=420
+    ),
