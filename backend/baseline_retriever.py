@@ -1,17 +1,18 @@
 """
-Embedding-Based Top-K Semantic Retriever Baseline
-Simulates production vector embedding retrieval (e.g., text-embedding-3-small / BM25)
-over 500 MCP tool descriptions to compare against HydraDB GraphBLAS multi-hop traversal.
+BM25 / TF-IDF Vector Retriever Baseline with Query Decomposition & Learned Score Boosting
+Provides an honest, hardened semantic search baseline modeled on production tool search
+systems (e.g., LangChain / LlamaIndex / Claude Tool Search) over 500 MCP tools.
 """
 import math
 import re
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple, Any, Optional
 from backend.models import ToolNode
 
 class VectorEmbeddingRetriever:
     """
     Computes TF-IDF vector embeddings and cosine similarity across 500 MCP tools.
-    Provides standard semantic search baseline used by LangChain / LlamaIndex / Claude Tool Search.
+    Supports query decomposition (sub-query splitting) and dynamic learned score boosting
+    to provide the strongest possible non-graph baseline for empirical comparison.
     """
     def __init__(self, tools: List[ToolNode]):
         self.tools = {t.id: t for t in tools}
@@ -19,6 +20,7 @@ class VectorEmbeddingRetriever:
         self.vocab: Dict[str, int] = {}
         self.idf: Dict[str, float] = {}
         self.doc_vectors: Dict[str, Dict[str, float]] = {}
+        self.learned_boosts: Dict[str, float] = {}
         self._build_index()
 
     def _tokenize(self, text: str) -> List[str]:
@@ -56,11 +58,13 @@ class VectorEmbeddingRetriever:
             norm = math.sqrt(norm_sq) or 1.0
             self.doc_vectors[t.id] = {tok: v / norm for tok, v in vec.items()}
 
-    def retrieve_top_k(self, query: str, k: int = 4) -> List[Tuple[ToolNode, float]]:
-        """Compute cosine similarity between query and all tools, return top k."""
-        q_tokens = self._tokenize(query)
+    def apply_feedback_boost(self, tool_id: str, boost: float):
+        """Allow vector retriever to learn from feedback via score multipliers."""
+        self.learned_boosts[tool_id] = self.learned_boosts.get(tool_id, 1.0) * boost
+
+    def _score_query(self, q_tokens: List[str], with_boost: bool = False) -> List[Tuple[ToolNode, float]]:
         if not q_tokens:
-            return [(self.tool_list[i], 0.0) for i in range(min(k, len(self.tool_list)))]
+            return [(t, 0.0) for t in self.tool_list]
 
         q_tf: Dict[str, float] = {}
         for tok in q_tokens:
@@ -81,7 +85,48 @@ class VectorEmbeddingRetriever:
             for tok, q_val in norm_q_vec.items():
                 if tok in d_vec:
                     sim += q_val * d_vec[tok]
+            
+            if with_boost:
+                sim *= self.learned_boosts.get(t_id, 1.0)
+
             scores.append((self.tools[t_id], sim))
 
         scores.sort(key=lambda x: x[1], reverse=True)
-        return scores[:k]
+        return scores
+
+    def retrieve_top_k(
+        self,
+        query: str,
+        k: int = 4,
+        decompose: bool = False,
+        with_boost: bool = False
+    ) -> List[Tuple[ToolNode, float]]:
+        """
+        Compute top-k tool retrieval.
+        - decompose=True: splits compound multi-intent prompts into sub-clauses and pools top matches.
+        - with_boost=True: applies learned preference multipliers to show learned vector behavior.
+        """
+        if not decompose:
+            q_tokens = self._tokenize(query)
+            return self._score_query(q_tokens, with_boost=with_boost)[:k]
+
+        # Decompose composite prompt into sub-clauses (e.g. "and", "then", punctuation)
+        clauses = [c.strip() for c in re.split(r'[,;.\n]|\band\b|\bthen\b|\bwhile\b', query, flags=re.IGNORECASE) if len(c.strip()) > 3]
+        if not clauses:
+            clauses = [query]
+
+        pooled_scores: Dict[str, float] = {}
+        for clause in clauses:
+            q_toks = self._tokenize(clause)
+            if not q_toks:
+                continue
+            sub_scores = self._score_query(q_toks, with_boost=with_boost)[:max(k // len(clauses) + 2, 2)]
+            for tool, score in sub_scores:
+                pooled_scores[tool.id] = max(pooled_scores.get(tool.id, 0.0), score)
+
+        sorted_tools = sorted(
+            [(self.tools[tid], s) for tid, s in pooled_scores.items()],
+            key=lambda x: x[1],
+            reverse=True
+        )
+        return sorted_tools[:k]
