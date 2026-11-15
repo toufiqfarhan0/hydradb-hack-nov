@@ -22,3 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+engine = HydraDBContextEngine()
+
+@app.get("/api/health")
+async def health():
+    return await engine.check_health()
+
+@app.get("/api/graph/stats")
+async def get_graph_stats():
