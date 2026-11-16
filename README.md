@@ -4,6 +4,7 @@
 
 &nbsp;
 
+[![Loom Walkthrough](https://img.shields.io/badge/Loom_Walkthrough-Watch_Video-E11D48?style=flat-square&logo=loom)](https://www.loom.com/share/8a1e8acca20a4df0ac7aeb4af0857972)
 [![HydraDB Verify](https://img.shields.io/badge/HydraDB_Verify-5%2F5_Passed-10b981?style=flat-square)](https://github.com/toufiqfarhan0/hydradb-hack-nov)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-0033A0.svg?style=flat-square)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab?style=flat-square)](https://www.python.org/)
@@ -14,7 +15,7 @@
 
 **Why serialize 272,000+ tokens of Model Context Protocol (MCP) schemas into every system prompt when you can traverse the graph in 1.8 milliseconds?**
 
-[ Judge Lucen in 90 Seconds ](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [ Submission Answers ](docs/SUBMISSION.md) &nbsp;·&nbsp; [ Architecture ](#architecture) &nbsp;·&nbsp; [ Empirical Numbers ](#the-numbers) &nbsp;·&nbsp; [ Go-To-Market ](#go-to-market-strategy--commercial-adoption) &nbsp;·&nbsp; [ Documentation Suite ](#technical-documentation-suite)
+[ Loom Video Walkthrough ](https://www.loom.com/share/8a1e8acca20a4df0ac7aeb4af0857972) &nbsp;·&nbsp; [ Live Hosted App ](https://lucen-app.onrender.com) &nbsp;·&nbsp; [ Judge Lucen in 90 Seconds ](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [ Submission Answers ](docs/SUBMISSION.md) &nbsp;·&nbsp; [ Architecture ](#architecture) &nbsp;·&nbsp; [ Empirical Numbers ](#the-numbers) &nbsp;·&nbsp; [ Go-To-Market ](#go-to-market-strategy--commercial-adoption)
 
 </div>
 
@@ -47,7 +48,9 @@ The standard industry workaround—**Vector Embedding Top-K Search**—fails on 
 
 ## Judge Lucen in 90 Seconds
 
-**Local Interactive Application: `http://localhost:3000`** — Next.js 15 Swiss Modernist UI, standalone `/console` studio with live Gemini agent execution, `/docs` technical documentation, `/blog` research paper, and a live FastAPI traversal service backed by HydraDB, SuiteSparse GraphBLAS, and SlateDB on MinIO S3.
+**Loom Video Walkthrough: [https://www.loom.com/share/8a1e8acca20a4df0ac7aeb4af0857972](https://www.loom.com/share/8a1e8acca20a4df0ac7aeb4af0857972)**
+
+**Live Hosted Application: [https://lucen-app.onrender.com](https://lucen-app.onrender.com)**
 
 Five empirical measurements, all reproducible from this repository:
 

@@ -1,5 +1,9 @@
 # HydraDB Hackathon Submission: Lucen (Track 2: Agent Context Layer)
 
+- Loom Walkthrough: https://www.loom.com/share/8a1e8acca20a4df0ac7aeb4af0857972
+- Live Hosted App: https://lucen-app.onrender.com
+- GitHub Repo: https://github.com/toufiqfarhan0/hydradb-hack-nov
+
 This document contains the exact copy-paste submissions for the HydraDB Hackathon submission form, along with technical references and verifiable commands.
 
 ---
