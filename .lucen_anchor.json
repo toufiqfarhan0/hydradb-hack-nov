@@ -1,0 +1,8 @@
+{
+  "checkpoint_id": 6,
+  "timestamp": "2026-11-16T06:50:00Z",
+  "anchored_entry_id": 11585,
+  "anchored_head_hash": "0b8c5b574f0348df62dd932fcb4317207c72c1520fbabeb4c356c2916e1cfa5d",
+  "external_anchor_type": "IMMUTABLE_S3_OBJECT_LOCK + L2_SOLANA_ANCHOR",
+  "external_receipt": "0x9e3950341d9d14763cf9364624173d10368b667a7c85f11398be010ebe040f7d"
+}

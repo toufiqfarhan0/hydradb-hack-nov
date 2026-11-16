@@ -42,7 +42,7 @@ def run_e2e_tests():
     print("=" * 65)
     
     passed_tests = 0
-    total_tests = 11
+    total_tests = 13
 
     # 1. Health & Storage Backend Test
     log_header("1. Health & HydraDB SlateDB/MinIO Storage Engine")
@@ -297,6 +297,56 @@ def run_e2e_tests():
         print(f"  • Recovery Latency:    {fallback['traversal_latency_ms']} ms")
         print(f"  • Cypher Pattern:      {fallback['cypher_query']}")
         print("  => PASS: Autonomous failover routing verified with zero agent re-querying.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 12. Zero-Trust Security Perimeter & Tamper Audit (/api/security/audit)
+    log_header("12. Zero-Trust Security Perimeter & Schema SHA-256 Tamper Audit")
+    try:
+        audit = get_json("/api/security/audit")
+        assert audit["tamper_verified"] is True, "Expected tamper verification to pass"
+        assert audit["destructive_tools_identified"] > 0, "Expected destructive tools to be identified"
+        assert audit["secret_handles_configured"] > 0, "Expected secret handles to be configured"
+        assert audit["policy_status"] == "ENFORCED_ZERO_TRUST"
+
+        # Verify environment sandboxing prunes destructive tools
+        trav = post_json("/api/traverse", {
+            "task": "Drop database table and delete files",
+            "environment": "production",
+            "allow_destructive": False
+        })
+        assert len(trav["pruned_for_security"]) > 0, "Expected destructive tools to be pruned in production"
+        assert trav["security_enforced"] is True
+
+        print(f"  • Tools Audited:       {audit['total_tools_audited']} tools")
+        print(f"  • Destructive Blocked: {audit['destructive_tools_identified']} tools isolated")
+        print(f"  • Secret Handles:      {audit['secret_handles_configured']} references bound")
+        print(f"  • Tamper Verified:     {audit['tamper_verified']} (Zero unverified tools)")
+        print(f"  • Production Pruned:   {len(trav['pruned_for_security'])} tools physically blocked in prod")
+        print(f"  • Policy Status:       {audit['policy_status']}")
+        print("  => PASS: Zero-Trust Security Perimeter and schema tamper verification confirmed.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 13. Real MCP Server Dynamic Auto-Ingestion (/api/ingest/demo)
+    log_header("13. Real-World Model Context Protocol (MCP) Dynamic Auto-Ingestion")
+    try:
+        ingest = get_json("/api/ingest/demo")
+        assert ingest["status"] == "success"
+        assert ingest["servers_ingested"] >= 4
+        assert ingest["tools_ingested"] >= 10
+        assert ingest["schema_hashes_registered"] >= 10
+
+        print(f"  • Ingest Status:       {ingest['status'].upper()}")
+        print(f"  • Servers Ingested:    {ingest['servers_ingested']} ({', '.join(ingest['server_names'])})")
+        print(f"  • Tools Ingested:      {ingest['tools_ingested']} real tools")
+        print(f"  • Hashes Registered:   {ingest['schema_hashes_registered']} SHA-256 signatures")
+        print(f"  • Ingest Latency:      {ingest['ingest_latency_ms']} ms")
+        print("  => PASS: Real-world MCP server dynamic ingestion verified.")
         passed_tests += 1
     except Exception as e:
         print(f"  => FAIL: {e}")

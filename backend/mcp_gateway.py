@@ -99,6 +99,44 @@ def handle_tools_list(msg_id: Any) -> Dict[str, Any]:
             }
         },
         {
+            "name": "lucen_expand",
+            "description": (
+                "Escape hatch: If candidate tools appear insufficient, widens context to 1-hop "
+                "and 2-hop adjacent tools via [:CHAINED_TO] workflows and shared capabilities."
+            ),
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "tools": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of current tool IDs to expand from"
+                    },
+                    "task": {
+                        "type": "string",
+                        "description": "Optional task context for relevance scoring"
+                    }
+                },
+                "required": ["tools"]
+            }
+        },
+        {
+            "name": "lucen_blast_radius",
+            "description": (
+                "Compute operational dependency impact and blast radius before executing a tool."
+            ),
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "tool": {
+                        "type": "string",
+                        "description": "Tool name or ID to analyze"
+                    }
+                },
+                "required": ["tool"]
+            }
+        },
+        {
             "name": "pg_check_connection_pool",
             "description": (
                 "Inspect PostgreSQL database connection pool utilization, idle timeouts, and waiting clients. "
@@ -176,20 +214,120 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
     name = params.get("name")
     args = params.get("arguments", {})
     engine_served_by = "hydradb_cluster" if engine.connected_live else "local_csr"
+    active_env = os.environ.get("LUCEN_ENVIRONMENT", "production")
+    mode = os.environ.get("LUCEN_MODE", "enforce")  # 'enforce' or 'shadow'
+
+    # 1. Call-Time Zero-Trust Enforcement: Deny destructive/blocked tools even if directly invoked
+    if name not in ("lucen_find_tools", "lucen_record_feedback", "lucen_expand", "lucen_blast_radius"):
+        tool_node = engine.tools.get(f"tool_{name}") or next((t for t in engine.tools.values() if t.name == name), None)
+        if tool_node:
+            if active_env not in tool_node.allowed_environments or (tool_node.destructive and active_env == "production"):
+                from backend.audit_trail import append_audit_entry
+                append_audit_entry(
+                    task=f"Direct Execution Attempt: {name}",
+                    tool_called=name,
+                    environment=active_env,
+                    verdict="SHADOW_ALERT" if mode == "shadow" else "BLOCKED",
+                    details={"reason": f"Tool '{name}' is blocked by Lucen Zero-Trust policy in environment '{active_env}'"}
+                )
+                if mode != "shadow":
+                    return {
+                        "jsonrpc": "2.0",
+                        "id": msg_id,
+                        "error": {
+                            "code": -32001,
+                            "message": f"PERMISSION_DENIED: Tool '{name}' is blocked by Lucen Zero-Trust policy in environment '{active_env}'. Execution halted."
+                        }
+                    }
+
+        # 2. Deep Argument-Level Inspection (AST & Pattern Checking for SQL, Paths, Shell)
+        from backend.argument_guard import inspect_tool_arguments
+        arg_check = inspect_tool_arguments(name, args, active_env)
+        if not arg_check.allowed:
+            from backend.audit_trail import append_audit_entry
+            append_audit_entry(
+                task=f"Argument Attack Attempt: {name}",
+                tool_called=name,
+                environment=active_env,
+                verdict="SHADOW_ALERT" if mode == "shadow" else "BLOCKED",
+                details={"violation": arg_check.violation_type, "reason": arg_check.reason}
+            )
+            if mode != "shadow":
+                return {
+                    "jsonrpc": "2.0",
+                    "id": msg_id,
+                    "error": {
+                        "code": -32002,
+                        "message": f"PERMISSION_DENIED: {arg_check.reason}"
+                    }
+                }
+
+        # 3. Session Taint Tracking & Exfiltration Protection
+        session_id = os.environ.get("LUCEN_SESSION_ID", "default_agent_session")
+        if tool_node:
+            session = engine.session_taints[session_id]
+            # Only confidential customer data taints the session (operational telemetry does not)
+            if tool_node.reads_private_data:
+                session["is_tainted"] = True
+                session["taint_type"] = "CONFIDENTIAL_CUSTOMER_DATA"
+                session["sources"].append(tool_node.name)
+
+            # Destination Whitelisting: Approved internal war rooms vs untrusted public sinks
+            target_dest = str(args.get("channel_id", "") or args.get("channel", "") or args.get("url", "")).lower()
+            is_approved_internal_sink = any(app_sink in target_dest for app_sink in ["incident", "war-room", "c08a91kl2", "internal", "ops"])
+
+            if tool_node.external_facing and session["is_tainted"]:
+                # If target is an approved internal war-room channel and action is operational bulletin, allow it
+                if is_approved_internal_sink and "bulletin" in tool_node.name:
+                    pass
+                else:
+                    allow_exfil = os.environ.get("LUCEN_ALLOW_EXFILTRATION", "false").lower() == "true"
+                    if not allow_exfil:
+                        from backend.audit_trail import append_audit_entry
+                        reason = (
+                            f"Data exfiltration blocked: Session tainted by [{', '.join(session['sources'][:2])}] "
+                            f"attempted to transmit data to unapproved sink '{target_dest or name}' without human approval"
+                        )
+                        append_audit_entry(
+                            task=f"Exfiltration Attempt: {name}",
+                            tool_called=name,
+                            environment=active_env,
+                            verdict="SHADOW_ALERT" if mode == "shadow" else "BLOCKED",
+                            details={"violation": "DATA_FLOW_EXFILTRATION", "reason": reason}
+                        )
+                        if mode != "shadow":
+                            return {
+                                "jsonrpc": "2.0",
+                                "id": msg_id,
+                                "error": {
+                                    "code": -32003,
+                                    "message": f"PERMISSION_DENIED: {reason}"
+                                }
+                            }
+
 
     if name == "lucen_find_tools":
         task = args.get("task", "")
         top_k = args.get("top_k", 4)
-        res = engine.traverse(TraversalRequest(task=task, top_k_tools=top_k))
+        env = args.get("environment", "production")
+        allow_destructive = args.get("allow_destructive", False)
+        res = engine.traverse(TraversalRequest(task=task, top_k_tools=top_k, environment=env, allow_destructive=allow_destructive))
         
         output_payload = {
             "engine_served_by": engine_served_by,
+            "environment": env,
+            "security_perimeter_active": True,
+            "pruned_for_security": res.pruned_for_security,
             "selected_tools": [
                 {
                     "id": t.id,
                     "name": t.name,
                     "server": t.server_id,
                     "description": t.description,
+                    "mutating": t.mutating,
+                    "destructive": t.destructive,
+                    "schema_hash": t.schema_hash,
+                    "secret_handles": t.secret_handles,
                     "estimated_tokens": t.estimated_token_cost
                 }
                 for t in res.selected_tools
@@ -240,6 +378,64 @@ def handle_tools_call(msg_id: Any, params: Dict[str, Any], engine: HydraDBContex
                 ]
             }
         }
+
+    elif name == "lucen_expand":
+        from backend.models import ExpandRequest
+        seed_tools = args.get("tools", [])
+        task = args.get("task", "")
+        exp_res = engine.expand_tools(ExpandRequest(current_tools=seed_tools, task_context=task))
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "original_tools": exp_res.original_tools,
+                            "expanded_tools": [
+                                {
+                                    "id": t.id,
+                                    "name": t.name,
+                                    "server": t.server_id,
+                                    "description": t.description
+                                }
+                                for t in exp_res.expanded_tools
+                            ],
+                            "rationale": exp_res.expansion_rationale,
+                            "expansion_latency_ms": exp_res.expansion_latency_ms
+                        }, indent=2)
+                    }
+                ]
+            }
+        }
+
+    elif name == "lucen_blast_radius":
+        tool_target = args.get("tool", "")
+        blast = engine.get_blast_radius(tool_target)
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "tool_id": blast.tool_id,
+                            "tool_name": blast.tool_name,
+                            "action_type": blast.action_type,
+                            "risk_level": blast.risk_level,
+                            "requires_human_approval": blast.requires_human_approval,
+                            "impacted_services": blast.impacted_services,
+                            "data_assets_at_risk": blast.data_assets_at_risk,
+                            "dependent_tools_count": len(blast.dependent_tools_affected),
+                            "blast_summary": blast.blast_summary
+                        }, indent=2)
+                    }
+                ]
+            }
+        }
+
 
     elif name == "pg_check_connection_pool":
         host = args.get("host", "pg-cluster-prod.internal:5432")

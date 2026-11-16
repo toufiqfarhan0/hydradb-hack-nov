@@ -79,10 +79,28 @@ python lucen.py pipeline "Production Postgres connection pool exhausted"
 # 6. Execute self-healing graph failover routing (:FALLBACK_TO)
 python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused
 
-# 7. Execute 11/11 live integration tests against Next.js & HydraDB
+# 7. Execute 13/13 live integration tests against Next.js & HydraDB
 python eval/live_e2e_test.py
 
-# 8. Run live autonomous agent with Google Gemini & HydraDB context
+# 8. Run 12-vector adversarial Red-Team benchmark (Naive MCP vs Lucen Governed Gateway)
+python eval/redteam_benchmark.py
+
+# 9. Interactive 'Try to break it' security challenge (SQL injection, path traversal, exfiltration)
+python lucen.py challenge
+
+# 10. Compute operational blast radius & dependency impact for high-risk tools
+python lucen.py blast tool_pg_kill_idle_in_transaction
+
+# 11. Verify cryptographic hash-chained audit ledger & anchored checkpoint
+python lucen.py audit
+
+# 12. Run policy replay simulation across historical audit ledger
+python lucen.py replay
+
+# 13. Stream real-time agent decision feed
+python lucen.py feed --limit 10
+
+# 14. Run live autonomous agent with Google Gemini & HydraDB context
 python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 ```
 

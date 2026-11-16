@@ -8,7 +8,11 @@ from typing import Optional, Dict, Any, List
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from backend.models import TraversalRequest, TraversalResult, FeedbackRequest, FallbackRequest
+from backend.models import (
+    TraversalRequest, TraversalResult, FeedbackRequest, FallbackRequest,
+    SecurityAuditResult, IngestRequest, IngestResult,
+    BlastRadiusResult, ExpandRequest, ExpandResult
+)
 from backend.hydradb_engine import HydraDBContextEngine
 from tools.gemini_agent import build_gemini_declarations, execute_tool_call, call_gemini
 
@@ -68,6 +72,33 @@ async def traverse_graph(req: TraversalRequest):
 @app.post("/api/feedback")
 async def post_feedback(req: FeedbackRequest):
     return engine.record_feedback(req)
+
+@app.get("/api/security/audit", response_model=SecurityAuditResult)
+async def get_security_audit():
+    """Run full security perimeter, schema integrity, and prompt injection audit."""
+    try:
+        return engine.audit_security()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/ingest", response_model=IngestResult)
+async def ingest_mcp(req: IngestRequest):
+    """Dynamically ingest real-world MCP servers into the HydraDB property graph."""
+    try:
+        if req.config_path:
+            return engine.ingest_mcp_servers(config_path=req.config_path)
+        else:
+            return engine.ingest_mcp_servers(use_official_suite=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/ingest/demo", response_model=IngestResult)
+async def ingest_demo_mcp():
+    """Mount official MCP reference suite (PostgreSQL, GitHub, Slack, Filesystem)."""
+    try:
+        return engine.ingest_mcp_servers(use_official_suite=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 class PipelineRequest(BaseModel):
     task: str
@@ -229,6 +260,31 @@ async def run_gemini_agent_endpoint(req: GeminiAgentRunRequest):
             "llm_lat_ms": llm_lat_ms,
             "response_text": text_resp
         }
+
+@app.get("/api/blast-radius")
+async def get_blast_radius(tool: str) -> BlastRadiusResult:
+    """Calculate blast radius and operational dependency impact for a tool."""
+    return engine.get_blast_radius(tool)
+
+@app.post("/api/expand")
+async def expand_tools(req: ExpandRequest) -> ExpandResult:
+    """Escape hatch: Widen to adjacent graph tools if model needs more context."""
+    return engine.expand_tools(req)
+
+@app.get("/api/feed")
+async def get_decision_feed(limit: int = 25):
+    """Live decision stream for real-time dashboard display."""
+    from backend.audit_trail import get_recent_audit_entries
+    return {
+        "status": "online",
+        "decisions": get_recent_audit_entries(limit)
+    }
+
+@app.get("/api/policy/replay")
+async def get_policy_replay():
+    """Simulate policy evaluation impact across historical audit logs."""
+    from backend.policy_replay import run_policy_replay
+    return run_policy_replay()
 
 @app.get("/")
 async def root():

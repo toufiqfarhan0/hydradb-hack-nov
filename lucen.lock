@@ -1,0 +1,3007 @@
+{
+  "version": "1.0",
+  "algorithm": "sha256",
+  "tools_count": 500,
+  "pinned_tools": {
+    "pg_explain_slow_query": {
+      "id": "tool_pg_explain_slow_query",
+      "server": "mcp_postgres",
+      "sha256": "9687b74df3d95b3c5ec886748eb4c5e97e818c0733160693942b62a100200252",
+      "status": "verified"
+    },
+    "pg_inspect_table_bloat": {
+      "id": "tool_pg_inspect_table_bloat",
+      "server": "mcp_postgres",
+      "sha256": "4a5e23d1fc11f4150ad69f8ebb45091a4ec72b4b7f55604eb8d6bcc96518a076",
+      "status": "verified"
+    },
+    "pg_check_connection_pool": {
+      "id": "tool_pg_check_connection_pool",
+      "server": "mcp_postgres",
+      "sha256": "9ea93818eba9c5fb162c7d344cb6e759ea5720a9add0f836feb98947d3ad8f2e",
+      "status": "verified"
+    },
+    "postgres_stream_logs": {
+      "id": "tool_postgres_stream_logs",
+      "server": "mcp_postgres",
+      "sha256": "e3acb068271bbcc48d30a98af3a16396dedaa53f8debe21ae5d2cba9d28c5dce",
+      "status": "verified"
+    },
+    "postgres_trigger_restart": {
+      "id": "tool_postgres_trigger_restart",
+      "server": "mcp_postgres",
+      "sha256": "c8046c93a8ba14df6df67a513496591f3ef8e48dfb82599d8b2dad48911bbe28",
+      "status": "verified"
+    },
+    "postgres_execute_rebalance": {
+      "id": "tool_postgres_execute_rebalance",
+      "server": "mcp_postgres",
+      "sha256": "e292266849f9c0fdf0858391df773dff97b3e8241fbc670a8a16b8cb8929c6b5",
+      "status": "verified"
+    },
+    "pg_kill_idle_in_transaction": {
+      "id": "tool_pg_kill_idle_in_transaction",
+      "server": "mcp_postgres",
+      "sha256": "f326c1e9a66444cdfee79b9ba43241c0fce9e6b834f645e9059f827316e612e1",
+      "status": "verified"
+    },
+    "postgres_verify_configuration": {
+      "id": "tool_postgres_verify_configuration",
+      "server": "mcp_postgres",
+      "sha256": "397ee6a986b5e0f46f70bfbb8df3f3648f2527291dd42c1c546f14a03c24368e",
+      "status": "verified"
+    },
+    "postgres_dispatch_alert": {
+      "id": "tool_postgres_dispatch_alert",
+      "server": "mcp_postgres",
+      "sha256": "b63d23c85947ba6acc06bdabd0c038e7b33f5dded177aff6ec0b069d1976762f",
+      "status": "verified"
+    },
+    "postgres_generate_diagnostic_report": {
+      "id": "tool_postgres_generate_diagnostic_report",
+      "server": "mcp_postgres",
+      "sha256": "ed209abab8c4eb74a806d86c68269b2f0fc510d582c50b98c5c125b0de9ce63e",
+      "status": "verified"
+    },
+    "mysql_inspect_health": {
+      "id": "tool_mysql_inspect_health",
+      "server": "mcp_mysql",
+      "sha256": "0a754af2098f72dca8b9296258e1c18e4e788c9788e59f9e83137f1f81e66be2",
+      "status": "verified"
+    },
+    "mysql_fetch_metrics": {
+      "id": "tool_mysql_fetch_metrics",
+      "server": "mcp_mysql",
+      "sha256": "af8ebd982439c5e34935c6a0be20119e74761d4c881c5c7e38a0184b2b3b0605",
+      "status": "verified"
+    },
+    "mysql_check_connection_pool": {
+      "id": "tool_mysql_check_connection_pool",
+      "server": "mcp_mysql",
+      "sha256": "ef5dd40d7f2c74f6e47bb938002a706b1cbb3ad3599ff50a1c1b7beefb4e3a35",
+      "status": "verified"
+    },
+    "mysql_stream_logs": {
+      "id": "tool_mysql_stream_logs",
+      "server": "mcp_mysql",
+      "sha256": "07cdab6193fa24c32da3832be097b52d82311d32302c886c0638e09219087023",
+      "status": "verified"
+    },
+    "mysql_trigger_restart": {
+      "id": "tool_mysql_trigger_restart",
+      "server": "mcp_mysql",
+      "sha256": "08e9f87071d7738a1f82e2fe3ca75ce053ab130a4d49b1e1204c3a66b396b4f4",
+      "status": "verified"
+    },
+    "mysql_execute_rebalance": {
+      "id": "tool_mysql_execute_rebalance",
+      "server": "mcp_mysql",
+      "sha256": "e1f0a894e4bcb16ab5e22babe4ca20167ec3ec4b8199a9622c76320e178d2b60",
+      "status": "verified"
+    },
+    "mysql_drain_traffic": {
+      "id": "tool_mysql_drain_traffic",
+      "server": "mcp_mysql",
+      "sha256": "b6537ff9c03b9bcab07bbe8ef633eb31c9d6f08c4788074f4dfe642e51774296",
+      "status": "verified"
+    },
+    "mysql_verify_configuration": {
+      "id": "tool_mysql_verify_configuration",
+      "server": "mcp_mysql",
+      "sha256": "e2926f8548b27641428ef4d84920476abd781de4194ae100d68e489c2a22c1a9",
+      "status": "verified"
+    },
+    "mysql_dispatch_alert": {
+      "id": "tool_mysql_dispatch_alert",
+      "server": "mcp_mysql",
+      "sha256": "49c1b86dec538fdcf1e877444c72fbed17595732c0cfb8711126ca2b9a6e59ba",
+      "status": "verified"
+    },
+    "mysql_generate_diagnostic_report": {
+      "id": "tool_mysql_generate_diagnostic_report",
+      "server": "mcp_mysql",
+      "sha256": "c4f40857832b4e947d2a9a6e3a025550fb7f3e86f312db03a4c915945e876710",
+      "status": "verified"
+    },
+    "redis_inspect_health": {
+      "id": "tool_redis_inspect_health",
+      "server": "mcp_redis",
+      "sha256": "575323900b32ff72022915fedb7053b097c92469e2ce26271a462834be524361",
+      "status": "verified"
+    },
+    "redis_inspect_eviction_spikes": {
+      "id": "tool_redis_inspect_eviction_spikes",
+      "server": "mcp_redis",
+      "sha256": "0826d733107e3004ae4086c77121aeffbd263f4cdf540618af3d9e2396bfc222",
+      "status": "verified"
+    },
+    "redis_check_connection_pool": {
+      "id": "tool_redis_check_connection_pool",
+      "server": "mcp_redis",
+      "sha256": "546779fbf0c4854022e5472fee7d78f79c7437071c6a7f6e4030219860053935",
+      "status": "verified"
+    },
+    "redis_stream_logs": {
+      "id": "tool_redis_stream_logs",
+      "server": "mcp_redis",
+      "sha256": "63726b6e45fdc6f865c04844ca3b8b08e3c06003e1297c7f6f778a099defca61",
+      "status": "verified"
+    },
+    "redis_trigger_restart": {
+      "id": "tool_redis_trigger_restart",
+      "server": "mcp_redis",
+      "sha256": "ee8f8e310696724756f18cf68988c6be09abde6da295bcad3a3904507d1d9fda",
+      "status": "verified"
+    },
+    "redis_execute_rebalance": {
+      "id": "tool_redis_execute_rebalance",
+      "server": "mcp_redis",
+      "sha256": "bc8620e23fc1b331e2111c93af85757049b32ca2156e9df3931dcdfa48dfa85e",
+      "status": "verified"
+    },
+    "redis_drain_traffic": {
+      "id": "tool_redis_drain_traffic",
+      "server": "mcp_redis",
+      "sha256": "ee8faeb2d82a412ab569ad5eec6ab1c908a6c36d3025f68911d5c9c28939a853",
+      "status": "verified"
+    },
+    "redis_verify_configuration": {
+      "id": "tool_redis_verify_configuration",
+      "server": "mcp_redis",
+      "sha256": "9d541a767068ea170eab44d1cf353baaf7dbb99f1e69ba6b9572b1fddbb53cd6",
+      "status": "verified"
+    },
+    "redis_dispatch_alert": {
+      "id": "tool_redis_dispatch_alert",
+      "server": "mcp_redis",
+      "sha256": "bdf3c8d0ca1048983a566d638c237ff12b4a1ad4c0d909eb191ef7ed792d3d7d",
+      "status": "verified"
+    },
+    "redis_generate_diagnostic_report": {
+      "id": "tool_redis_generate_diagnostic_report",
+      "server": "mcp_redis",
+      "sha256": "e39a08b038ad9933dc1e418c837593254f672055449c71edf9cb394c1862490a",
+      "status": "verified"
+    },
+    "clickhouse_inspect_health": {
+      "id": "tool_clickhouse_inspect_health",
+      "server": "mcp_clickhouse",
+      "sha256": "2f4abd247087cda57c781a5051b49ddc2e60b874c0e4c01960d76f614e229d60",
+      "status": "verified"
+    },
+    "clickhouse_fetch_metrics": {
+      "id": "tool_clickhouse_fetch_metrics",
+      "server": "mcp_clickhouse",
+      "sha256": "c38eeff3b6290cbf39c764dd119170ac6eb505712b9df7c490b94712cf3e6533",
+      "status": "verified"
+    },
+    "clickhouse_check_connection_pool": {
+      "id": "tool_clickhouse_check_connection_pool",
+      "server": "mcp_clickhouse",
+      "sha256": "e59c5157a513579a45a998475ce38f746cd86da895e05a4e9355b2f7d6969859",
+      "status": "verified"
+    },
+    "clickhouse_stream_logs": {
+      "id": "tool_clickhouse_stream_logs",
+      "server": "mcp_clickhouse",
+      "sha256": "d02f416da9a147c43f39d496aaf03649ed28ba6368643c9bfa841b21932daef5",
+      "status": "verified"
+    },
+    "clickhouse_trigger_restart": {
+      "id": "tool_clickhouse_trigger_restart",
+      "server": "mcp_clickhouse",
+      "sha256": "65a30b8e6474e0c865b8e51ae742462a42f0e98475eafaba9002f466a3355701",
+      "status": "verified"
+    },
+    "clickhouse_execute_rebalance": {
+      "id": "tool_clickhouse_execute_rebalance",
+      "server": "mcp_clickhouse",
+      "sha256": "567df9d19956b7307a92b36c96eeb6f297c4e1624ca7c9afde7d17793369aecd",
+      "status": "verified"
+    },
+    "clickhouse_drain_traffic": {
+      "id": "tool_clickhouse_drain_traffic",
+      "server": "mcp_clickhouse",
+      "sha256": "396e09bad061d23a8a2b744212b329703e3067578cd2171ee512a8a246af6b16",
+      "status": "verified"
+    },
+    "clickhouse_verify_configuration": {
+      "id": "tool_clickhouse_verify_configuration",
+      "server": "mcp_clickhouse",
+      "sha256": "488ec689f4c06596fec08329b7ab566bbf6b617b359c65347561ea8a39aaebaf",
+      "status": "verified"
+    },
+    "clickhouse_dispatch_alert": {
+      "id": "tool_clickhouse_dispatch_alert",
+      "server": "mcp_clickhouse",
+      "sha256": "dcbef15d2abcdc42a553231670c3e14fabe703c98f20a03c20f92fa53b19d12c",
+      "status": "verified"
+    },
+    "clickhouse_generate_diagnostic_report": {
+      "id": "tool_clickhouse_generate_diagnostic_report",
+      "server": "mcp_clickhouse",
+      "sha256": "e562b053475bcf20e37ee4d0d5cb3e94ca44ef89b1633a338761f6f2e6c8769e",
+      "status": "verified"
+    },
+    "snowflake_inspect_health": {
+      "id": "tool_snowflake_inspect_health",
+      "server": "mcp_snowflake",
+      "sha256": "c4b7390225c12caf98ae1df00aa7ca5c10092ca7be115aca4196efa93deab17f",
+      "status": "verified"
+    },
+    "snowflake_fetch_metrics": {
+      "id": "tool_snowflake_fetch_metrics",
+      "server": "mcp_snowflake",
+      "sha256": "b24393af47f3296414821308df4f76b2e8a9e97a307091a191904983e0fed12f",
+      "status": "verified"
+    },
+    "snowflake_check_connection_pool": {
+      "id": "tool_snowflake_check_connection_pool",
+      "server": "mcp_snowflake",
+      "sha256": "cb3337a54c6405624b4f8b0a9bd50a533ac0c916bf5bbbc05ba6f16fd205084c",
+      "status": "verified"
+    },
+    "snowflake_stream_logs": {
+      "id": "tool_snowflake_stream_logs",
+      "server": "mcp_snowflake",
+      "sha256": "4675634fb349fdf78d35d7550462fdbc7293f89be47bcfa4a02d69247612dd0f",
+      "status": "verified"
+    },
+    "snowflake_trigger_restart": {
+      "id": "tool_snowflake_trigger_restart",
+      "server": "mcp_snowflake",
+      "sha256": "c676c4177b7aca50d2a29d87b544f37609e0985fae925493a35f584652b5f725",
+      "status": "verified"
+    },
+    "snowflake_execute_rebalance": {
+      "id": "tool_snowflake_execute_rebalance",
+      "server": "mcp_snowflake",
+      "sha256": "69e341895461631dd5c4585641289971644fb1c9ed648a8f2a362234d330e380",
+      "status": "verified"
+    },
+    "snowflake_drain_traffic": {
+      "id": "tool_snowflake_drain_traffic",
+      "server": "mcp_snowflake",
+      "sha256": "4fdef96ea71e7b92158b6b5f3b0d1b58e8e735b356e6e3401489d51a16c84d30",
+      "status": "verified"
+    },
+    "snowflake_verify_configuration": {
+      "id": "tool_snowflake_verify_configuration",
+      "server": "mcp_snowflake",
+      "sha256": "2eeed888ec4002faaa5ba39ceb1b98dd4b4562e0b30875e5d8deaba5fdc640ac",
+      "status": "verified"
+    },
+    "snowflake_dispatch_alert": {
+      "id": "tool_snowflake_dispatch_alert",
+      "server": "mcp_snowflake",
+      "sha256": "cd0c6fc7481439d7bfa568bedd0cdb9ed3931560039a3214f6f21bdeb6b8a6e1",
+      "status": "verified"
+    },
+    "snowflake_generate_diagnostic_report": {
+      "id": "tool_snowflake_generate_diagnostic_report",
+      "server": "mcp_snowflake",
+      "sha256": "6b317183508d6b4ad473d4a528ac29d5d66fe1698ea87929a9a85e8c4b133c6e",
+      "status": "verified"
+    },
+    "bigquery_inspect_health": {
+      "id": "tool_bigquery_inspect_health",
+      "server": "mcp_bigquery",
+      "sha256": "51c59e05ce2884279dfd4b5db5a7387d98a7369c62a6da7e2e0e58cbef59e169",
+      "status": "verified"
+    },
+    "bigquery_fetch_metrics": {
+      "id": "tool_bigquery_fetch_metrics",
+      "server": "mcp_bigquery",
+      "sha256": "2dcfd3ff88202271e96350ce6aadf1d197a6c971decf651840970597468dbbd8",
+      "status": "verified"
+    },
+    "bigquery_check_connection_pool": {
+      "id": "tool_bigquery_check_connection_pool",
+      "server": "mcp_bigquery",
+      "sha256": "7de63ca53bc54865123188070ca88aad533d7f540a1ca7734c2214a8af24aefd",
+      "status": "verified"
+    },
+    "bigquery_stream_logs": {
+      "id": "tool_bigquery_stream_logs",
+      "server": "mcp_bigquery",
+      "sha256": "1f34ec4dddda564c6fe953f9c85a5d0064e8b06bcc752c201d78e8f21dc7ed66",
+      "status": "verified"
+    },
+    "bigquery_trigger_restart": {
+      "id": "tool_bigquery_trigger_restart",
+      "server": "mcp_bigquery",
+      "sha256": "1d181cec023114a1da2d2275f653bd346218bdbdd2886beb22645750d5964a18",
+      "status": "verified"
+    },
+    "bigquery_execute_rebalance": {
+      "id": "tool_bigquery_execute_rebalance",
+      "server": "mcp_bigquery",
+      "sha256": "6a5a48751b853ff41e49a0fdc551a6eb8ddc6cacd8ac192e4143938d1461e91c",
+      "status": "verified"
+    },
+    "bigquery_drain_traffic": {
+      "id": "tool_bigquery_drain_traffic",
+      "server": "mcp_bigquery",
+      "sha256": "14b1cba0d1c7423154239893a885752c3c1b4d474c770e32939b3eb19a0d1b01",
+      "status": "verified"
+    },
+    "bigquery_verify_configuration": {
+      "id": "tool_bigquery_verify_configuration",
+      "server": "mcp_bigquery",
+      "sha256": "c31c90ef26b56ebf602de40d8e031223f849fdf17feeddd326997c3c2c9a6f4e",
+      "status": "verified"
+    },
+    "bigquery_dispatch_alert": {
+      "id": "tool_bigquery_dispatch_alert",
+      "server": "mcp_bigquery",
+      "sha256": "93547686859a78805722e3e7d02be031344e3439fedb9613d904f76946229d58",
+      "status": "verified"
+    },
+    "bigquery_generate_diagnostic_report": {
+      "id": "tool_bigquery_generate_diagnostic_report",
+      "server": "mcp_bigquery",
+      "sha256": "228095ab1a45473fb766d82f33678163307c74ef634e69acdfde998cd4de4942",
+      "status": "verified"
+    },
+    "mongodb_inspect_health": {
+      "id": "tool_mongodb_inspect_health",
+      "server": "mcp_mongodb",
+      "sha256": "7c2317ce6af8927fe5f691c75adcbc03adacb4aa97903cef2e26fb6ad8100b1a",
+      "status": "verified"
+    },
+    "mongodb_fetch_metrics": {
+      "id": "tool_mongodb_fetch_metrics",
+      "server": "mcp_mongodb",
+      "sha256": "05b604a0adff552dfb1f6f461b58ca89894e69349afa1e704774b43456627134",
+      "status": "verified"
+    },
+    "mongodb_check_connection_pool": {
+      "id": "tool_mongodb_check_connection_pool",
+      "server": "mcp_mongodb",
+      "sha256": "adfe6b3fae9bc23e34e3142ad89ed2d45d54bf975adf2dab82fec6cce7b83857",
+      "status": "verified"
+    },
+    "mongodb_stream_logs": {
+      "id": "tool_mongodb_stream_logs",
+      "server": "mcp_mongodb",
+      "sha256": "90ae72d2d410f5d20c5d4d0f2f3e983cfc69140ea294e203329f82ade7e99159",
+      "status": "verified"
+    },
+    "mongodb_trigger_restart": {
+      "id": "tool_mongodb_trigger_restart",
+      "server": "mcp_mongodb",
+      "sha256": "e548923319492e4363ed250c47318f3cf162c38cc9f6a4950d090ca234994a7d",
+      "status": "verified"
+    },
+    "mongodb_execute_rebalance": {
+      "id": "tool_mongodb_execute_rebalance",
+      "server": "mcp_mongodb",
+      "sha256": "444e4b6265e2ac4e6b43441b228f5c65b079f24f64aeaff904348f8f85739f89",
+      "status": "verified"
+    },
+    "mongodb_drain_traffic": {
+      "id": "tool_mongodb_drain_traffic",
+      "server": "mcp_mongodb",
+      "sha256": "261c0be97d20c58c0d39b109d6ccf1e0728a9cd388e4ddcfb7efbb85e241f5e2",
+      "status": "verified"
+    },
+    "mongodb_verify_configuration": {
+      "id": "tool_mongodb_verify_configuration",
+      "server": "mcp_mongodb",
+      "sha256": "b8797985161bc0b70312469aea46b8829ee09d34bbe4c8c0353274d0a34aa45b",
+      "status": "verified"
+    },
+    "mongodb_dispatch_alert": {
+      "id": "tool_mongodb_dispatch_alert",
+      "server": "mcp_mongodb",
+      "sha256": "ca5bde8b4a0b0f864f5e80b98a2e112d5bf5c235fef76b80265c4c50b5068d2f",
+      "status": "verified"
+    },
+    "mongodb_generate_diagnostic_report": {
+      "id": "tool_mongodb_generate_diagnostic_report",
+      "server": "mcp_mongodb",
+      "sha256": "2f692c81e1ae1cc1eee72c44cbf1b94fc97292b14ae8b4387ae15c9cad8e42e4",
+      "status": "verified"
+    },
+    "elasticsearch_inspect_health": {
+      "id": "tool_elasticsearch_inspect_health",
+      "server": "mcp_elasticsearch",
+      "sha256": "3ea80e4baccd4db135a5a1850a02a9cd76ff33e5aa0fd1ffe6c8c282118b35cc",
+      "status": "verified"
+    },
+    "elasticsearch_fetch_metrics": {
+      "id": "tool_elasticsearch_fetch_metrics",
+      "server": "mcp_elasticsearch",
+      "sha256": "e7a80cac7621f06efb3990958a03cf338e1a28a3f68e5791137bf92eb018fee0",
+      "status": "verified"
+    },
+    "elasticsearch_check_connection_pool": {
+      "id": "tool_elasticsearch_check_connection_pool",
+      "server": "mcp_elasticsearch",
+      "sha256": "a3dcf81b98f0bd3e7f8527f52c6cad82aac978fb99c16e4eecc801ed265869ff",
+      "status": "verified"
+    },
+    "elasticsearch_stream_logs": {
+      "id": "tool_elasticsearch_stream_logs",
+      "server": "mcp_elasticsearch",
+      "sha256": "e9e917bb54b8d5a4f371ca51a0d6c139b5eef6e504b24a3fca464fcc6c13845a",
+      "status": "verified"
+    },
+    "elasticsearch_trigger_restart": {
+      "id": "tool_elasticsearch_trigger_restart",
+      "server": "mcp_elasticsearch",
+      "sha256": "3b02e3fe4b35eefe9aeb20bad076ba7ea75cb10f1231e9178d2114b4c249e0c1",
+      "status": "verified"
+    },
+    "elasticsearch_execute_rebalance": {
+      "id": "tool_elasticsearch_execute_rebalance",
+      "server": "mcp_elasticsearch",
+      "sha256": "e203d278506ae391c43bdd7ec54c9bb7683fc1828dc7745c2ba9ececda514a62",
+      "status": "verified"
+    },
+    "elasticsearch_drain_traffic": {
+      "id": "tool_elasticsearch_drain_traffic",
+      "server": "mcp_elasticsearch",
+      "sha256": "e420be2bbd67999ae1a0d341acafbc502341428f26433d21a87c0da2a7582ed5",
+      "status": "verified"
+    },
+    "elasticsearch_verify_configuration": {
+      "id": "tool_elasticsearch_verify_configuration",
+      "server": "mcp_elasticsearch",
+      "sha256": "7dc08a5d885687cce2c501ec3519c9f2c0a9397661858b9df1d6914014ced837",
+      "status": "verified"
+    },
+    "elasticsearch_dispatch_alert": {
+      "id": "tool_elasticsearch_dispatch_alert",
+      "server": "mcp_elasticsearch",
+      "sha256": "47accdd016ee7517eae49d4fac540f623b6274267449f2d80cf189834354b619",
+      "status": "verified"
+    },
+    "elasticsearch_generate_diagnostic_report": {
+      "id": "tool_elasticsearch_generate_diagnostic_report",
+      "server": "mcp_elasticsearch",
+      "sha256": "45e0af2e3d846456f718823e751f6fdfeab4f8a9494e1d1fa76bded67b539f6f",
+      "status": "verified"
+    },
+    "kafka_inspect_health": {
+      "id": "tool_kafka_inspect_health",
+      "server": "mcp_kafka",
+      "sha256": "47c776e493bf85f78fa7e362d5b957e3ae58c8af282cccebc823293e09e25411",
+      "status": "verified"
+    },
+    "kafka_fetch_metrics": {
+      "id": "tool_kafka_fetch_metrics",
+      "server": "mcp_kafka",
+      "sha256": "6fcf28607e1d62934b2f2c4608f68cd0eaec070dbc0ac3052710dcd367a5f15e",
+      "status": "verified"
+    },
+    "kafka_check_connection_pool": {
+      "id": "tool_kafka_check_connection_pool",
+      "server": "mcp_kafka",
+      "sha256": "4e574484c4c0facef221373378bb11fe159a9d75712179a77d7b7702d142fc9c",
+      "status": "verified"
+    },
+    "kafka_stream_logs": {
+      "id": "tool_kafka_stream_logs",
+      "server": "mcp_kafka",
+      "sha256": "6503e30cfc2c926c552a6842c414e05616357a700a234474971306b68f250e84",
+      "status": "verified"
+    },
+    "kafka_trigger_restart": {
+      "id": "tool_kafka_trigger_restart",
+      "server": "mcp_kafka",
+      "sha256": "6e1aa0122aaca75b1d84c55d923a86eb629af1c584e6db60d8ce24d4423032ae",
+      "status": "verified"
+    },
+    "kafka_execute_rebalance": {
+      "id": "tool_kafka_execute_rebalance",
+      "server": "mcp_kafka",
+      "sha256": "7e57210982a82dcfb5112d1ac91b7510431619c245b18a93748949734680500a",
+      "status": "verified"
+    },
+    "kafka_drain_traffic": {
+      "id": "tool_kafka_drain_traffic",
+      "server": "mcp_kafka",
+      "sha256": "4237e136bc3b7dddcd56eed6e9a00cfccb082a1b8f80f2de6c862df6991d6633",
+      "status": "verified"
+    },
+    "kafka_verify_configuration": {
+      "id": "tool_kafka_verify_configuration",
+      "server": "mcp_kafka",
+      "sha256": "a15aecec2ea7433fd81cc1afa56c851b8bcb465926a27a34caa784664161effa",
+      "status": "verified"
+    },
+    "kafka_dispatch_alert": {
+      "id": "tool_kafka_dispatch_alert",
+      "server": "mcp_kafka",
+      "sha256": "4f63bb3e3733d0b4f474be5d75db387e05ec58dcf6daad7883e86e1e5e291712",
+      "status": "verified"
+    },
+    "kafka_generate_diagnostic_report": {
+      "id": "tool_kafka_generate_diagnostic_report",
+      "server": "mcp_kafka",
+      "sha256": "2e7c609355aa10fe1915eb2f914e18152789648a2e133e66dd49f0302677e3d5",
+      "status": "verified"
+    },
+    "rabbitmq_inspect_health": {
+      "id": "tool_rabbitmq_inspect_health",
+      "server": "mcp_rabbitmq",
+      "sha256": "b3e2e1802dfca0fb36bb6676225ea1101d590a150468d658749a00e85f638ad2",
+      "status": "verified"
+    },
+    "rabbitmq_fetch_metrics": {
+      "id": "tool_rabbitmq_fetch_metrics",
+      "server": "mcp_rabbitmq",
+      "sha256": "ddbc1066a30ccdc0a9ddd4ee847ccb9e83fd7da8deb8b780b44c4939d0af5116",
+      "status": "verified"
+    },
+    "rabbitmq_check_connection_pool": {
+      "id": "tool_rabbitmq_check_connection_pool",
+      "server": "mcp_rabbitmq",
+      "sha256": "1363cf12168e7d4ce3971736159112cb2b6701c4b2b02d59d1fed3f6e43d2506",
+      "status": "verified"
+    },
+    "rabbitmq_stream_logs": {
+      "id": "tool_rabbitmq_stream_logs",
+      "server": "mcp_rabbitmq",
+      "sha256": "59041ab6dede2826c42fa030f794c54915529838fbd2f31953e89f9584fe5a89",
+      "status": "verified"
+    },
+    "rabbitmq_trigger_restart": {
+      "id": "tool_rabbitmq_trigger_restart",
+      "server": "mcp_rabbitmq",
+      "sha256": "f5dbd23ee78765a63c8d297d18654ea181d5b8aa476eb3a61042173835fbfee8",
+      "status": "verified"
+    },
+    "rabbitmq_execute_rebalance": {
+      "id": "tool_rabbitmq_execute_rebalance",
+      "server": "mcp_rabbitmq",
+      "sha256": "2bdf23f30997d2a474d613f98d8048c7590a2eb56b86e15b1d7f31096abc8592",
+      "status": "verified"
+    },
+    "rabbitmq_drain_traffic": {
+      "id": "tool_rabbitmq_drain_traffic",
+      "server": "mcp_rabbitmq",
+      "sha256": "44417a98fba4289f42d3e1e6209d0018f6841a18de8e6c3d8d2d23cdc224ef75",
+      "status": "verified"
+    },
+    "rabbitmq_verify_configuration": {
+      "id": "tool_rabbitmq_verify_configuration",
+      "server": "mcp_rabbitmq",
+      "sha256": "7bd583fe4ca888bee6de556233446fbbb471cc377cfcec7ff6e536bdfe77a7d6",
+      "status": "verified"
+    },
+    "rabbitmq_dispatch_alert": {
+      "id": "tool_rabbitmq_dispatch_alert",
+      "server": "mcp_rabbitmq",
+      "sha256": "493bb9650d15931745ffe197c6a3fe7e22b0ddf70bb9025385347f48bff478e0",
+      "status": "verified"
+    },
+    "rabbitmq_generate_diagnostic_report": {
+      "id": "tool_rabbitmq_generate_diagnostic_report",
+      "server": "mcp_rabbitmq",
+      "sha256": "05636987a159586e08d8c9cd03bdf4cd3cf8e9296e122b6514a0a6ff98b9fd40",
+      "status": "verified"
+    },
+    "aws_inspect_health": {
+      "id": "tool_aws_inspect_health",
+      "server": "mcp_aws",
+      "sha256": "e1ae07717582cdfe6df119a8c556b675b0afbeeb2b88896519ff424fc0841989",
+      "status": "verified"
+    },
+    "aws_fetch_metrics": {
+      "id": "tool_aws_fetch_metrics",
+      "server": "mcp_aws",
+      "sha256": "737d9797c31658a3a80437eabfa34aae39481ec27e0ea3781c88fb7c4ca2c755",
+      "status": "verified"
+    },
+    "aws_check_connection_pool": {
+      "id": "tool_aws_check_connection_pool",
+      "server": "mcp_aws",
+      "sha256": "a46e0c5998b0cbd863c613a6ae200a202700d0ba39ebb168b3f66a0592991814",
+      "status": "verified"
+    },
+    "aws_stream_logs": {
+      "id": "tool_aws_stream_logs",
+      "server": "mcp_aws",
+      "sha256": "1a81a1c3557db220114ed757bb7b0bbf89c318640d2a4f7af1bcb17addadb616",
+      "status": "verified"
+    },
+    "aws_trigger_restart": {
+      "id": "tool_aws_trigger_restart",
+      "server": "mcp_aws",
+      "sha256": "915c3b50559fac582f857eebb5b7bddd329b6650b94e5f596f5225b508ebc1a6",
+      "status": "verified"
+    },
+    "aws_execute_rebalance": {
+      "id": "tool_aws_execute_rebalance",
+      "server": "mcp_aws",
+      "sha256": "c23062fb6d6918998a92402c8327303425acea57bd4682f0461d5329e675976d",
+      "status": "verified"
+    },
+    "aws_drain_traffic": {
+      "id": "tool_aws_drain_traffic",
+      "server": "mcp_aws",
+      "sha256": "b918560515cfe4e9cfca8789c67d1e0f08fa2dc14db3b9d4d03b29d186f28a46",
+      "status": "verified"
+    },
+    "aws_verify_configuration": {
+      "id": "tool_aws_verify_configuration",
+      "server": "mcp_aws",
+      "sha256": "da6abd568cc1d1127aee807486e1d4513480374d409dcf8d3701d25c75b134e3",
+      "status": "verified"
+    },
+    "aws_dispatch_alert": {
+      "id": "tool_aws_dispatch_alert",
+      "server": "mcp_aws",
+      "sha256": "0976edbd22b43e498dd7703978ae46cf32121efdc11eb2613fae0703b15f7699",
+      "status": "verified"
+    },
+    "aws_generate_diagnostic_report": {
+      "id": "tool_aws_generate_diagnostic_report",
+      "server": "mcp_aws",
+      "sha256": "cb2a2e0bbc65d728b64c18987503ec546bb403f79b708aafbd527bb7f0238581",
+      "status": "verified"
+    },
+    "aws_rds_inspect_health": {
+      "id": "tool_aws_rds_inspect_health",
+      "server": "mcp_aws_rds",
+      "sha256": "42dd6c1824ba37908672c1d270ecd894e1b31f07a2e07bca9c0fef8d446a1517",
+      "status": "verified"
+    },
+    "aws_fetch_rds_metrics": {
+      "id": "tool_aws_fetch_rds_metrics",
+      "server": "mcp_aws_rds",
+      "sha256": "8585436a530ce1b02450e75f122672125c53948d4a7147bf05a78474f9b8204e",
+      "status": "verified"
+    },
+    "aws_rds_check_connection_pool": {
+      "id": "tool_aws_rds_check_connection_pool",
+      "server": "mcp_aws_rds",
+      "sha256": "db62f10d57210d895a4e31f6016b55d1ae549fbaf813d90169246009dfb37af6",
+      "status": "verified"
+    },
+    "aws_rds_stream_logs": {
+      "id": "tool_aws_rds_stream_logs",
+      "server": "mcp_aws_rds",
+      "sha256": "035826dade82d94ff242cb61add9afcb04a26d12520762edb180530e24edbeaf",
+      "status": "verified"
+    },
+    "aws_rds_trigger_restart": {
+      "id": "tool_aws_rds_trigger_restart",
+      "server": "mcp_aws_rds",
+      "sha256": "ea63488a00b75df31fc1d62274534f3be0b2287d37a75b7899250f77818fe43d",
+      "status": "verified"
+    },
+    "aws_rds_execute_rebalance": {
+      "id": "tool_aws_rds_execute_rebalance",
+      "server": "mcp_aws_rds",
+      "sha256": "9237854fea9b5105a8f8229f5ad16c89398bce73520f207cedfc1b543cffc218",
+      "status": "verified"
+    },
+    "aws_rds_drain_traffic": {
+      "id": "tool_aws_rds_drain_traffic",
+      "server": "mcp_aws_rds",
+      "sha256": "40ad97465bc6d375d28d025a3de47683433b261252f3ae7ca80f818b21c2801b",
+      "status": "verified"
+    },
+    "aws_rds_verify_configuration": {
+      "id": "tool_aws_rds_verify_configuration",
+      "server": "mcp_aws_rds",
+      "sha256": "fc4f5f5e66b68c82e916b13c4d18dbfce0655651c32b7e4db68227111ba1e176",
+      "status": "verified"
+    },
+    "aws_rds_dispatch_alert": {
+      "id": "tool_aws_rds_dispatch_alert",
+      "server": "mcp_aws_rds",
+      "sha256": "ad25e82ba9b92a2462f3932e97d3d164635523253ad934908404d911606b5281",
+      "status": "verified"
+    },
+    "aws_rds_generate_diagnostic_report": {
+      "id": "tool_aws_rds_generate_diagnostic_report",
+      "server": "mcp_aws_rds",
+      "sha256": "ca54e66adb444fc4c25c935747b797fe27a55f9949174bdd8e6146cc6c4f1c96",
+      "status": "verified"
+    },
+    "aws_lambda_inspect_health": {
+      "id": "tool_aws_lambda_inspect_health",
+      "server": "mcp_aws_lambda",
+      "sha256": "9a6a92fc514b7f900c680814b6ae99a77c22fdc3f3fea97d497500fa6689a64b",
+      "status": "verified"
+    },
+    "aws_lambda_fetch_metrics": {
+      "id": "tool_aws_lambda_fetch_metrics",
+      "server": "mcp_aws_lambda",
+      "sha256": "22885b8e7b24b1da2a5cab6a08f1c370977dfbddeed62ffedfdddfda6573d0cc",
+      "status": "verified"
+    },
+    "aws_lambda_check_connection_pool": {
+      "id": "tool_aws_lambda_check_connection_pool",
+      "server": "mcp_aws_lambda",
+      "sha256": "2be93b8b14625afded62c0913a85277b1b7497b69724564b83138b5373833211",
+      "status": "verified"
+    },
+    "aws_lambda_stream_logs": {
+      "id": "tool_aws_lambda_stream_logs",
+      "server": "mcp_aws_lambda",
+      "sha256": "55efce98c01309b9b2dce7c0b4089fdf748c8d4c3be9122cdf5080236ffcdea0",
+      "status": "verified"
+    },
+    "aws_lambda_trigger_restart": {
+      "id": "tool_aws_lambda_trigger_restart",
+      "server": "mcp_aws_lambda",
+      "sha256": "1bdd31a432e29561ef95a1b73745015e598df5582beb391072a8a91ca0861658",
+      "status": "verified"
+    },
+    "aws_lambda_execute_rebalance": {
+      "id": "tool_aws_lambda_execute_rebalance",
+      "server": "mcp_aws_lambda",
+      "sha256": "273e046f766b436285f57b32da9ac812720c0d13940cad9563f58bed19ce15db",
+      "status": "verified"
+    },
+    "aws_lambda_drain_traffic": {
+      "id": "tool_aws_lambda_drain_traffic",
+      "server": "mcp_aws_lambda",
+      "sha256": "5619435e4e06de6fa5d682efe62a625b7f6d191d012e985717648792d1dfe52f",
+      "status": "verified"
+    },
+    "aws_lambda_verify_configuration": {
+      "id": "tool_aws_lambda_verify_configuration",
+      "server": "mcp_aws_lambda",
+      "sha256": "c9d8b263b85be0c0446128bcc91cb9c66e4aaf8c98685e94e4840bc74c075b4e",
+      "status": "verified"
+    },
+    "aws_lambda_dispatch_alert": {
+      "id": "tool_aws_lambda_dispatch_alert",
+      "server": "mcp_aws_lambda",
+      "sha256": "b69e7d37284db5112efbf354782758784c2f3a3d7775f1e29668b71c61deaf9c",
+      "status": "verified"
+    },
+    "aws_lambda_generate_diagnostic_report": {
+      "id": "tool_aws_lambda_generate_diagnostic_report",
+      "server": "mcp_aws_lambda",
+      "sha256": "79dc8d776b6aaeac2987929eb66d061b6e8b3fed6fc8e6e84d038b922b585ae5",
+      "status": "verified"
+    },
+    "aws_ecs_inspect_health": {
+      "id": "tool_aws_ecs_inspect_health",
+      "server": "mcp_aws_ecs",
+      "sha256": "62af79297145f4605d4196b854436d45c173173152dfb42300387a22f59eb013",
+      "status": "verified"
+    },
+    "aws_ecs_fetch_metrics": {
+      "id": "tool_aws_ecs_fetch_metrics",
+      "server": "mcp_aws_ecs",
+      "sha256": "4da6eb5719911e876c3751031b59b775e2ca17f876c6f998270508f457b8b14e",
+      "status": "verified"
+    },
+    "aws_ecs_check_connection_pool": {
+      "id": "tool_aws_ecs_check_connection_pool",
+      "server": "mcp_aws_ecs",
+      "sha256": "80e8938009314c2916f1f4d3952d55035becaf47966e4e0f9691dc4e7ff49b76",
+      "status": "verified"
+    },
+    "aws_ecs_stream_logs": {
+      "id": "tool_aws_ecs_stream_logs",
+      "server": "mcp_aws_ecs",
+      "sha256": "6c9efce360a414346b7e5ef0b25155101277e4cd2e0737cc2857b097c4423a5e",
+      "status": "verified"
+    },
+    "aws_ecs_trigger_restart": {
+      "id": "tool_aws_ecs_trigger_restart",
+      "server": "mcp_aws_ecs",
+      "sha256": "7dc41e53ec60c8f521d3c55bc0f9c61171db3d8049d5ae4c14392e9dc3cbec5b",
+      "status": "verified"
+    },
+    "aws_ecs_execute_rebalance": {
+      "id": "tool_aws_ecs_execute_rebalance",
+      "server": "mcp_aws_ecs",
+      "sha256": "1b357456f5e28560ef95845f42626a1647c4c5ab1ce19484f564620ed56ee732",
+      "status": "verified"
+    },
+    "aws_ecs_drain_traffic": {
+      "id": "tool_aws_ecs_drain_traffic",
+      "server": "mcp_aws_ecs",
+      "sha256": "dcafc0fc0d25d8e9a41f5b352b98a2a4e8a84a807c0c9f28bf834da8406ce48d",
+      "status": "verified"
+    },
+    "aws_ecs_verify_configuration": {
+      "id": "tool_aws_ecs_verify_configuration",
+      "server": "mcp_aws_ecs",
+      "sha256": "4fce2518cf6b99bc8ae9e40ca85a36dd882808ee9857347c8ee5eb81e55ec7e8",
+      "status": "verified"
+    },
+    "aws_ecs_dispatch_alert": {
+      "id": "tool_aws_ecs_dispatch_alert",
+      "server": "mcp_aws_ecs",
+      "sha256": "111ed755d268dba82f486d231a89c645247708501ad229460c89186f7b6ceaf3",
+      "status": "verified"
+    },
+    "aws_ecs_generate_diagnostic_report": {
+      "id": "tool_aws_ecs_generate_diagnostic_report",
+      "server": "mcp_aws_ecs",
+      "sha256": "54451ce11032dcd1cd57c439368c80743c05a60082ba9483b7d7d1dcc62c7596",
+      "status": "verified"
+    },
+    "k8s_inspect_health": {
+      "id": "tool_k8s_inspect_health",
+      "server": "mcp_k8s",
+      "sha256": "81616f7ca423fbb45514edbd355022d8f0469e566a527f3ff275907b56dd1e51",
+      "status": "verified"
+    },
+    "k8s_fetch_metrics": {
+      "id": "tool_k8s_fetch_metrics",
+      "server": "mcp_k8s",
+      "sha256": "c6b068a51f3280ca4ce19a599487ce0451dc8582e6710e264e935a057ffee2d5",
+      "status": "verified"
+    },
+    "k8s_check_connection_pool": {
+      "id": "tool_k8s_check_connection_pool",
+      "server": "mcp_k8s",
+      "sha256": "35095ad40f71758b0337c0f858cbdf8e5a1e13043e050f975ac12b98d58293dd",
+      "status": "verified"
+    },
+    "k8s_describe_crashing_pod": {
+      "id": "tool_k8s_describe_crashing_pod",
+      "server": "mcp_k8s",
+      "sha256": "67a90d39f541c44011c52334315b9a481ceda20a82919b6cd4c423ecbe74bd06",
+      "status": "verified"
+    },
+    "k8s_trigger_restart": {
+      "id": "tool_k8s_trigger_restart",
+      "server": "mcp_k8s",
+      "sha256": "6feff52fcbaabc5a2e33c61df80f4f6903892717ccc11bf324b22d69b6b3b7c1",
+      "status": "verified"
+    },
+    "k8s_execute_rebalance": {
+      "id": "tool_k8s_execute_rebalance",
+      "server": "mcp_k8s",
+      "sha256": "0d7d0c59233a24790f76427066e3870dfe051c877b9bf8c1514573feaf2c8b93",
+      "status": "verified"
+    },
+    "k8s_drain_failing_node": {
+      "id": "tool_k8s_drain_failing_node",
+      "server": "mcp_k8s",
+      "sha256": "29ae8a6bd9bdee01421ce704599584892da6a8b3c0f3738dbf98bc118db3992e",
+      "status": "verified"
+    },
+    "k8s_verify_configuration": {
+      "id": "tool_k8s_verify_configuration",
+      "server": "mcp_k8s",
+      "sha256": "43bb8ed767128c52d24c0f4fbb8bba0a4c162adf8ce0b1895ba505f53b702b18",
+      "status": "verified"
+    },
+    "k8s_dispatch_alert": {
+      "id": "tool_k8s_dispatch_alert",
+      "server": "mcp_k8s",
+      "sha256": "d42c27c0714af34a592f0044e139292bc266f094ee20d7340c9b73cb18df6792",
+      "status": "verified"
+    },
+    "k8s_generate_diagnostic_report": {
+      "id": "tool_k8s_generate_diagnostic_report",
+      "server": "mcp_k8s",
+      "sha256": "09526fdb85a5d1aa712775560ea605f3ec1783c819728d84088878cac6320a56",
+      "status": "verified"
+    },
+    "docker_inspect_health": {
+      "id": "tool_docker_inspect_health",
+      "server": "mcp_docker",
+      "sha256": "9723fe44936a135e3e32144b5967f172bf0944134dffb4ea6c131f76fb5f04b9",
+      "status": "verified"
+    },
+    "docker_fetch_metrics": {
+      "id": "tool_docker_fetch_metrics",
+      "server": "mcp_docker",
+      "sha256": "0503c48cb4b71c9e3072d9224a8fb9612f64f2fe2271358b6ecb2092d6bf0f97",
+      "status": "verified"
+    },
+    "docker_check_connection_pool": {
+      "id": "tool_docker_check_connection_pool",
+      "server": "mcp_docker",
+      "sha256": "105c19375bea74fc1179e9959bd07fb77051cb7313df1d342bac607ccc396d9c",
+      "status": "verified"
+    },
+    "docker_stream_container_logs": {
+      "id": "tool_docker_stream_container_logs",
+      "server": "mcp_docker",
+      "sha256": "6530871f1bf681d6fcaeb887c47488cca88f6ab03e313d9f660816f856404fd6",
+      "status": "verified"
+    },
+    "docker_restart_container": {
+      "id": "tool_docker_restart_container",
+      "server": "mcp_docker",
+      "sha256": "8a281605805119070baa650f0c6c9c94899d601dbc451ed0d14d98143f1f04f0",
+      "status": "verified"
+    },
+    "docker_execute_rebalance": {
+      "id": "tool_docker_execute_rebalance",
+      "server": "mcp_docker",
+      "sha256": "a6aef8bfe5959a44c0fc0c7d549460999e4f83cfbf00b1c9c78262bd7941846a",
+      "status": "verified"
+    },
+    "docker_drain_traffic": {
+      "id": "tool_docker_drain_traffic",
+      "server": "mcp_docker",
+      "sha256": "5e95c7c0ceb9f1934a2c3eb4a133f7de8372a320cbba18919a963739cdf0f76d",
+      "status": "verified"
+    },
+    "docker_verify_configuration": {
+      "id": "tool_docker_verify_configuration",
+      "server": "mcp_docker",
+      "sha256": "243f2fb93d0d64cb69fbb94682326b4255ed411b3ee66a9da5d663f0ef402d2b",
+      "status": "verified"
+    },
+    "docker_dispatch_alert": {
+      "id": "tool_docker_dispatch_alert",
+      "server": "mcp_docker",
+      "sha256": "b0e876d384faf0e4f988b901bd17760d98086b12262e9fd1881e766203bdf7c9",
+      "status": "verified"
+    },
+    "docker_generate_diagnostic_report": {
+      "id": "tool_docker_generate_diagnostic_report",
+      "server": "mcp_docker",
+      "sha256": "b8a16e4445c758e8a9a4f25832e26e21b4b41ae5f82c8d156009701b6e6f6d15",
+      "status": "verified"
+    },
+    "terraform_inspect_health": {
+      "id": "tool_terraform_inspect_health",
+      "server": "mcp_terraform",
+      "sha256": "b1453e74dd6b0021aa294a65263ac968e951d22685e86704266d8586ccecfeba",
+      "status": "verified"
+    },
+    "terraform_fetch_metrics": {
+      "id": "tool_terraform_fetch_metrics",
+      "server": "mcp_terraform",
+      "sha256": "80950c030555ff306f8fa8e741385f3964c0cb3eb13e02fa2753f030fc581d0c",
+      "status": "verified"
+    },
+    "terraform_check_connection_pool": {
+      "id": "tool_terraform_check_connection_pool",
+      "server": "mcp_terraform",
+      "sha256": "7a4bb42328f5586bdfb8ffedd396fe9c63be4655b2ae118f2c1288f263df97e2",
+      "status": "verified"
+    },
+    "terraform_stream_logs": {
+      "id": "tool_terraform_stream_logs",
+      "server": "mcp_terraform",
+      "sha256": "1a39dd36d095bf87ca4a1a6a4bb9899874913d26f3f905e9e4195932bab8463c",
+      "status": "verified"
+    },
+    "terraform_trigger_restart": {
+      "id": "tool_terraform_trigger_restart",
+      "server": "mcp_terraform",
+      "sha256": "47ba698caf2270e28becd093d4b5824ca0f84d6e2d554850f63b5dda716df954",
+      "status": "verified"
+    },
+    "terraform_execute_rebalance": {
+      "id": "tool_terraform_execute_rebalance",
+      "server": "mcp_terraform",
+      "sha256": "a0cee9e2e273f919975110441b2812b8b0d79831ea3bdccfcbcb262d392966a0",
+      "status": "verified"
+    },
+    "terraform_drain_traffic": {
+      "id": "tool_terraform_drain_traffic",
+      "server": "mcp_terraform",
+      "sha256": "ab3038aeda0aa0169c4bcc0888b331cc09e2066fb6970b7770bb8883ea2f0c93",
+      "status": "verified"
+    },
+    "terraform_verify_configuration": {
+      "id": "tool_terraform_verify_configuration",
+      "server": "mcp_terraform",
+      "sha256": "8179f4d4d87425b6658320c91fb8e113442bd4a46b8c59e58b7ce617927fd96c",
+      "status": "verified"
+    },
+    "terraform_dispatch_alert": {
+      "id": "tool_terraform_dispatch_alert",
+      "server": "mcp_terraform",
+      "sha256": "fbccfe1d3b754e79a897d38fb87183c10164f2696f986b01b0810b32ea5f136e",
+      "status": "verified"
+    },
+    "terraform_generate_diagnostic_report": {
+      "id": "tool_terraform_generate_diagnostic_report",
+      "server": "mcp_terraform",
+      "sha256": "bdf67cdb8fc69666273c2b32121c2dd12d472deb4f7423382cef8cfbb15a6161",
+      "status": "verified"
+    },
+    "cloudflare_inspect_health": {
+      "id": "tool_cloudflare_inspect_health",
+      "server": "mcp_cloudflare",
+      "sha256": "f390ca8c1c31e7bc3a82688f4e7846ec9ee3b2ab7c4dbb4448f4f831674c5de9",
+      "status": "verified"
+    },
+    "cloudflare_fetch_metrics": {
+      "id": "tool_cloudflare_fetch_metrics",
+      "server": "mcp_cloudflare",
+      "sha256": "6e8e46adc7bfa44644f96db75f97be3163b71b3f196bfab16d099a92f53b9389",
+      "status": "verified"
+    },
+    "cloudflare_check_connection_pool": {
+      "id": "tool_cloudflare_check_connection_pool",
+      "server": "mcp_cloudflare",
+      "sha256": "801182912f03d4987f130059100f72e8bdbf8e6d5f9079e0cd1ba281a00db783",
+      "status": "verified"
+    },
+    "cloudflare_stream_logs": {
+      "id": "tool_cloudflare_stream_logs",
+      "server": "mcp_cloudflare",
+      "sha256": "61131959a28b0e37661e86331b9e9bae2da20feae47eb435d7f5d0e04b6b6b98",
+      "status": "verified"
+    },
+    "cloudflare_trigger_restart": {
+      "id": "tool_cloudflare_trigger_restart",
+      "server": "mcp_cloudflare",
+      "sha256": "287ed4b6a35953943e2ff696da08a9cf258ee1d459c8d0cf6320215db457dee8",
+      "status": "verified"
+    },
+    "cloudflare_execute_rebalance": {
+      "id": "tool_cloudflare_execute_rebalance",
+      "server": "mcp_cloudflare",
+      "sha256": "58786b30bd65d8b436a8eb25bd852f492dda6824269f034eb782415fba407623",
+      "status": "verified"
+    },
+    "cloudflare_drain_traffic": {
+      "id": "tool_cloudflare_drain_traffic",
+      "server": "mcp_cloudflare",
+      "sha256": "a20c8a1d031b31f6159137e3bf357fab2e20d604229fcd1345dadba8beb2a5cc",
+      "status": "verified"
+    },
+    "cloudflare_verify_configuration": {
+      "id": "tool_cloudflare_verify_configuration",
+      "server": "mcp_cloudflare",
+      "sha256": "82d5185b834020542aab98b52bd9cd8fc5e0cfa029864dc6a5b05d4fa2946587",
+      "status": "verified"
+    },
+    "cloudflare_dispatch_alert": {
+      "id": "tool_cloudflare_dispatch_alert",
+      "server": "mcp_cloudflare",
+      "sha256": "d929cb35744124bc409bbb5591b794c923e20c33a02fc708940eb3082b0b929a",
+      "status": "verified"
+    },
+    "cloudflare_generate_diagnostic_report": {
+      "id": "tool_cloudflare_generate_diagnostic_report",
+      "server": "mcp_cloudflare",
+      "sha256": "bfa7f51c2176bc5f6f267b966cf229c51aa7313a09bfe190ab9b736ef6383709",
+      "status": "verified"
+    },
+    "datadog_inspect_health": {
+      "id": "tool_datadog_inspect_health",
+      "server": "mcp_datadog",
+      "sha256": "2aea418422807d2f71089c689c97d00f615c4196c81e31ea401625a4e4e5637c",
+      "status": "verified"
+    },
+    "datadog_fetch_metrics": {
+      "id": "tool_datadog_fetch_metrics",
+      "server": "mcp_datadog",
+      "sha256": "c0a910e1d1f21404f6c04e45747006232d31c300236e20ae5d0ea4517f837c6b",
+      "status": "verified"
+    },
+    "datadog_check_connection_pool": {
+      "id": "tool_datadog_check_connection_pool",
+      "server": "mcp_datadog",
+      "sha256": "154ac1afd45c212ee9e64ec310c99e25d590e2f6c5571fa060a93cae8f355f06",
+      "status": "verified"
+    },
+    "datadog_query_apm_traces": {
+      "id": "tool_datadog_query_apm_traces",
+      "server": "mcp_datadog",
+      "sha256": "e7aa856eae21157825590c2a569a07e11bf14aaf6bcffe09eb6e9d905b4b3a4b",
+      "status": "verified"
+    },
+    "datadog_trigger_restart": {
+      "id": "tool_datadog_trigger_restart",
+      "server": "mcp_datadog",
+      "sha256": "2e725f6d8c35d73ba24d66adc25099b3648022feb0f379c0f35d0e0c97528fc8",
+      "status": "verified"
+    },
+    "datadog_execute_rebalance": {
+      "id": "tool_datadog_execute_rebalance",
+      "server": "mcp_datadog",
+      "sha256": "5d04c0a549c820da7ecb0924f86299d915e81307f8e7568257cb8bbb9d4afe46",
+      "status": "verified"
+    },
+    "datadog_drain_traffic": {
+      "id": "tool_datadog_drain_traffic",
+      "server": "mcp_datadog",
+      "sha256": "717c5f55795ecb8673d1193db7940908668908a9ee6aa6d7755d5e5a2bb1c136",
+      "status": "verified"
+    },
+    "datadog_verify_configuration": {
+      "id": "tool_datadog_verify_configuration",
+      "server": "mcp_datadog",
+      "sha256": "38a9906012580e93ce61828bcf7dd6affb66daf92b30c99091e187a7a1e2d88c",
+      "status": "verified"
+    },
+    "datadog_dispatch_alert": {
+      "id": "tool_datadog_dispatch_alert",
+      "server": "mcp_datadog",
+      "sha256": "1a224c61447346f9b466684ca5695a1f8abaec503b2c36b3b8929c880a2ed0f8",
+      "status": "verified"
+    },
+    "datadog_generate_diagnostic_report": {
+      "id": "tool_datadog_generate_diagnostic_report",
+      "server": "mcp_datadog",
+      "sha256": "e01d8013cc152fc94ba97915ad296a5652399fd64d284cc58bed5ae7cd55a471",
+      "status": "verified"
+    },
+    "splunk_inspect_health": {
+      "id": "tool_splunk_inspect_health",
+      "server": "mcp_splunk",
+      "sha256": "b4c15cbaf3c187a7d83f4a6a62a52731fe33a76ee27e2a1164c2f8df00300172",
+      "status": "verified"
+    },
+    "splunk_fetch_metrics": {
+      "id": "tool_splunk_fetch_metrics",
+      "server": "mcp_splunk",
+      "sha256": "e4d5295ce7b1e0637aae018dc8e595326e556549a513b4879bf8529d0f115f4c",
+      "status": "verified"
+    },
+    "splunk_check_connection_pool": {
+      "id": "tool_splunk_check_connection_pool",
+      "server": "mcp_splunk",
+      "sha256": "cd6af4b352eb8c088b4a91fb4e8af6c25d00ee83b3c0d0a2bcdf997dadfa668b",
+      "status": "verified"
+    },
+    "splunk_stream_logs": {
+      "id": "tool_splunk_stream_logs",
+      "server": "mcp_splunk",
+      "sha256": "21a208791d9310e9ea1a952d59a515951fd4516fc9d3a5246afd154a322d946f",
+      "status": "verified"
+    },
+    "splunk_trigger_restart": {
+      "id": "tool_splunk_trigger_restart",
+      "server": "mcp_splunk",
+      "sha256": "41746358d9c3948449aeeb262ad08405335c1e0addb1c16b5296ac079cecb595",
+      "status": "verified"
+    },
+    "splunk_execute_rebalance": {
+      "id": "tool_splunk_execute_rebalance",
+      "server": "mcp_splunk",
+      "sha256": "f5352d10e1aadd5f3a003bc7c65d7355e2b5fd4dd02adbe105a1155dd2fd9827",
+      "status": "verified"
+    },
+    "splunk_drain_traffic": {
+      "id": "tool_splunk_drain_traffic",
+      "server": "mcp_splunk",
+      "sha256": "986633b7798b5501e7e60e813588dfdca0457a9eea974c313c46b2122069339b",
+      "status": "verified"
+    },
+    "splunk_verify_configuration": {
+      "id": "tool_splunk_verify_configuration",
+      "server": "mcp_splunk",
+      "sha256": "9b160d618a67a2df618c151f7124449cd98ffa8bebc8af41e071308e1c2389e4",
+      "status": "verified"
+    },
+    "splunk_dispatch_alert": {
+      "id": "tool_splunk_dispatch_alert",
+      "server": "mcp_splunk",
+      "sha256": "d83c80e41ea87aacf72de8be760051c2922ee0d9d30346adcdb6c6ba563ce6f5",
+      "status": "verified"
+    },
+    "splunk_generate_diagnostic_report": {
+      "id": "tool_splunk_generate_diagnostic_report",
+      "server": "mcp_splunk",
+      "sha256": "3a41ccf14f41c9f56c3bdae3166fe4f806b23f343ed8ac818d4bd48c997f5068",
+      "status": "verified"
+    },
+    "sentry_inspect_health": {
+      "id": "tool_sentry_inspect_health",
+      "server": "mcp_sentry",
+      "sha256": "8c26a5e66d7169ae5817b1782777199b4285be9990fb015f26753b832bccc79b",
+      "status": "verified"
+    },
+    "sentry_fetch_metrics": {
+      "id": "tool_sentry_fetch_metrics",
+      "server": "mcp_sentry",
+      "sha256": "455d589e7b3766ebcf98a30f63470412a5addb85ef48491efc06e62554986c7f",
+      "status": "verified"
+    },
+    "sentry_check_connection_pool": {
+      "id": "tool_sentry_check_connection_pool",
+      "server": "mcp_sentry",
+      "sha256": "cb527b9ca82f4ad1738a6b3af9984b1ac2ebc31def533cbc3acd17d6c80db658",
+      "status": "verified"
+    },
+    "sentry_fetch_issue_stacktrace": {
+      "id": "tool_sentry_fetch_issue_stacktrace",
+      "server": "mcp_sentry",
+      "sha256": "bb9a96e89c81d7bb9e0145d45f6c688d078726cb315639ce81cd416c9d47b83b",
+      "status": "verified"
+    },
+    "sentry_trigger_restart": {
+      "id": "tool_sentry_trigger_restart",
+      "server": "mcp_sentry",
+      "sha256": "07bf2a093a9ed103129b6852d86ceb8199cbc88eb7aeaa66ebcee601f7f198f2",
+      "status": "verified"
+    },
+    "sentry_execute_rebalance": {
+      "id": "tool_sentry_execute_rebalance",
+      "server": "mcp_sentry",
+      "sha256": "1f2e5e835ff9c6e870981f70c8eea308836cdc7ea9bdd4335b64a752f35a6468",
+      "status": "verified"
+    },
+    "sentry_drain_traffic": {
+      "id": "tool_sentry_drain_traffic",
+      "server": "mcp_sentry",
+      "sha256": "51404f64b4623c657f3b86d31057f9f010c32276d8f5baebfa923886050bcddd",
+      "status": "verified"
+    },
+    "sentry_verify_configuration": {
+      "id": "tool_sentry_verify_configuration",
+      "server": "mcp_sentry",
+      "sha256": "c08224b353a6dca371583dff02a6ee895d16c53981e0b48c62d09f36fac89cba",
+      "status": "verified"
+    },
+    "sentry_dispatch_alert": {
+      "id": "tool_sentry_dispatch_alert",
+      "server": "mcp_sentry",
+      "sha256": "02845326ceb2733c534afa55151d7e34e135d359101900e4be8dea53cca0ab45",
+      "status": "verified"
+    },
+    "sentry_generate_diagnostic_report": {
+      "id": "tool_sentry_generate_diagnostic_report",
+      "server": "mcp_sentry",
+      "sha256": "2474be6f1176ff07a277197525fbae325148539734cd7234a05983c4c5482523",
+      "status": "verified"
+    },
+    "grafana_inspect_health": {
+      "id": "tool_grafana_inspect_health",
+      "server": "mcp_grafana",
+      "sha256": "86d29d79892231fafb81d1c736892cf8df646867c627315b52e5f6a26b269bff",
+      "status": "verified"
+    },
+    "grafana_fetch_metrics": {
+      "id": "tool_grafana_fetch_metrics",
+      "server": "mcp_grafana",
+      "sha256": "e38076b1ca5985bdc4a60d9d8ea7b18ef602fd8f63b332da9edb0cf31386bbea",
+      "status": "verified"
+    },
+    "grafana_check_connection_pool": {
+      "id": "tool_grafana_check_connection_pool",
+      "server": "mcp_grafana",
+      "sha256": "7f234ceab83cb70068ffb4013b1964be880edd7b7866261ba017864ec261fd92",
+      "status": "verified"
+    },
+    "grafana_stream_logs": {
+      "id": "tool_grafana_stream_logs",
+      "server": "mcp_grafana",
+      "sha256": "1ac48b807f99aa4d1867c1cbfe21eb5caaa2d7f6edb571ae62cea96ba29e168d",
+      "status": "verified"
+    },
+    "grafana_trigger_restart": {
+      "id": "tool_grafana_trigger_restart",
+      "server": "mcp_grafana",
+      "sha256": "502be71efeddaa7868376526b48feb1495882e7402fbf99616a0d47888c527e6",
+      "status": "verified"
+    },
+    "grafana_execute_rebalance": {
+      "id": "tool_grafana_execute_rebalance",
+      "server": "mcp_grafana",
+      "sha256": "ec2ba2e1e0964fe987141785b48b23aef78d91b6fa2aeb061ede12fe03e7abd2",
+      "status": "verified"
+    },
+    "grafana_drain_traffic": {
+      "id": "tool_grafana_drain_traffic",
+      "server": "mcp_grafana",
+      "sha256": "fd463dde8cefb8dce7c759991105af9f25aa08dfb86c2ac17d48376435094bce",
+      "status": "verified"
+    },
+    "grafana_verify_configuration": {
+      "id": "tool_grafana_verify_configuration",
+      "server": "mcp_grafana",
+      "sha256": "e774dd647e82d8f44393c3f0b10ca036011b86e80ac3a2f60100241d1dc2039c",
+      "status": "verified"
+    },
+    "grafana_dispatch_alert": {
+      "id": "tool_grafana_dispatch_alert",
+      "server": "mcp_grafana",
+      "sha256": "49515babeb8b5fa4033b144f4a5a26533a513d5dc88aeba9bdd6201b0eca8a2f",
+      "status": "verified"
+    },
+    "grafana_generate_diagnostic_report": {
+      "id": "tool_grafana_generate_diagnostic_report",
+      "server": "mcp_grafana",
+      "sha256": "cc4804e0f545d6a9058748f7d8858d90eecf5e4cbb3a2dd332f9815cd93b4074",
+      "status": "verified"
+    },
+    "prometheus_inspect_health": {
+      "id": "tool_prometheus_inspect_health",
+      "server": "mcp_prometheus",
+      "sha256": "18664ecec03e9b23ba55e3c46e4670ce27351c9f60af2d1b040e310be3e495a7",
+      "status": "verified"
+    },
+    "prometheus_fetch_metrics": {
+      "id": "tool_prometheus_fetch_metrics",
+      "server": "mcp_prometheus",
+      "sha256": "c2e68a0a33a3ca87043b00a0648eb47b69ea2d67451ae29862dde6f2ed0869ab",
+      "status": "verified"
+    },
+    "prometheus_check_connection_pool": {
+      "id": "tool_prometheus_check_connection_pool",
+      "server": "mcp_prometheus",
+      "sha256": "aa39a51bd15db3365ad1bb30cbe2293eb9f996a1501551b111c7ab4deb8ae27d",
+      "status": "verified"
+    },
+    "prometheus_stream_logs": {
+      "id": "tool_prometheus_stream_logs",
+      "server": "mcp_prometheus",
+      "sha256": "a3badf77b2f4edfd85b847d0a87e957627a05eb6fa5c0616070572a8e37552d4",
+      "status": "verified"
+    },
+    "prometheus_trigger_restart": {
+      "id": "tool_prometheus_trigger_restart",
+      "server": "mcp_prometheus",
+      "sha256": "6406863e890c1bc87f16d92f841dab6a32502ee5d6e5cba55165bd444f7fffda",
+      "status": "verified"
+    },
+    "prometheus_execute_rebalance": {
+      "id": "tool_prometheus_execute_rebalance",
+      "server": "mcp_prometheus",
+      "sha256": "881578136dac94e04d2f75e8f9c89826db3e5720c15e4eec12628126aa27f814",
+      "status": "verified"
+    },
+    "prometheus_drain_traffic": {
+      "id": "tool_prometheus_drain_traffic",
+      "server": "mcp_prometheus",
+      "sha256": "e9942f8622e13c51891bb365d6b0631b239eda40e826ea7c1c349ef6a91db433",
+      "status": "verified"
+    },
+    "prometheus_verify_configuration": {
+      "id": "tool_prometheus_verify_configuration",
+      "server": "mcp_prometheus",
+      "sha256": "9e3f78dcd07bc1096ff26c6d0e7f0adcfbcdec63069cce274db5754b7235a3d2",
+      "status": "verified"
+    },
+    "prometheus_dispatch_alert": {
+      "id": "tool_prometheus_dispatch_alert",
+      "server": "mcp_prometheus",
+      "sha256": "430f1d99c59a94b59d95d9b3161cc1425187e9e2d4fea538b22e2b7e16777ecb",
+      "status": "verified"
+    },
+    "prometheus_generate_diagnostic_report": {
+      "id": "tool_prometheus_generate_diagnostic_report",
+      "server": "mcp_prometheus",
+      "sha256": "d9dd8334fd7aacfdf231475018785aa64e2369e560f325ac2c158bb74d881d2d",
+      "status": "verified"
+    },
+    "pagerduty_inspect_health": {
+      "id": "tool_pagerduty_inspect_health",
+      "server": "mcp_pagerduty",
+      "sha256": "efec6e7f07b50ed8d8518e4504d71965a69dd8fff8f046ef3fc9fc365dcb0b2d",
+      "status": "verified"
+    },
+    "pagerduty_fetch_metrics": {
+      "id": "tool_pagerduty_fetch_metrics",
+      "server": "mcp_pagerduty",
+      "sha256": "eee7ac515ed6ccb8399d8f3edb579967f4b576882f62bc295dfc46bc558459f1",
+      "status": "verified"
+    },
+    "pagerduty_check_connection_pool": {
+      "id": "tool_pagerduty_check_connection_pool",
+      "server": "mcp_pagerduty",
+      "sha256": "ebaca205bfbf41c0f5be6716162fb2a32c780390b8eef27dec30ac9e05f38942",
+      "status": "verified"
+    },
+    "pagerduty_stream_logs": {
+      "id": "tool_pagerduty_stream_logs",
+      "server": "mcp_pagerduty",
+      "sha256": "d31c728609f8edbf9f7a81ac550253c414d79125b918b3cb37ae1c102d43467b",
+      "status": "verified"
+    },
+    "pagerduty_trigger_restart": {
+      "id": "tool_pagerduty_trigger_restart",
+      "server": "mcp_pagerduty",
+      "sha256": "a885635117060e0213933895b0f9eda70f8cf6ddf0c838b1770d585ef9b0e21e",
+      "status": "verified"
+    },
+    "pagerduty_execute_rebalance": {
+      "id": "tool_pagerduty_execute_rebalance",
+      "server": "mcp_pagerduty",
+      "sha256": "f2d6a8235af48ad7a6506b9fbb61db5bc5fc93f4977590872c003e5ba47fe7f2",
+      "status": "verified"
+    },
+    "pagerduty_drain_traffic": {
+      "id": "tool_pagerduty_drain_traffic",
+      "server": "mcp_pagerduty",
+      "sha256": "53b395b032e428f6c8accc3b685917773e3390fafbf8f1814a5661f2544f6fb7",
+      "status": "verified"
+    },
+    "pagerduty_verify_configuration": {
+      "id": "tool_pagerduty_verify_configuration",
+      "server": "mcp_pagerduty",
+      "sha256": "aaeb3a742812836f384ffc7e9835b87f421dfa05b22bc94165d9b1225458e728",
+      "status": "verified"
+    },
+    "pagerduty_dispatch_alert": {
+      "id": "tool_pagerduty_dispatch_alert",
+      "server": "mcp_pagerduty",
+      "sha256": "a6712e26cccbc87a12a1db2120b7657083a8e2cfdb5e949f5ad63f3ded402dbd",
+      "status": "verified"
+    },
+    "pagerduty_generate_diagnostic_report": {
+      "id": "tool_pagerduty_generate_diagnostic_report",
+      "server": "mcp_pagerduty",
+      "sha256": "0cbcbf9ce33af5b7109d6b584e147f09d35341c3ede426d79bb071b159e6411e",
+      "status": "verified"
+    },
+    "newrelic_inspect_health": {
+      "id": "tool_newrelic_inspect_health",
+      "server": "mcp_newrelic",
+      "sha256": "3d5e26903c329e0895c9aea3dc68225263d8e7f5921cd340e29c4d0b129f5246",
+      "status": "verified"
+    },
+    "newrelic_fetch_metrics": {
+      "id": "tool_newrelic_fetch_metrics",
+      "server": "mcp_newrelic",
+      "sha256": "66a124ca235d31946050b0ede3a64118f22fb144009f62c19cc81c1a2d3e58ba",
+      "status": "verified"
+    },
+    "newrelic_check_connection_pool": {
+      "id": "tool_newrelic_check_connection_pool",
+      "server": "mcp_newrelic",
+      "sha256": "4b7125c90fdeabb1a6107d5f3af921f2d46de1b077087e32cdfc47666b55a75c",
+      "status": "verified"
+    },
+    "newrelic_stream_logs": {
+      "id": "tool_newrelic_stream_logs",
+      "server": "mcp_newrelic",
+      "sha256": "f6642d21b2ab103b7130134139c233fe9620aa3cf1874fc75b3c591e0519eea7",
+      "status": "verified"
+    },
+    "newrelic_trigger_restart": {
+      "id": "tool_newrelic_trigger_restart",
+      "server": "mcp_newrelic",
+      "sha256": "4ad20a1a6797afc1ca07852546ba773f4027154172d650fac1d66b1d85e44a60",
+      "status": "verified"
+    },
+    "newrelic_execute_rebalance": {
+      "id": "tool_newrelic_execute_rebalance",
+      "server": "mcp_newrelic",
+      "sha256": "b141714cb93a52a78af7d9a83791ea491e745310c01aec73310ff4e809544864",
+      "status": "verified"
+    },
+    "newrelic_drain_traffic": {
+      "id": "tool_newrelic_drain_traffic",
+      "server": "mcp_newrelic",
+      "sha256": "31d3297758e989d82564e2a8b972fd35d6e1274dbe5fe9a1d10b0fa189dc100a",
+      "status": "verified"
+    },
+    "newrelic_verify_configuration": {
+      "id": "tool_newrelic_verify_configuration",
+      "server": "mcp_newrelic",
+      "sha256": "da6e0823e19a02918ef7a15f96a81c875eb72341f26c52159a581906df8207c3",
+      "status": "verified"
+    },
+    "newrelic_dispatch_alert": {
+      "id": "tool_newrelic_dispatch_alert",
+      "server": "mcp_newrelic",
+      "sha256": "759afe1fc0ed67895f4d70969dfb9142d6b28e03dece07cac9450ab0b9ed00eb",
+      "status": "verified"
+    },
+    "newrelic_generate_diagnostic_report": {
+      "id": "tool_newrelic_generate_diagnostic_report",
+      "server": "mcp_newrelic",
+      "sha256": "95699afabeaa8461f7dd5db78502e4c83b478fce12b403c8a44b03a757fc5001",
+      "status": "verified"
+    },
+    "honeycomb_inspect_health": {
+      "id": "tool_honeycomb_inspect_health",
+      "server": "mcp_honeycomb",
+      "sha256": "c959b99a68141ca85512aa3938dce2c5865bfbef3cdb2dbdb9236539f90dbcf4",
+      "status": "verified"
+    },
+    "honeycomb_fetch_metrics": {
+      "id": "tool_honeycomb_fetch_metrics",
+      "server": "mcp_honeycomb",
+      "sha256": "fb9bfe76315ecf076d9ff023ff1d264f7d3874a252b82cc6a082b57920eb47bc",
+      "status": "verified"
+    },
+    "honeycomb_check_connection_pool": {
+      "id": "tool_honeycomb_check_connection_pool",
+      "server": "mcp_honeycomb",
+      "sha256": "c00b0a9f0854a81989f9afcc7861835240a8cd8236cb2899bda292048d7048bd",
+      "status": "verified"
+    },
+    "honeycomb_stream_logs": {
+      "id": "tool_honeycomb_stream_logs",
+      "server": "mcp_honeycomb",
+      "sha256": "8da69b62761c6b6d3d748ea10fc777111e8849fed6931bb0383163e428474ea6",
+      "status": "verified"
+    },
+    "honeycomb_trigger_restart": {
+      "id": "tool_honeycomb_trigger_restart",
+      "server": "mcp_honeycomb",
+      "sha256": "81e547d30396805ba1f7e6abf71f7b4fbb1710b1e43655849dc59f37dfba76bc",
+      "status": "verified"
+    },
+    "honeycomb_execute_rebalance": {
+      "id": "tool_honeycomb_execute_rebalance",
+      "server": "mcp_honeycomb",
+      "sha256": "f0fd2776c78db7692d30c08c8fa33b68443313bdcbbe44b61b462bf84f7fe402",
+      "status": "verified"
+    },
+    "honeycomb_drain_traffic": {
+      "id": "tool_honeycomb_drain_traffic",
+      "server": "mcp_honeycomb",
+      "sha256": "ee19c345b9e1a02c50e75c4b78ea84f5c295fe9a676ed106764a5f1568413deb",
+      "status": "verified"
+    },
+    "honeycomb_verify_configuration": {
+      "id": "tool_honeycomb_verify_configuration",
+      "server": "mcp_honeycomb",
+      "sha256": "116ab37179ad190f7ef589df07cd2f9e9ca302b646373149b9e16fe04e9162cb",
+      "status": "verified"
+    },
+    "honeycomb_dispatch_alert": {
+      "id": "tool_honeycomb_dispatch_alert",
+      "server": "mcp_honeycomb",
+      "sha256": "ba44ed380cf180030ed7b0eecd775c0de5e337c962e5c9e02c303cbb6222c218",
+      "status": "verified"
+    },
+    "honeycomb_generate_diagnostic_report": {
+      "id": "tool_honeycomb_generate_diagnostic_report",
+      "server": "mcp_honeycomb",
+      "sha256": "5c49a62bccea8cd85756c65d05089a1c4c579c79892874509dfd364bf8f3ed65",
+      "status": "verified"
+    },
+    "github_inspect_health": {
+      "id": "tool_github_inspect_health",
+      "server": "mcp_github",
+      "sha256": "9504c24aa3cbdf49d29e17400c0ed905f53822c3a92bc07b75c7e274dd68d906",
+      "status": "verified"
+    },
+    "github_fetch_metrics": {
+      "id": "tool_github_fetch_metrics",
+      "server": "mcp_github",
+      "sha256": "58fe3649a139c78eba537aa46f92162d4994ab5a56308b913d17bbc097a68c7b",
+      "status": "verified"
+    },
+    "github_check_connection_pool": {
+      "id": "tool_github_check_connection_pool",
+      "server": "mcp_github",
+      "sha256": "941eebc6d264bd399ae8cd7cd6fc9532247223e1ea422684b474cfa54e789950",
+      "status": "verified"
+    },
+    "github_fetch_commit_diff": {
+      "id": "tool_github_fetch_commit_diff",
+      "server": "mcp_github",
+      "sha256": "305bc76cd8341518e72592db1d5cb92646ed99406bbbc158bf27c278f9d136a4",
+      "status": "verified"
+    },
+    "github_create_pull_request": {
+      "id": "tool_github_create_pull_request",
+      "server": "mcp_github",
+      "sha256": "4d925705d42d7c2fbc8d9f7794b52368f231e718d359382a5c0e99d55b9fa195",
+      "status": "verified"
+    },
+    "github_execute_rebalance": {
+      "id": "tool_github_execute_rebalance",
+      "server": "mcp_github",
+      "sha256": "3e0ccbe7549fa5d9b76565d27dcb30b0348d45592598d6d6c0c2598c87f9454b",
+      "status": "verified"
+    },
+    "github_drain_traffic": {
+      "id": "tool_github_drain_traffic",
+      "server": "mcp_github",
+      "sha256": "0dc65ff644a11e6e9695c6e25b0ee37eddeee4b665e884ec0251bf6eed1fc0fd",
+      "status": "verified"
+    },
+    "github_verify_configuration": {
+      "id": "tool_github_verify_configuration",
+      "server": "mcp_github",
+      "sha256": "5a760dea4f567103df8eeb573eb0834569f00ca0b1a836893035dcfca7cb9fb5",
+      "status": "verified"
+    },
+    "github_dispatch_alert": {
+      "id": "tool_github_dispatch_alert",
+      "server": "mcp_github",
+      "sha256": "19ad6746412c1c1fffc76122df9344032fce584ba769b5edd9863fbe69d4478a",
+      "status": "verified"
+    },
+    "github_generate_diagnostic_report": {
+      "id": "tool_github_generate_diagnostic_report",
+      "server": "mcp_github",
+      "sha256": "23f1baff474c42cacbf0df1c2ad5d910c59d3997da7664d6e161f4337a690d67",
+      "status": "verified"
+    },
+    "gitlab_inspect_health": {
+      "id": "tool_gitlab_inspect_health",
+      "server": "mcp_gitlab",
+      "sha256": "6b94b0a39c41fe364e3c7933c91b3702b6b9750755047ba7670244300b532644",
+      "status": "verified"
+    },
+    "gitlab_fetch_metrics": {
+      "id": "tool_gitlab_fetch_metrics",
+      "server": "mcp_gitlab",
+      "sha256": "0fbac69f8e6f37513b98b05de37cd17198699faaa70b6a395f74a7e97f19e951",
+      "status": "verified"
+    },
+    "gitlab_check_connection_pool": {
+      "id": "tool_gitlab_check_connection_pool",
+      "server": "mcp_gitlab",
+      "sha256": "51fc93091d3c7b61ae0f6e0145e573a4500bf66020e05a57022368e47ecca8f1",
+      "status": "verified"
+    },
+    "gitlab_stream_logs": {
+      "id": "tool_gitlab_stream_logs",
+      "server": "mcp_gitlab",
+      "sha256": "c53d6518651e43b13053588117ab021ffc8df2965f45a2fde2c66334872e522c",
+      "status": "verified"
+    },
+    "gitlab_trigger_restart": {
+      "id": "tool_gitlab_trigger_restart",
+      "server": "mcp_gitlab",
+      "sha256": "56ea7868b953fd645b01079051f8de4350eed079b7437ed4c0237577f03833f6",
+      "status": "verified"
+    },
+    "gitlab_execute_rebalance": {
+      "id": "tool_gitlab_execute_rebalance",
+      "server": "mcp_gitlab",
+      "sha256": "2e038e35a00e6bf99f4497d6094dfac4437958769bf463e0e788e0c6ac3d4479",
+      "status": "verified"
+    },
+    "gitlab_drain_traffic": {
+      "id": "tool_gitlab_drain_traffic",
+      "server": "mcp_gitlab",
+      "sha256": "6dfddf65b000ad1822cc30ded9ced53c471934b4227210e35c9d49b491566cc6",
+      "status": "verified"
+    },
+    "gitlab_verify_configuration": {
+      "id": "tool_gitlab_verify_configuration",
+      "server": "mcp_gitlab",
+      "sha256": "2f976803187b46b854ca88fd7b4faae0d94ed2ec4de1af6807bf389ffecf2fcc",
+      "status": "verified"
+    },
+    "gitlab_dispatch_alert": {
+      "id": "tool_gitlab_dispatch_alert",
+      "server": "mcp_gitlab",
+      "sha256": "61e82da02a0e28d45fdd9df547ff7fe59f82f4e63f927f98d8ab52fde38cac6a",
+      "status": "verified"
+    },
+    "gitlab_generate_diagnostic_report": {
+      "id": "tool_gitlab_generate_diagnostic_report",
+      "server": "mcp_gitlab",
+      "sha256": "0b3908f1c8454230615b010b16378d73acceca6b6bb872a2535cbd8befbd3c0d",
+      "status": "verified"
+    },
+    "linear_inspect_health": {
+      "id": "tool_linear_inspect_health",
+      "server": "mcp_linear",
+      "sha256": "453229d42745dc3ec013fe10084c396476881a148832bce4d9ca070fc1377de6",
+      "status": "verified"
+    },
+    "linear_fetch_metrics": {
+      "id": "tool_linear_fetch_metrics",
+      "server": "mcp_linear",
+      "sha256": "e77e3ffb7ff7517289fd6e7cb941bcafd6a67958093f55ff32454a7ee2fa22bc",
+      "status": "verified"
+    },
+    "linear_check_connection_pool": {
+      "id": "tool_linear_check_connection_pool",
+      "server": "mcp_linear",
+      "sha256": "e30134ea544f3215b59f87b1d19316e41048ac06742bf4844ccc6d19b06e78ea",
+      "status": "verified"
+    },
+    "linear_stream_logs": {
+      "id": "tool_linear_stream_logs",
+      "server": "mcp_linear",
+      "sha256": "58020432a0ece64c6c653b9ee7730fe4964e5b596d5b04b9454fd9b177332be4",
+      "status": "verified"
+    },
+    "linear_trigger_restart": {
+      "id": "tool_linear_trigger_restart",
+      "server": "mcp_linear",
+      "sha256": "3717c0a860f54cc34dc7e1b50da9980aed981a5bab9ea94c12fe387e39dcd5f2",
+      "status": "verified"
+    },
+    "linear_execute_rebalance": {
+      "id": "tool_linear_execute_rebalance",
+      "server": "mcp_linear",
+      "sha256": "f9d6dcc641716ab8be06763fd22f4869ec36de35ce0746d5829c02ff588d3c17",
+      "status": "verified"
+    },
+    "linear_drain_traffic": {
+      "id": "tool_linear_drain_traffic",
+      "server": "mcp_linear",
+      "sha256": "6afc2e537b3d9930e662ad35a130aa5a704e0d9aae26fc19cc8f831f0451cc97",
+      "status": "verified"
+    },
+    "linear_verify_configuration": {
+      "id": "tool_linear_verify_configuration",
+      "server": "mcp_linear",
+      "sha256": "d0e1555ebbe02a48dbd361d6f960e04df05a861f0f9664a0e2fe9b4a9d6c2a4d",
+      "status": "verified"
+    },
+    "linear_create_incident_issue": {
+      "id": "tool_linear_create_incident_issue",
+      "server": "mcp_linear",
+      "sha256": "53fc1a8870c670ab0df04f7f2891a383ad1e245fc1e4b711f5f7d8b62cb51485",
+      "status": "verified"
+    },
+    "linear_generate_diagnostic_report": {
+      "id": "tool_linear_generate_diagnostic_report",
+      "server": "mcp_linear",
+      "sha256": "913a59d03d0b4abc4463a45f70165dd1203ed6bad98dd12aa05e5ce0f07b5aed",
+      "status": "verified"
+    },
+    "jira_inspect_health": {
+      "id": "tool_jira_inspect_health",
+      "server": "mcp_jira",
+      "sha256": "f0d01ff7fd4b393a7f0f70ea54187c449c374e5e0386329b337ca317620e6197",
+      "status": "verified"
+    },
+    "jira_fetch_metrics": {
+      "id": "tool_jira_fetch_metrics",
+      "server": "mcp_jira",
+      "sha256": "ad13bacae1746b809110c104ce4c0e0df096401edd6905c266eba488603d086a",
+      "status": "verified"
+    },
+    "jira_check_connection_pool": {
+      "id": "tool_jira_check_connection_pool",
+      "server": "mcp_jira",
+      "sha256": "2d49fae0c13376c7dc124dcb9e8bc243fef871139930fa69a96fb2d396410183",
+      "status": "verified"
+    },
+    "jira_stream_logs": {
+      "id": "tool_jira_stream_logs",
+      "server": "mcp_jira",
+      "sha256": "1b2384fdb930dfb96129006b2ca603103aafa28d712940938eab712e3525a7f8",
+      "status": "verified"
+    },
+    "jira_trigger_restart": {
+      "id": "tool_jira_trigger_restart",
+      "server": "mcp_jira",
+      "sha256": "6b149a04229f94a33b54c61a904f3e1f38858b4229ea251753da674050ac5272",
+      "status": "verified"
+    },
+    "jira_execute_rebalance": {
+      "id": "tool_jira_execute_rebalance",
+      "server": "mcp_jira",
+      "sha256": "51776ae2616de89b89fdf6219ff763e68bb2cc80afc7868c4bbb4e714e0c36fa",
+      "status": "verified"
+    },
+    "jira_drain_traffic": {
+      "id": "tool_jira_drain_traffic",
+      "server": "mcp_jira",
+      "sha256": "9f456a290939015d7aa930309f92a8204af49dfa664284aea7d8d2dd301692d9",
+      "status": "verified"
+    },
+    "jira_verify_configuration": {
+      "id": "tool_jira_verify_configuration",
+      "server": "mcp_jira",
+      "sha256": "d53e994eaca869efca06181ce30bd39ff56d9a1be72bc32ccef936bbff660426",
+      "status": "verified"
+    },
+    "jira_dispatch_alert": {
+      "id": "tool_jira_dispatch_alert",
+      "server": "mcp_jira",
+      "sha256": "3cd71ca61c5140fba12bcdf74edfd28572debe480ffd41aed88adfb31ad44c17",
+      "status": "verified"
+    },
+    "jira_generate_diagnostic_report": {
+      "id": "tool_jira_generate_diagnostic_report",
+      "server": "mcp_jira",
+      "sha256": "e23c5378318c6052a0c225903c8585de789de004d7af9ab06c47c1e254451cd8",
+      "status": "verified"
+    },
+    "argocd_inspect_health": {
+      "id": "tool_argocd_inspect_health",
+      "server": "mcp_argocd",
+      "sha256": "68ccf1f32f9ebada095ddd9b93efa0d496a7486e17402d944af4e35e4dae8e3a",
+      "status": "verified"
+    },
+    "argocd_fetch_metrics": {
+      "id": "tool_argocd_fetch_metrics",
+      "server": "mcp_argocd",
+      "sha256": "d3fcc2793580d35c7f79fcc42442dcd76751380e68a11ae9e124d82d8a38f75d",
+      "status": "verified"
+    },
+    "argocd_check_connection_pool": {
+      "id": "tool_argocd_check_connection_pool",
+      "server": "mcp_argocd",
+      "sha256": "45f915ff68c015a8363a8b24708fcd989d295a9c808add79663666943d0fbd3f",
+      "status": "verified"
+    },
+    "argocd_stream_logs": {
+      "id": "tool_argocd_stream_logs",
+      "server": "mcp_argocd",
+      "sha256": "44f3d7a94bb32290511049ef654e2556a40c0a63e0c25ac4e21462127c31c2b5",
+      "status": "verified"
+    },
+    "argocd_trigger_restart": {
+      "id": "tool_argocd_trigger_restart",
+      "server": "mcp_argocd",
+      "sha256": "6907925324b8fec011b70433bd8852f8341eab5d2a22af4eb23ffadb8e4c26e6",
+      "status": "verified"
+    },
+    "argocd_execute_rebalance": {
+      "id": "tool_argocd_execute_rebalance",
+      "server": "mcp_argocd",
+      "sha256": "12d32f90163b24e3f52dbffa2ff633e89d79f052cb87e4c0231cf3394f217fcb",
+      "status": "verified"
+    },
+    "argocd_drain_traffic": {
+      "id": "tool_argocd_drain_traffic",
+      "server": "mcp_argocd",
+      "sha256": "dc0d048f1f351a310c1771cb4c92b994ebeb9e0beba104e91a8eb06948253f9b",
+      "status": "verified"
+    },
+    "argocd_verify_configuration": {
+      "id": "tool_argocd_verify_configuration",
+      "server": "mcp_argocd",
+      "sha256": "a61a6fe0c89061de3310e6baa450800b2d1c94289a7f4dc6e03a581d88b48624",
+      "status": "verified"
+    },
+    "argocd_dispatch_alert": {
+      "id": "tool_argocd_dispatch_alert",
+      "server": "mcp_argocd",
+      "sha256": "56fd916bc6e701d24a8cf869ef82052eaa586d163d65c4e5b9d71d7b72344bf4",
+      "status": "verified"
+    },
+    "argocd_generate_diagnostic_report": {
+      "id": "tool_argocd_generate_diagnostic_report",
+      "server": "mcp_argocd",
+      "sha256": "728184657124c81f3ad116fd8ceee7eec94520f62e2d4e834e67b9d4eb201775",
+      "status": "verified"
+    },
+    "circleci_inspect_health": {
+      "id": "tool_circleci_inspect_health",
+      "server": "mcp_circleci",
+      "sha256": "00336e8434ef704e4700455e3cc6666c43169ec8232baff5b01809778f0d40e9",
+      "status": "verified"
+    },
+    "circleci_fetch_metrics": {
+      "id": "tool_circleci_fetch_metrics",
+      "server": "mcp_circleci",
+      "sha256": "0082deb40edd793953a62e5f54d95be22e195c2527c369c0d522d447365bacf1",
+      "status": "verified"
+    },
+    "circleci_check_connection_pool": {
+      "id": "tool_circleci_check_connection_pool",
+      "server": "mcp_circleci",
+      "sha256": "3937ffd3e1fdcd1733d1a357ad2b9d7979d12de44a03a68ce741ccafa5c03e99",
+      "status": "verified"
+    },
+    "circleci_stream_logs": {
+      "id": "tool_circleci_stream_logs",
+      "server": "mcp_circleci",
+      "sha256": "fddf847a151da94bfbc48c59c8648ed20c05cda6e648dc43e9f96a4a3a0d3170",
+      "status": "verified"
+    },
+    "circleci_trigger_restart": {
+      "id": "tool_circleci_trigger_restart",
+      "server": "mcp_circleci",
+      "sha256": "e844ac597387de85132e72290d15111118a59c46f2c719f33b49af9ecdb9b409",
+      "status": "verified"
+    },
+    "circleci_execute_rebalance": {
+      "id": "tool_circleci_execute_rebalance",
+      "server": "mcp_circleci",
+      "sha256": "a114c71c09e2191de4a74a394023327454486506f23abbe0da8afb6795b3cd7b",
+      "status": "verified"
+    },
+    "circleci_drain_traffic": {
+      "id": "tool_circleci_drain_traffic",
+      "server": "mcp_circleci",
+      "sha256": "0273d275927c2f42fa5398c2897c8ecbd987ce464ce61e940ab12f395d8f9b2d",
+      "status": "verified"
+    },
+    "circleci_verify_configuration": {
+      "id": "tool_circleci_verify_configuration",
+      "server": "mcp_circleci",
+      "sha256": "a5887ab36eb05d5761da7011930829c1b574c610801a706dc59452a747716cb2",
+      "status": "verified"
+    },
+    "circleci_dispatch_alert": {
+      "id": "tool_circleci_dispatch_alert",
+      "server": "mcp_circleci",
+      "sha256": "f28300103bfa97058aa73be57859d629be2013016fb100622ba9da4e433126b9",
+      "status": "verified"
+    },
+    "circleci_generate_diagnostic_report": {
+      "id": "tool_circleci_generate_diagnostic_report",
+      "server": "mcp_circleci",
+      "sha256": "ad1e21a0550f48bd0abe8880b1643b595a966fe57b27ea01d8bd21018978cd74",
+      "status": "verified"
+    },
+    "snyk_inspect_health": {
+      "id": "tool_snyk_inspect_health",
+      "server": "mcp_snyk",
+      "sha256": "5a7159fe213727cb5635a520c8cb6cefc9647c22c6e260fbec1ed83403b763e6",
+      "status": "verified"
+    },
+    "snyk_fetch_metrics": {
+      "id": "tool_snyk_fetch_metrics",
+      "server": "mcp_snyk",
+      "sha256": "2d32bed9a22a1a71fe4ceb6e38c8afc6b147ee5c69096594d27b28837fd80f28",
+      "status": "verified"
+    },
+    "snyk_check_connection_pool": {
+      "id": "tool_snyk_check_connection_pool",
+      "server": "mcp_snyk",
+      "sha256": "3ba7d7f2a0c8f87dc44e61173490ddedafb56fa622608627d11470c1d8ee21fc",
+      "status": "verified"
+    },
+    "snyk_stream_logs": {
+      "id": "tool_snyk_stream_logs",
+      "server": "mcp_snyk",
+      "sha256": "fc1ae03861063c177ce9f9cb348e3d24739ab1c2cad2a3eef423ebbcd0f2c111",
+      "status": "verified"
+    },
+    "snyk_trigger_restart": {
+      "id": "tool_snyk_trigger_restart",
+      "server": "mcp_snyk",
+      "sha256": "82aaa9635b4d4c7e6437efcf13c2973a03074b940e6661b1bd3be6ea5335c95e",
+      "status": "verified"
+    },
+    "snyk_execute_rebalance": {
+      "id": "tool_snyk_execute_rebalance",
+      "server": "mcp_snyk",
+      "sha256": "1879556cdcf651c345f421b7bff18eb7aeb33ca0c5d181b6540313b80e6c4c2f",
+      "status": "verified"
+    },
+    "snyk_drain_traffic": {
+      "id": "tool_snyk_drain_traffic",
+      "server": "mcp_snyk",
+      "sha256": "1b2ddf006317b7e2c2806392f5985d9f435d44cfec136eab9ce854f0e958b316",
+      "status": "verified"
+    },
+    "snyk_verify_configuration": {
+      "id": "tool_snyk_verify_configuration",
+      "server": "mcp_snyk",
+      "sha256": "12c112071df5683da763e11cec18697014525382dfc5c8396abca67964170dbc",
+      "status": "verified"
+    },
+    "snyk_dispatch_alert": {
+      "id": "tool_snyk_dispatch_alert",
+      "server": "mcp_snyk",
+      "sha256": "a7276eb7da9218fd8768bd5b87e9fef677fa142218756662655269bec9a35541",
+      "status": "verified"
+    },
+    "snyk_generate_diagnostic_report": {
+      "id": "tool_snyk_generate_diagnostic_report",
+      "server": "mcp_snyk",
+      "sha256": "8c4f28bef487503b80588913e92a6282ea328d41cac2d8f6e9280b68c6529fcf",
+      "status": "verified"
+    },
+    "sonarqube_inspect_health": {
+      "id": "tool_sonarqube_inspect_health",
+      "server": "mcp_sonarqube",
+      "sha256": "dec134f7bb1542f3cf2fd82ec1d88180beff8ad8c8404b6d9698216f173570ee",
+      "status": "verified"
+    },
+    "sonarqube_fetch_metrics": {
+      "id": "tool_sonarqube_fetch_metrics",
+      "server": "mcp_sonarqube",
+      "sha256": "444c02d670088d3de2a616e9b86d2a191362b5b8130a736e9db7c562a0683e65",
+      "status": "verified"
+    },
+    "sonarqube_check_connection_pool": {
+      "id": "tool_sonarqube_check_connection_pool",
+      "server": "mcp_sonarqube",
+      "sha256": "113544f3399a2c25e89148040f5e810c6325e64bc8b92d2c309c3473cf141c3c",
+      "status": "verified"
+    },
+    "sonarqube_stream_logs": {
+      "id": "tool_sonarqube_stream_logs",
+      "server": "mcp_sonarqube",
+      "sha256": "93b37f8b7086361804572ed46c4402d105bb7c610341770998f3447eacee1f26",
+      "status": "verified"
+    },
+    "sonarqube_trigger_restart": {
+      "id": "tool_sonarqube_trigger_restart",
+      "server": "mcp_sonarqube",
+      "sha256": "1fcd3047918b89425f71fb58dfcdfc28416db2704cace959d7af8f5f497103b0",
+      "status": "verified"
+    },
+    "sonarqube_execute_rebalance": {
+      "id": "tool_sonarqube_execute_rebalance",
+      "server": "mcp_sonarqube",
+      "sha256": "240778f8f52ee9c49b8273a16c5e451478925b2ed7a03c7fc238f60c87055191",
+      "status": "verified"
+    },
+    "sonarqube_drain_traffic": {
+      "id": "tool_sonarqube_drain_traffic",
+      "server": "mcp_sonarqube",
+      "sha256": "647dcdcf9b78c9ab8ae76f2ead8f0133c0ced6e73de45e0ad61280a7655967c0",
+      "status": "verified"
+    },
+    "sonarqube_verify_configuration": {
+      "id": "tool_sonarqube_verify_configuration",
+      "server": "mcp_sonarqube",
+      "sha256": "8e3b9eb0fad722233e80855977625365fb8030a2daa0bb17fbd201d842f9e1e6",
+      "status": "verified"
+    },
+    "sonarqube_dispatch_alert": {
+      "id": "tool_sonarqube_dispatch_alert",
+      "server": "mcp_sonarqube",
+      "sha256": "9c4118aff291b917aef5d5d8e8f6fad28a5c7d7c35f65e7e6f58333ce3ca8f26",
+      "status": "verified"
+    },
+    "sonarqube_generate_diagnostic_report": {
+      "id": "tool_sonarqube_generate_diagnostic_report",
+      "server": "mcp_sonarqube",
+      "sha256": "0197e7b87f13ca2dd352dfffdceb8ab6e9cd3ac22f62cd0689c675e79e582328",
+      "status": "verified"
+    },
+    "vault_inspect_health": {
+      "id": "tool_vault_inspect_health",
+      "server": "mcp_vault",
+      "sha256": "73775e5f96c808bd3a4f7da01ecbb027bb582f51ad0849265a78dc5168466ea8",
+      "status": "verified"
+    },
+    "vault_fetch_metrics": {
+      "id": "tool_vault_fetch_metrics",
+      "server": "mcp_vault",
+      "sha256": "1e635cdbd9e31b3dc8fe9d72a7dace0b2c79acd0d001a7df6ede5146b535525e",
+      "status": "verified"
+    },
+    "vault_check_connection_pool": {
+      "id": "tool_vault_check_connection_pool",
+      "server": "mcp_vault",
+      "sha256": "50768456fddbeb2e156819f83a4c80f72caeed7e0f6e09540d0a10ddbe02c7ad",
+      "status": "verified"
+    },
+    "vault_stream_logs": {
+      "id": "tool_vault_stream_logs",
+      "server": "mcp_vault",
+      "sha256": "f104ba07f43a70994ec7a997ddb948a0ce1a532564f7018012878a0afa363125",
+      "status": "verified"
+    },
+    "vault_trigger_restart": {
+      "id": "tool_vault_trigger_restart",
+      "server": "mcp_vault",
+      "sha256": "d96aab88dbcec25d0c3a673bd43d406a2d8ec07f3ec5faba90316ea67952eb3c",
+      "status": "verified"
+    },
+    "vault_execute_rebalance": {
+      "id": "tool_vault_execute_rebalance",
+      "server": "mcp_vault",
+      "sha256": "52fb9cd012c0f8a598d03c0849ce19076f43f71415bf55e3edf09fd248596c41",
+      "status": "verified"
+    },
+    "vault_drain_traffic": {
+      "id": "tool_vault_drain_traffic",
+      "server": "mcp_vault",
+      "sha256": "47c1093e39adedf5442fa2b573f21f4b2dda00d6e4fe17f3fb51002076097250",
+      "status": "verified"
+    },
+    "vault_renew_database_lease": {
+      "id": "tool_vault_renew_database_lease",
+      "server": "mcp_vault",
+      "sha256": "ed75deb28134476ce1400419ce59ccb34ee6be6220e5761a42c571a7273cd48f",
+      "status": "verified"
+    },
+    "vault_dispatch_alert": {
+      "id": "tool_vault_dispatch_alert",
+      "server": "mcp_vault",
+      "sha256": "180b8017f4d74364b22ae77781329bf1a1168f5931d86a9640b1169bb2c58bed",
+      "status": "verified"
+    },
+    "vault_generate_diagnostic_report": {
+      "id": "tool_vault_generate_diagnostic_report",
+      "server": "mcp_vault",
+      "sha256": "23dfe2964b799e82c9c0668938b7191d2af3ce0f72fb48ade8ad57bd089a243f",
+      "status": "verified"
+    },
+    "aws_iam_inspect_health": {
+      "id": "tool_aws_iam_inspect_health",
+      "server": "mcp_aws_iam",
+      "sha256": "cb34b271a85cd6b92ce43a6a4636b07bddf73ee39affd4fde7b09746d120eab2",
+      "status": "verified"
+    },
+    "aws_iam_fetch_metrics": {
+      "id": "tool_aws_iam_fetch_metrics",
+      "server": "mcp_aws_iam",
+      "sha256": "117b09f39084b8d8b425062b7e5a25d6da4ec26a66eeeb9926c58bf35eeb0d5c",
+      "status": "verified"
+    },
+    "aws_iam_check_connection_pool": {
+      "id": "tool_aws_iam_check_connection_pool",
+      "server": "mcp_aws_iam",
+      "sha256": "32817b4383c5083524dfb482ce5644069949f210baa1d4cfef419897a7d1381e",
+      "status": "verified"
+    },
+    "aws_iam_stream_logs": {
+      "id": "tool_aws_iam_stream_logs",
+      "server": "mcp_aws_iam",
+      "sha256": "a07984e28c5934592e118cd557e1fe1c310d2c45d0536a7ecd843585ebfc7b4a",
+      "status": "verified"
+    },
+    "aws_iam_trigger_restart": {
+      "id": "tool_aws_iam_trigger_restart",
+      "server": "mcp_aws_iam",
+      "sha256": "addcb0e2bbd9f726483d8e7a17c59b5819823cb3d09f9d5afe63ae93127f9a01",
+      "status": "verified"
+    },
+    "aws_iam_execute_rebalance": {
+      "id": "tool_aws_iam_execute_rebalance",
+      "server": "mcp_aws_iam",
+      "sha256": "a130380a45cdc07d86ea098e776b8930dc3d2d5ad88275d8d361a47a40386410",
+      "status": "verified"
+    },
+    "aws_iam_drain_traffic": {
+      "id": "tool_aws_iam_drain_traffic",
+      "server": "mcp_aws_iam",
+      "sha256": "cae44c31f05f9e04fea203e1e54805f88f994a8229d71718eef18f6de6700a53",
+      "status": "verified"
+    },
+    "aws_iam_verify_configuration": {
+      "id": "tool_aws_iam_verify_configuration",
+      "server": "mcp_aws_iam",
+      "sha256": "dfa836e5b59d9eb96091c26581c6b0f4bf75ecf713499705ae19bfe6b98037a3",
+      "status": "verified"
+    },
+    "aws_iam_dispatch_alert": {
+      "id": "tool_aws_iam_dispatch_alert",
+      "server": "mcp_aws_iam",
+      "sha256": "82154ec23823571df9a2d5bfb114fe88b19915a0309dce6dec7735d2b66ca02f",
+      "status": "verified"
+    },
+    "aws_iam_generate_diagnostic_report": {
+      "id": "tool_aws_iam_generate_diagnostic_report",
+      "server": "mcp_aws_iam",
+      "sha256": "808179271a7809ae299c19fa9e1875467a138a0b5b1d4f53e97f11c1b98c698b",
+      "status": "verified"
+    },
+    "okta_inspect_health": {
+      "id": "tool_okta_inspect_health",
+      "server": "mcp_okta",
+      "sha256": "1aa88005caa0731516a342874ea0b819ca2d12d18b397a0288c38ddfca9c32f3",
+      "status": "verified"
+    },
+    "okta_fetch_metrics": {
+      "id": "tool_okta_fetch_metrics",
+      "server": "mcp_okta",
+      "sha256": "00aca4a4772c2b872b410eda9904999b7596af3f65b80b11eb335638cf58e65b",
+      "status": "verified"
+    },
+    "okta_check_connection_pool": {
+      "id": "tool_okta_check_connection_pool",
+      "server": "mcp_okta",
+      "sha256": "3ba46e4e561e02b2b4b425d350df2171bbfbeb871136f1f14b021fe4b0925c86",
+      "status": "verified"
+    },
+    "okta_stream_logs": {
+      "id": "tool_okta_stream_logs",
+      "server": "mcp_okta",
+      "sha256": "e62a5b35c73ddb2a7a35563704b4d2718736ec89a3ec9cbad828d7e141905ef8",
+      "status": "verified"
+    },
+    "okta_trigger_restart": {
+      "id": "tool_okta_trigger_restart",
+      "server": "mcp_okta",
+      "sha256": "6df40d252313a844b8996a4db7f31e017b9f9acdeda1cd2619cfb8efeb048b6d",
+      "status": "verified"
+    },
+    "okta_execute_rebalance": {
+      "id": "tool_okta_execute_rebalance",
+      "server": "mcp_okta",
+      "sha256": "2a65004d182223fa149a13972756826d8446456512b5d0bdb8bfdd416701074c",
+      "status": "verified"
+    },
+    "okta_drain_traffic": {
+      "id": "tool_okta_drain_traffic",
+      "server": "mcp_okta",
+      "sha256": "32bf34284b36259a114f3951c1e0ab894b6f3d187e854f43051d8232f6f135cf",
+      "status": "verified"
+    },
+    "okta_verify_configuration": {
+      "id": "tool_okta_verify_configuration",
+      "server": "mcp_okta",
+      "sha256": "37f704e95cf2c6ed1314c7001eb083f5c9b9f5c54d27363ee852f0f7cbe3f3d4",
+      "status": "verified"
+    },
+    "okta_dispatch_alert": {
+      "id": "tool_okta_dispatch_alert",
+      "server": "mcp_okta",
+      "sha256": "fd079348d5a245414d6b636fa37babe2d33483d3a5eb6d953e021804e82cb086",
+      "status": "verified"
+    },
+    "okta_generate_diagnostic_report": {
+      "id": "tool_okta_generate_diagnostic_report",
+      "server": "mcp_okta",
+      "sha256": "ca4acebf78f78195b6c83048ef8389c6e0af3fceda119f0b7e39f29d2fdd3f0e",
+      "status": "verified"
+    },
+    "fastly_inspect_health": {
+      "id": "tool_fastly_inspect_health",
+      "server": "mcp_fastly",
+      "sha256": "e089ec9af1325232a86fe04d808a576d93665bb1cd79ccea8464f472491949d5",
+      "status": "verified"
+    },
+    "fastly_fetch_metrics": {
+      "id": "tool_fastly_fetch_metrics",
+      "server": "mcp_fastly",
+      "sha256": "5d93daa78fc24b167e168f07761f847ed24dc23cf61b0384ef344363b8526be6",
+      "status": "verified"
+    },
+    "fastly_check_connection_pool": {
+      "id": "tool_fastly_check_connection_pool",
+      "server": "mcp_fastly",
+      "sha256": "49ed076c9c906d5a7f2862c39e8664eea1755a1a65ba0ece2f4ca0fe5f5c5685",
+      "status": "verified"
+    },
+    "fastly_stream_logs": {
+      "id": "tool_fastly_stream_logs",
+      "server": "mcp_fastly",
+      "sha256": "ca61c8f6c15cef2613b575faa50f273a8cf3dd95c83e85958ee8da90ecccf98b",
+      "status": "verified"
+    },
+    "fastly_trigger_restart": {
+      "id": "tool_fastly_trigger_restart",
+      "server": "mcp_fastly",
+      "sha256": "0e315f11e8eab7237610c2db218f79d9f0f5a916c7b46e0a7f48da1331312ee1",
+      "status": "verified"
+    },
+    "fastly_execute_rebalance": {
+      "id": "tool_fastly_execute_rebalance",
+      "server": "mcp_fastly",
+      "sha256": "24d6ba5b14824a914a67c322423d412aa6d7fdf6d60bd249c38f9e970dc368b3",
+      "status": "verified"
+    },
+    "fastly_drain_traffic": {
+      "id": "tool_fastly_drain_traffic",
+      "server": "mcp_fastly",
+      "sha256": "cdc43306e0de24acc6329deb8ed7a4d35f9f13d395595423c992add6e5263b29",
+      "status": "verified"
+    },
+    "fastly_verify_configuration": {
+      "id": "tool_fastly_verify_configuration",
+      "server": "mcp_fastly",
+      "sha256": "b06be0298d6be6356215b7e99aa424eadf837bed0692c56a77c132111bef184c",
+      "status": "verified"
+    },
+    "fastly_dispatch_alert": {
+      "id": "tool_fastly_dispatch_alert",
+      "server": "mcp_fastly",
+      "sha256": "d155c16ee7f7637107d247540d62f37e78c7a3b56a498c57c3f6fc55186d77ad",
+      "status": "verified"
+    },
+    "fastly_generate_diagnostic_report": {
+      "id": "tool_fastly_generate_diagnostic_report",
+      "server": "mcp_fastly",
+      "sha256": "298e83de816f264729f6992a07d83b09fe8f02f04ff3b4dcfe07decf1029b5f5",
+      "status": "verified"
+    },
+    "wireguard_inspect_health": {
+      "id": "tool_wireguard_inspect_health",
+      "server": "mcp_wireguard",
+      "sha256": "4d1acb85e345ed81597c19b5cc4fc22b59d4dec0c19ba16718c5243a4c89ecc2",
+      "status": "verified"
+    },
+    "wireguard_fetch_metrics": {
+      "id": "tool_wireguard_fetch_metrics",
+      "server": "mcp_wireguard",
+      "sha256": "26bf05c4fbb76eff75def1842f8852b68990e6b010ed208c0b29aba433030528",
+      "status": "verified"
+    },
+    "wireguard_check_connection_pool": {
+      "id": "tool_wireguard_check_connection_pool",
+      "server": "mcp_wireguard",
+      "sha256": "ea15e5f317e06747c33eb81a6275fcf9e3f429c8d32d24648cdaef67ab7eb534",
+      "status": "verified"
+    },
+    "wireguard_stream_logs": {
+      "id": "tool_wireguard_stream_logs",
+      "server": "mcp_wireguard",
+      "sha256": "858f32ee3fb29b90fadd999f1825014fc9a0b17b9ba096d58ef4f35763d7d901",
+      "status": "verified"
+    },
+    "wireguard_trigger_restart": {
+      "id": "tool_wireguard_trigger_restart",
+      "server": "mcp_wireguard",
+      "sha256": "3186301b76de21265bab637765f560f8e0e53bc56f87c6a165797ae518e0fd06",
+      "status": "verified"
+    },
+    "wireguard_execute_rebalance": {
+      "id": "tool_wireguard_execute_rebalance",
+      "server": "mcp_wireguard",
+      "sha256": "67b2a8820a195e215b24183cec317e80cf6407ec7ef9edbaa730b3c1f52e69a5",
+      "status": "verified"
+    },
+    "wireguard_drain_traffic": {
+      "id": "tool_wireguard_drain_traffic",
+      "server": "mcp_wireguard",
+      "sha256": "b7d93a2aa53f32b8e82ab56b761e57fc792c59c3798cbdea990e4f73e3662e75",
+      "status": "verified"
+    },
+    "wireguard_verify_configuration": {
+      "id": "tool_wireguard_verify_configuration",
+      "server": "mcp_wireguard",
+      "sha256": "ba5d2835fb9179567756c43073192c8fa3dbe1ea11fa6f9beae4d75c36dc909a",
+      "status": "verified"
+    },
+    "wireguard_dispatch_alert": {
+      "id": "tool_wireguard_dispatch_alert",
+      "server": "mcp_wireguard",
+      "sha256": "8950f3d81dc89523850f4d1fc40b2cd32554a15a4c8a99106cf141800599ea61",
+      "status": "verified"
+    },
+    "wireguard_generate_diagnostic_report": {
+      "id": "tool_wireguard_generate_diagnostic_report",
+      "server": "mcp_wireguard",
+      "sha256": "dde26856ca814426d506c311e694fa78f712a8cb8b75c2a3cf3f2e35f83d35ca",
+      "status": "verified"
+    },
+    "nginx_inspect_health": {
+      "id": "tool_nginx_inspect_health",
+      "server": "mcp_nginx",
+      "sha256": "49eceed3da589d7e4e612ed8250f76dbff15adcb4a8aca99c81ae288c3149f39",
+      "status": "verified"
+    },
+    "nginx_fetch_metrics": {
+      "id": "tool_nginx_fetch_metrics",
+      "server": "mcp_nginx",
+      "sha256": "2d5d1682e7c13277185f6539673ba4be34b48eb5874709e4c696e55f5f6ae29b",
+      "status": "verified"
+    },
+    "nginx_check_connection_pool": {
+      "id": "tool_nginx_check_connection_pool",
+      "server": "mcp_nginx",
+      "sha256": "d3a5d3a6bcf36346c6c1e92e504ad5cbab86f8b400f73263229bdebc1cb6eb46",
+      "status": "verified"
+    },
+    "nginx_stream_logs": {
+      "id": "tool_nginx_stream_logs",
+      "server": "mcp_nginx",
+      "sha256": "9196b579c7e65842b7955d1c3d8f11b2e20a6f050114798a42f6c58f1a0167a7",
+      "status": "verified"
+    },
+    "nginx_trigger_restart": {
+      "id": "tool_nginx_trigger_restart",
+      "server": "mcp_nginx",
+      "sha256": "09e2e188a3317dc9cf2c268e53cb6fa3cbba8ccc23523da22a82075a744491e1",
+      "status": "verified"
+    },
+    "nginx_execute_rebalance": {
+      "id": "tool_nginx_execute_rebalance",
+      "server": "mcp_nginx",
+      "sha256": "768b105b8e5e0bf10b19999a75718ada692635509cd9e3da55dba3c9dc862aa4",
+      "status": "verified"
+    },
+    "nginx_drain_traffic": {
+      "id": "tool_nginx_drain_traffic",
+      "server": "mcp_nginx",
+      "sha256": "082a7cc15639034c59e04248289d1ec7924d0f2f37426e3bcc4c997a8d399b1c",
+      "status": "verified"
+    },
+    "nginx_verify_configuration": {
+      "id": "tool_nginx_verify_configuration",
+      "server": "mcp_nginx",
+      "sha256": "370e34df60149cf75e2e95a5df392016171ce21cf54abe3915d8bfdf3988983c",
+      "status": "verified"
+    },
+    "nginx_dispatch_alert": {
+      "id": "tool_nginx_dispatch_alert",
+      "server": "mcp_nginx",
+      "sha256": "f8f6188c6647a5033a5a46e8a39a838084993d282e495e0ea9b2c16b9fe61e0f",
+      "status": "verified"
+    },
+    "nginx_generate_diagnostic_report": {
+      "id": "tool_nginx_generate_diagnostic_report",
+      "server": "mcp_nginx",
+      "sha256": "fc12b5e75d1780f975dff3b06d7718801912ed411e07e4f404282c25efa9dcb2",
+      "status": "verified"
+    },
+    "slack_inspect_health": {
+      "id": "tool_slack_inspect_health",
+      "server": "mcp_slack",
+      "sha256": "b45c33a48cfa3121a8bf9c9ea97539a5edde3b114ed3dcefedbccd9e1040dc95",
+      "status": "verified"
+    },
+    "slack_fetch_metrics": {
+      "id": "tool_slack_fetch_metrics",
+      "server": "mcp_slack",
+      "sha256": "accca4c76ceb13584605b219368af80f1920a04d5855a84a4e9f6ab7aad2790d",
+      "status": "verified"
+    },
+    "slack_check_connection_pool": {
+      "id": "tool_slack_check_connection_pool",
+      "server": "mcp_slack",
+      "sha256": "2afd669d133fd982ee73c98e5565fd197fe69760f3b8378210ab43001604bc11",
+      "status": "verified"
+    },
+    "slack_stream_logs": {
+      "id": "tool_slack_stream_logs",
+      "server": "mcp_slack",
+      "sha256": "4321f2853711520bb1c0596773445775e3cba1d0e90a553157893201f1b162f4",
+      "status": "verified"
+    },
+    "slack_trigger_restart": {
+      "id": "tool_slack_trigger_restart",
+      "server": "mcp_slack",
+      "sha256": "d192c1f0164319f4c1990de3b5f6d46f5a43473e539699b95747483cbd75ba93",
+      "status": "verified"
+    },
+    "slack_execute_rebalance": {
+      "id": "tool_slack_execute_rebalance",
+      "server": "mcp_slack",
+      "sha256": "adab6b06d492d8d7091b43e76e59467c4f76690ce1a9ff50305cd1c7b0cb45a5",
+      "status": "verified"
+    },
+    "slack_drain_traffic": {
+      "id": "tool_slack_drain_traffic",
+      "server": "mcp_slack",
+      "sha256": "ca2f75ed598e3920a074d2c881909d0f024090d9f3ba22e22641f85a8df28049",
+      "status": "verified"
+    },
+    "slack_update_incident_status": {
+      "id": "tool_slack_update_incident_status",
+      "server": "mcp_slack",
+      "sha256": "b79817dab81799ef65bec84da0d2ab27718fc92b477cadcfac78913f1f7c079a",
+      "status": "verified"
+    },
+    "slack_post_incident_bulletin": {
+      "id": "tool_slack_post_incident_bulletin",
+      "server": "mcp_slack",
+      "sha256": "e953287c22a2b681f9ae9ba7fbfc28a3feabde446fdca55551fe446e870d2e42",
+      "status": "verified"
+    },
+    "slack_generate_diagnostic_report": {
+      "id": "tool_slack_generate_diagnostic_report",
+      "server": "mcp_slack",
+      "sha256": "aaa9e7a3e55931d4488a4c401f7b1ec78908b5677ecc4124913bc164769d06e3",
+      "status": "verified"
+    },
+    "discord_inspect_health": {
+      "id": "tool_discord_inspect_health",
+      "server": "mcp_discord",
+      "sha256": "35f3b1e0541cdbc8f3213953c099e12461d7ebf90d2ed5f49166b36fa08f9584",
+      "status": "verified"
+    },
+    "discord_fetch_metrics": {
+      "id": "tool_discord_fetch_metrics",
+      "server": "mcp_discord",
+      "sha256": "935bb6a8ecc3541ef2f4a4713aab3e0044eaf73d89158287f7c39718e41c38f1",
+      "status": "verified"
+    },
+    "discord_check_connection_pool": {
+      "id": "tool_discord_check_connection_pool",
+      "server": "mcp_discord",
+      "sha256": "a39339c453151bc070dc088bd5d06492550fd65963dd23099fd1f737974722f2",
+      "status": "verified"
+    },
+    "discord_stream_logs": {
+      "id": "tool_discord_stream_logs",
+      "server": "mcp_discord",
+      "sha256": "434da2f99562cd892d2d0f5a911686ef14afce555fa14006fdea1d7cde2edcae",
+      "status": "verified"
+    },
+    "discord_trigger_restart": {
+      "id": "tool_discord_trigger_restart",
+      "server": "mcp_discord",
+      "sha256": "de24250a64a61996ea596f5104721aac30422eeb95762e90a5ec2ba7279d3233",
+      "status": "verified"
+    },
+    "discord_execute_rebalance": {
+      "id": "tool_discord_execute_rebalance",
+      "server": "mcp_discord",
+      "sha256": "233b73b1f8285485cdd54f35997ae050da1406ba9803b6cae9a65d979cea021c",
+      "status": "verified"
+    },
+    "discord_drain_traffic": {
+      "id": "tool_discord_drain_traffic",
+      "server": "mcp_discord",
+      "sha256": "ca7035508a08bcebd2dd62035231b8024f959f95c2fca5dde3c5fb99852b53d9",
+      "status": "verified"
+    },
+    "discord_verify_configuration": {
+      "id": "tool_discord_verify_configuration",
+      "server": "mcp_discord",
+      "sha256": "5306c4df1f1ca2788d2a92c52918c5c84546dce27d4f4b40183ca028e001a16f",
+      "status": "verified"
+    },
+    "discord_dispatch_alert": {
+      "id": "tool_discord_dispatch_alert",
+      "server": "mcp_discord",
+      "sha256": "1cd3ef8111391fe06721f82811118f3688630a86a7d1f4d085e30ee694f5bd5b",
+      "status": "verified"
+    },
+    "discord_generate_diagnostic_report": {
+      "id": "tool_discord_generate_diagnostic_report",
+      "server": "mcp_discord",
+      "sha256": "2131bad762ec87f325e2c10c12754e6375261f09bf0c24b3217081b2fd79f449",
+      "status": "verified"
+    },
+    "notion_inspect_health": {
+      "id": "tool_notion_inspect_health",
+      "server": "mcp_notion",
+      "sha256": "77ae2a58d1f09900447ef3e04f1b3e2ea28e60e011a83877302c65f53ac12575",
+      "status": "verified"
+    },
+    "notion_fetch_metrics": {
+      "id": "tool_notion_fetch_metrics",
+      "server": "mcp_notion",
+      "sha256": "c88c5673849f7e3030e15edd1d0bc7455627e2ee4e5d745b1493a8332a8212a4",
+      "status": "verified"
+    },
+    "notion_check_connection_pool": {
+      "id": "tool_notion_check_connection_pool",
+      "server": "mcp_notion",
+      "sha256": "0e98d42454f4590dcd619c92dcfff990a8ef3094f8d9c6c0efc190f77329d983",
+      "status": "verified"
+    },
+    "notion_stream_logs": {
+      "id": "tool_notion_stream_logs",
+      "server": "mcp_notion",
+      "sha256": "2170e764b2d96c133733e4a0334316368fccc0df44d073881cb98bb488c19a5f",
+      "status": "verified"
+    },
+    "notion_trigger_restart": {
+      "id": "tool_notion_trigger_restart",
+      "server": "mcp_notion",
+      "sha256": "9dd41b2eff1a5ebe262150bb825ecac61c7457237840b48509eaf0ef4b05ca75",
+      "status": "verified"
+    },
+    "notion_execute_rebalance": {
+      "id": "tool_notion_execute_rebalance",
+      "server": "mcp_notion",
+      "sha256": "10f7d8602a604928381af5ced43437dde2233159c06e067c907fb3be4f89c592",
+      "status": "verified"
+    },
+    "notion_drain_traffic": {
+      "id": "tool_notion_drain_traffic",
+      "server": "mcp_notion",
+      "sha256": "dc0987ffd249de9e2e85ad47ea89328ce51adc2b631b9571475b280ff7c172e3",
+      "status": "verified"
+    },
+    "notion_verify_configuration": {
+      "id": "tool_notion_verify_configuration",
+      "server": "mcp_notion",
+      "sha256": "9b158487c6a72669901a735be7147fd967b1c954d66ffb987c8e66ff32d06871",
+      "status": "verified"
+    },
+    "notion_dispatch_alert": {
+      "id": "tool_notion_dispatch_alert",
+      "server": "mcp_notion",
+      "sha256": "3b530436b383f22d06e89015b59181fb960e2f1fdd4322fd5bee40517889e35e",
+      "status": "verified"
+    },
+    "notion_generate_diagnostic_report": {
+      "id": "tool_notion_generate_diagnostic_report",
+      "server": "mcp_notion",
+      "sha256": "e997010f969137768905de2a13f31bcd7d1318ff5fd5a7c894c1f62a658ce521",
+      "status": "verified"
+    },
+    "confluence_inspect_health": {
+      "id": "tool_confluence_inspect_health",
+      "server": "mcp_confluence",
+      "sha256": "347cbcdf6feacf93d747899972dd52876fe45505c025ffc64f2b0e2c0dc0a3ac",
+      "status": "verified"
+    },
+    "confluence_fetch_metrics": {
+      "id": "tool_confluence_fetch_metrics",
+      "server": "mcp_confluence",
+      "sha256": "2cf6fe4f7f8f9507c83381977115fca3279e1356118621737f7431518358864f",
+      "status": "verified"
+    },
+    "confluence_check_connection_pool": {
+      "id": "tool_confluence_check_connection_pool",
+      "server": "mcp_confluence",
+      "sha256": "e1c005e6e349779fa6d503fe866453fade7941c3621012d0f179006dcaa7d423",
+      "status": "verified"
+    },
+    "confluence_stream_logs": {
+      "id": "tool_confluence_stream_logs",
+      "server": "mcp_confluence",
+      "sha256": "f42534a9547de19d4a9bfee614f11171ff4c60b826c41c74f649ab41b2935dbd",
+      "status": "verified"
+    },
+    "confluence_trigger_restart": {
+      "id": "tool_confluence_trigger_restart",
+      "server": "mcp_confluence",
+      "sha256": "590e43f4aea3088169028255aded204f7c1583c77669f17899a3aa61328f284f",
+      "status": "verified"
+    },
+    "confluence_execute_rebalance": {
+      "id": "tool_confluence_execute_rebalance",
+      "server": "mcp_confluence",
+      "sha256": "cfca1673a0875cfc4da68520c824ce861037f9c6fcec88d2d3dfb690638e005d",
+      "status": "verified"
+    },
+    "confluence_drain_traffic": {
+      "id": "tool_confluence_drain_traffic",
+      "server": "mcp_confluence",
+      "sha256": "4dfcc8679342f5c0bfb047504e35adad90480e3c769d28d7ed63c0ad7adc032f",
+      "status": "verified"
+    },
+    "confluence_verify_configuration": {
+      "id": "tool_confluence_verify_configuration",
+      "server": "mcp_confluence",
+      "sha256": "07f18b93fcadf012edb899add1840b5127451157d97521cd69079e74e03398c0",
+      "status": "verified"
+    },
+    "confluence_dispatch_alert": {
+      "id": "tool_confluence_dispatch_alert",
+      "server": "mcp_confluence",
+      "sha256": "7ea448620cf80cd8cb1cc33cbc9e14a4a3063d60baac80675d11a91e5922b679",
+      "status": "verified"
+    },
+    "confluence_generate_diagnostic_report": {
+      "id": "tool_confluence_generate_diagnostic_report",
+      "server": "mcp_confluence",
+      "sha256": "1ebf62a0b4d460bc380fbe7224dfbbd600141aa2c72a7234671b0db6c2e1bb31",
+      "status": "verified"
+    },
+    "oncall_inspect_health": {
+      "id": "tool_oncall_inspect_health",
+      "server": "mcp_oncall",
+      "sha256": "e9790547033c69162baecfa24f6da75d69c11566ad1080b769aafcb26d8feb17",
+      "status": "verified"
+    },
+    "oncall_fetch_metrics": {
+      "id": "tool_oncall_fetch_metrics",
+      "server": "mcp_oncall",
+      "sha256": "2ec12407403897b3496c74d3229a9c1153345f4735078c259e86a53a7354f92d",
+      "status": "verified"
+    },
+    "oncall_check_connection_pool": {
+      "id": "tool_oncall_check_connection_pool",
+      "server": "mcp_oncall",
+      "sha256": "614af3b4ae80319d0c83dc0b976a36451697c431d699904f9547f124d4713f9f",
+      "status": "verified"
+    },
+    "oncall_stream_logs": {
+      "id": "tool_oncall_stream_logs",
+      "server": "mcp_oncall",
+      "sha256": "492208009c70d1391aa7e02e369bfbb375c0da14de6fc390128b421d89bb3993",
+      "status": "verified"
+    },
+    "oncall_trigger_restart": {
+      "id": "tool_oncall_trigger_restart",
+      "server": "mcp_oncall",
+      "sha256": "56d56ee2bd84b1655f670f8a214c4d21fe973e9c16aa2c948dc6803de4417d3d",
+      "status": "verified"
+    },
+    "oncall_execute_rebalance": {
+      "id": "tool_oncall_execute_rebalance",
+      "server": "mcp_oncall",
+      "sha256": "189499bd6b1f9f9f9516e90e42eebd3d7329cb08d67f35d8e02f882df6399b03",
+      "status": "verified"
+    },
+    "oncall_drain_traffic": {
+      "id": "tool_oncall_drain_traffic",
+      "server": "mcp_oncall",
+      "sha256": "050803343b057b164fc25d5b042ddaeb4f2eb700b992d8bd55f8a1fa93fd3cf9",
+      "status": "verified"
+    },
+    "oncall_verify_configuration": {
+      "id": "tool_oncall_verify_configuration",
+      "server": "mcp_oncall",
+      "sha256": "314e9b98f7d0750ef674c08f9c87394fc67d0af4a0cd4c19b5a637f20a898630",
+      "status": "verified"
+    },
+    "oncall_dispatch_alert": {
+      "id": "tool_oncall_dispatch_alert",
+      "server": "mcp_oncall",
+      "sha256": "0bf50e018fcd6dcfe512b5688cdac0345b099ccc0713a526bb07ea7abc09341a",
+      "status": "verified"
+    },
+    "oncall_generate_diagnostic_report": {
+      "id": "tool_oncall_generate_diagnostic_report",
+      "server": "mcp_oncall",
+      "sha256": "fc4cc662c8e478ae9b2a65234a2f925ead0da81af2b8f44e926a879e33397c51",
+      "status": "verified"
+    },
+    "stripe_inspect_health": {
+      "id": "tool_stripe_inspect_health",
+      "server": "mcp_stripe",
+      "sha256": "5ca6d50b4a48a683ce9d16c3374cf6424cda6d240b3c9863b2d44d926444b625",
+      "status": "verified"
+    },
+    "stripe_fetch_metrics": {
+      "id": "tool_stripe_fetch_metrics",
+      "server": "mcp_stripe",
+      "sha256": "3aa28837e9d095174e506dd602549aea156f5d7fd086c7588975c3e8fec60047",
+      "status": "verified"
+    },
+    "stripe_check_connection_pool": {
+      "id": "tool_stripe_check_connection_pool",
+      "server": "mcp_stripe",
+      "sha256": "d4327ba58450d98d0ec631fcc76f13fb1654c6ccdd58050054686e31e7008d7f",
+      "status": "verified"
+    },
+    "stripe_stream_logs": {
+      "id": "tool_stripe_stream_logs",
+      "server": "mcp_stripe",
+      "sha256": "13e6a73c9e1c1e34d6bb6b42a2554fb2c8c46fb31272f4621bcda673a6385777",
+      "status": "verified"
+    },
+    "stripe_trigger_restart": {
+      "id": "tool_stripe_trigger_restart",
+      "server": "mcp_stripe",
+      "sha256": "9374bc73e75618aa0357a2fec2a83c31d50ac69d683828c2804d7042ac933f03",
+      "status": "verified"
+    },
+    "stripe_execute_rebalance": {
+      "id": "tool_stripe_execute_rebalance",
+      "server": "mcp_stripe",
+      "sha256": "a55c4446678bcf96cc2ba852463e0fa9dc7b1e869935a999c33cdd585a69d946",
+      "status": "verified"
+    },
+    "stripe_drain_traffic": {
+      "id": "tool_stripe_drain_traffic",
+      "server": "mcp_stripe",
+      "sha256": "b3e0074bd01d5ebe9e34a488fdbe1dcf7a4b919e8c8929abca1ea22841ba1acf",
+      "status": "verified"
+    },
+    "stripe_verify_configuration": {
+      "id": "tool_stripe_verify_configuration",
+      "server": "mcp_stripe",
+      "sha256": "eacb5f290d8ec8db7354072a2c3d8023590b6f0973eb63ccb8b1e4885ead76f5",
+      "status": "verified"
+    },
+    "stripe_dispatch_alert": {
+      "id": "tool_stripe_dispatch_alert",
+      "server": "mcp_stripe",
+      "sha256": "719b9d1ef5d51da7e4825dde9dfe9a71f75ed3c074b00dc2fef2d4d5a0440962",
+      "status": "verified"
+    },
+    "stripe_generate_diagnostic_report": {
+      "id": "tool_stripe_generate_diagnostic_report",
+      "server": "mcp_stripe",
+      "sha256": "ed814490bbc5b3d9f60f0e1c298417fbcbf6d77b4774c016be03701a79f14ae8",
+      "status": "verified"
+    },
+    "twilio_inspect_health": {
+      "id": "tool_twilio_inspect_health",
+      "server": "mcp_twilio",
+      "sha256": "4b59462be221fd6b04b49fae5fc033ec58764a2751e6d643e14f9051b5bc1de3",
+      "status": "verified"
+    },
+    "twilio_fetch_metrics": {
+      "id": "tool_twilio_fetch_metrics",
+      "server": "mcp_twilio",
+      "sha256": "1c2be2ff720f50892aa9ec52a748162989335fc7c7e40dc07d58b1510b8d388c",
+      "status": "verified"
+    },
+    "twilio_check_connection_pool": {
+      "id": "tool_twilio_check_connection_pool",
+      "server": "mcp_twilio",
+      "sha256": "1fe87b4f11a27cc395e18e2b321dfe04d534d47106a4929e3de676036cfcb6c0",
+      "status": "verified"
+    },
+    "twilio_stream_logs": {
+      "id": "tool_twilio_stream_logs",
+      "server": "mcp_twilio",
+      "sha256": "7ea0525c5ac33244fcaf3080a8b0f54bf90fdf42ce43a9f999f07e1de58433d4",
+      "status": "verified"
+    },
+    "twilio_trigger_restart": {
+      "id": "tool_twilio_trigger_restart",
+      "server": "mcp_twilio",
+      "sha256": "d82fa150cb790fafcc500a4df2299eabac4669d5adc9b05ad67a7afb040f5826",
+      "status": "verified"
+    },
+    "twilio_execute_rebalance": {
+      "id": "tool_twilio_execute_rebalance",
+      "server": "mcp_twilio",
+      "sha256": "5b64221c7c561b8888bcca3ef5b0767865efeb70856a417653e0483782d3bc14",
+      "status": "verified"
+    },
+    "twilio_drain_traffic": {
+      "id": "tool_twilio_drain_traffic",
+      "server": "mcp_twilio",
+      "sha256": "6688156919c9411322c02d93cf01cc9d8d701ad278b8c233b8745c0ae330ebd7",
+      "status": "verified"
+    },
+    "twilio_verify_configuration": {
+      "id": "tool_twilio_verify_configuration",
+      "server": "mcp_twilio",
+      "sha256": "b08a4c0ddfe9f654328139830e70e87d5b3cb43ac150b96ebf3c0801480ca427",
+      "status": "verified"
+    },
+    "twilio_dispatch_alert": {
+      "id": "tool_twilio_dispatch_alert",
+      "server": "mcp_twilio",
+      "sha256": "1785a309cd57a92cac748a864aacc19dc936925ef4c1169d8b8e459c257ba0de",
+      "status": "verified"
+    },
+    "twilio_generate_diagnostic_report": {
+      "id": "tool_twilio_generate_diagnostic_report",
+      "server": "mcp_twilio",
+      "sha256": "3a639ebc5bb3fb25ae88a4e3cc30b823a6d15264f594c6a2597e2e08dabdc826",
+      "status": "verified"
+    },
+    "sendgrid_inspect_health": {
+      "id": "tool_sendgrid_inspect_health",
+      "server": "mcp_sendgrid",
+      "sha256": "f793fe3fbb0625f3186436fd70c08760700374181faf43fd9b5384e981287b35",
+      "status": "verified"
+    },
+    "sendgrid_fetch_metrics": {
+      "id": "tool_sendgrid_fetch_metrics",
+      "server": "mcp_sendgrid",
+      "sha256": "cd333a2efc1a0697c6abf2abb84bc1c0b3d554401b7c771eaf09ae475ca26f52",
+      "status": "verified"
+    },
+    "sendgrid_check_connection_pool": {
+      "id": "tool_sendgrid_check_connection_pool",
+      "server": "mcp_sendgrid",
+      "sha256": "c8f71bea65d12d0242603b538f457f6640cdd85f4b288fd5f4d06a65db8c3eee",
+      "status": "verified"
+    },
+    "sendgrid_stream_logs": {
+      "id": "tool_sendgrid_stream_logs",
+      "server": "mcp_sendgrid",
+      "sha256": "9388197e40707dee15bfb498ae836bc996851f76e77931f46253883100348ff3",
+      "status": "verified"
+    },
+    "sendgrid_trigger_restart": {
+      "id": "tool_sendgrid_trigger_restart",
+      "server": "mcp_sendgrid",
+      "sha256": "9b5a7f88db55bcfd78f43e70dfd887dffbbf47e5d56731c2df91419716d71bb6",
+      "status": "verified"
+    },
+    "sendgrid_execute_rebalance": {
+      "id": "tool_sendgrid_execute_rebalance",
+      "server": "mcp_sendgrid",
+      "sha256": "b295b9e78e9d11eab8f72936dcc9edbcabb6ddbe5f7fa9c716ad4a3f49ade414",
+      "status": "verified"
+    },
+    "sendgrid_drain_traffic": {
+      "id": "tool_sendgrid_drain_traffic",
+      "server": "mcp_sendgrid",
+      "sha256": "bfd660a7317814381aeb9b1918bf61b8d72398dbf11daab43f19221bf4fed952",
+      "status": "verified"
+    },
+    "sendgrid_verify_configuration": {
+      "id": "tool_sendgrid_verify_configuration",
+      "server": "mcp_sendgrid",
+      "sha256": "ee89ded867fa40d0803f4b26a9906bba2b334ee463b516064239ba33cea1eb38",
+      "status": "verified"
+    },
+    "sendgrid_dispatch_alert": {
+      "id": "tool_sendgrid_dispatch_alert",
+      "server": "mcp_sendgrid",
+      "sha256": "449e77f1107744b2eed70a8b3dea1cc522330edced2c05bd193f0773bd8a4a83",
+      "status": "verified"
+    },
+    "sendgrid_generate_diagnostic_report": {
+      "id": "tool_sendgrid_generate_diagnostic_report",
+      "server": "mcp_sendgrid",
+      "sha256": "9c02cabd3ce3d463316eb03e72d936a249901b3c2a0afe51f6125f3b1696c6ad",
+      "status": "verified"
+    },
+    "brave_search_cve_advisories": {
+      "id": "tool_brave_search_cve_advisories",
+      "server": "mcp_brave",
+      "sha256": "a3c3725e2950e77438760c5f1d26d6c40737cc5672d7a674151876afac80bcd8",
+      "status": "verified"
+    },
+    "brave_fetch_metrics": {
+      "id": "tool_brave_fetch_metrics",
+      "server": "mcp_brave",
+      "sha256": "24ce66406a5f027b397bdff566fa1127302d99d3e7d3ea7c04f33d6d32cfd1de",
+      "status": "verified"
+    },
+    "brave_check_connection_pool": {
+      "id": "tool_brave_check_connection_pool",
+      "server": "mcp_brave",
+      "sha256": "6b9051ca16dd16e3e2ff631d295c0f02cf24e009d26400492d202b8a2deabc0e",
+      "status": "verified"
+    },
+    "brave_stream_logs": {
+      "id": "tool_brave_stream_logs",
+      "server": "mcp_brave",
+      "sha256": "effb4546a7cab431a902a87b9b8797d4db9baa97c994e66d5bf50a408941a2ad",
+      "status": "verified"
+    },
+    "brave_trigger_restart": {
+      "id": "tool_brave_trigger_restart",
+      "server": "mcp_brave",
+      "sha256": "b132ae3711d047802086e445903db76eb923749319acc1133de4a5e7c5adc5c1",
+      "status": "verified"
+    },
+    "brave_execute_rebalance": {
+      "id": "tool_brave_execute_rebalance",
+      "server": "mcp_brave",
+      "sha256": "2d19b78a55ffcac585b11bf295ced9251508e059074eb2de44f72ab8e8b3d25b",
+      "status": "verified"
+    },
+    "brave_drain_traffic": {
+      "id": "tool_brave_drain_traffic",
+      "server": "mcp_brave",
+      "sha256": "25d7b684bfa5f1a5b935d9b68018512fd6560aa4aa786976139d1c85822570f2",
+      "status": "verified"
+    },
+    "brave_verify_configuration": {
+      "id": "tool_brave_verify_configuration",
+      "server": "mcp_brave",
+      "sha256": "2bda035afb3d26e57541c54fcb46dca8fff045b3a273f59e50f74da0beaa4dea",
+      "status": "verified"
+    },
+    "brave_dispatch_alert": {
+      "id": "tool_brave_dispatch_alert",
+      "server": "mcp_brave",
+      "sha256": "07d67bfb88bc8de50aa06f824f0283043699dcde64b43c71cbbf74afe2591dfd",
+      "status": "verified"
+    },
+    "brave_generate_diagnostic_report": {
+      "id": "tool_brave_generate_diagnostic_report",
+      "server": "mcp_brave",
+      "sha256": "e7e1deb19685dfb9d993125293397804c246de9408d57fd4ef19e7ddb5ece162",
+      "status": "verified"
+    },
+    "perplexity_inspect_health": {
+      "id": "tool_perplexity_inspect_health",
+      "server": "mcp_perplexity",
+      "sha256": "7ebdebc3a884d255bc6eabbdba2914b07048d1472b9034d0b287ef472d21d92f",
+      "status": "verified"
+    },
+    "perplexity_fetch_metrics": {
+      "id": "tool_perplexity_fetch_metrics",
+      "server": "mcp_perplexity",
+      "sha256": "ff0957740155713e2f9076313d110c4aa1fbdc31966850fb5a492df59411f6ba",
+      "status": "verified"
+    },
+    "perplexity_check_connection_pool": {
+      "id": "tool_perplexity_check_connection_pool",
+      "server": "mcp_perplexity",
+      "sha256": "b6374411e7a176e42afd326e4dfdc01768271c80af5b97d120b05a9700ae4de1",
+      "status": "verified"
+    },
+    "perplexity_stream_logs": {
+      "id": "tool_perplexity_stream_logs",
+      "server": "mcp_perplexity",
+      "sha256": "e830d2f3126c9068a4cb5b7cc320ce9c78dfb968368e3605c546186d620dca27",
+      "status": "verified"
+    },
+    "perplexity_trigger_restart": {
+      "id": "tool_perplexity_trigger_restart",
+      "server": "mcp_perplexity",
+      "sha256": "13e1df59967135cf1263e97d414819f9247d85309424816f35951f7ab0b76de7",
+      "status": "verified"
+    },
+    "perplexity_execute_rebalance": {
+      "id": "tool_perplexity_execute_rebalance",
+      "server": "mcp_perplexity",
+      "sha256": "ce1cd62b03120a2cee3946ba2193214d5eccf64a84f8c085bfdd238384aa0afb",
+      "status": "verified"
+    },
+    "perplexity_drain_traffic": {
+      "id": "tool_perplexity_drain_traffic",
+      "server": "mcp_perplexity",
+      "sha256": "a2d68c36396b64bbd1a1095b905b1c7944b5e67b1aa7d4fb369cf173dcc133e2",
+      "status": "verified"
+    },
+    "perplexity_verify_configuration": {
+      "id": "tool_perplexity_verify_configuration",
+      "server": "mcp_perplexity",
+      "sha256": "950051a2201a30139269409bf0ba9ad429411ee5c8251a362df8a9f4fcc66e8c",
+      "status": "verified"
+    },
+    "perplexity_dispatch_alert": {
+      "id": "tool_perplexity_dispatch_alert",
+      "server": "mcp_perplexity",
+      "sha256": "3e432d37a679d74b11850cd0d268e507720c87b4ba53632051e40fd4f9b15120",
+      "status": "verified"
+    },
+    "perplexity_generate_diagnostic_report": {
+      "id": "tool_perplexity_generate_diagnostic_report",
+      "server": "mcp_perplexity",
+      "sha256": "a3608c141f923a8d95298bc0cdec5e99d83945c7eb7ccc2bcf17ef8aed8bb493",
+      "status": "verified"
+    }
+  }
+}

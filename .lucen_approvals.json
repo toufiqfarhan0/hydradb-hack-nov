@@ -1,0 +1,17 @@
+{
+  "REQ-41315612": {
+    "request_id": "REQ-41315612",
+    "tool_name": "postgres_trigger_restart",
+    "arguments": {
+      "cluster": "pg-cluster-prod"
+    },
+    "environment": "production",
+    "blast_summary": "Restarts primary DB affecting 3 services",
+    "impacted_services": [],
+    "status": "APPROVED",
+    "created_at": "2026-11-16T05:34:12Z",
+    "resolved_at": "2026-11-16T05:34:30Z",
+    "approver": "sec_ops_lead",
+    "audit_hash": "301bbabb02f5f53755d45d427030f7d7a62499e6076b4f520a4c4bd9fd6fdb1e"
+  }
+}

@@ -1,0 +1,98 @@
+version: "1.0"
+metadata:
+  name: "lucen-zero-trust-agent-policy"
+  description: "Enterprise policy-as-code governing autonomous agent context envelopes and tool execution"
+
+environments:
+  production:
+    default_action: "allow_read_only"
+    allow_capabilities:
+      - "cap_db_diagnostics"
+      - "cap_incident_alerting"
+      - "cap_container_logs"
+      - "cap_cloud_metrics"
+      - "cap_apm_tracing"
+      - "cap_pr_management"
+    deny_tools:
+      - "*drop*"
+      - "*delete*"
+      - "*destroy*"
+      - "*drain*"
+      - "*wipe*"
+      - "*terminate*"
+      - "*purge*"
+      - "drop_table_cascade"
+      - "delete_repository"
+      - "delete_directory_recursive"
+      - "pg_kill_idle_in_transaction"
+      - "mysql_drain_traffic"
+    require_human_approval:
+      - "*restart*"
+      - "*reweight*"
+      - "docker_restart_container"
+      - "github_create_pull_request"
+
+  staging:
+    default_action: "allow_mutating"
+    allow_capabilities:
+      - "*"
+    deny_tools:
+      - "*wipe_disk*"
+      - "delete_repository"
+      - "drop_database"
+    require_human_approval:
+      - "drop_table_cascade"
+
+  development:
+    default_action: "allow_all"
+    allow_capabilities:
+      - "*"
+    deny_tools: []
+    require_human_approval: []
+
+security_shield:
+  mode: "enforce"  # 'enforce' (block execution) or 'shadow' (log-only non-blocking audit)
+  pin_schemas: true
+  lockfile: "lucen.lock"
+  block_prompt_injection: true
+  mask_secret_handles: true
+  enforce_call_time_denial: true
+
+argument_guard:
+  enabled: true
+  sql:
+    disallow_in_production:
+      - "DROP"
+      - "TRUNCATE"
+      - "DELETE"
+      - "ALTER"
+      - "GRANT"
+      - "REVOKE"
+  filesystem:
+    disallow_traversal: true
+    restricted_paths:
+      - "../"
+      - "/etc/"
+      - "/root/"
+      - ".ssh/"
+      - ".env"
+      - "/var/run/docker.sock"
+  shell:
+    disallow_patterns:
+      - "rm -rf /"
+      - "mkfs"
+      - "dd if="
+      - "chmod -R 777"
+      - "curl * | bash"
+
+data_flow_governance:
+  taint_tracking_enabled: true
+  quarantine_private_readers: true
+  block_exfiltration_to_external_sinks: true
+  require_human_approval_for_outbound: true
+
+audit_integrity:
+  hash_chaining: true
+  external_head_anchor: true
+  anchor_receipt_file: ".lucen_anchor.json"
+

@@ -282,5 +282,7 @@ def run_ablation():
 """)
     print("=" * 85)
 
+run_ablation_benchmarks = run_ablation
+
 if __name__ == "__main__":
     run_ablation()
