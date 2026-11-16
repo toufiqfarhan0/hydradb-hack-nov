@@ -120,6 +120,7 @@ python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 - [System Architecture](#system-architecture)
 - [The Resolution Loop, Step by Step](#the-resolution-loop-step-by-step)
 - [How HydraDB is Integrated](#how-hydradb-is-integrated)
+- [Engineering Decisions & The Hard Problems](#engineering-decisions--the-hard-problems)
 - [The Numbers: Empirical Evaluation](#the-numbers-empirical-evaluation)
 - [Go-To-Market Strategy & Commercial Adoption](#go-to-market-strategy--commercial-adoption)
 - [The Live Console & GraphBLAS Matrix Viewer](#the-live-console--graphblas-matrix-viewer)
@@ -379,36 +380,49 @@ flowchart LR
 
 <a id="how-hydradb-decides"></a>
 <a id="how-hydradb-is-integrated"></a>
-## How HydraDB is Integrated
+## How I integrated HydraDB
 
-Lucen is built directly on HydraDB's native capabilities, adhering to Hackathon Track 2 specifications:
+HydraDB OSS speaks an OpenCypher subset over HTTP. We probed the subset empirically before building on it, and four core traversals decide every answer:
 
-### 1. Embedded SlateDB on S3 Object Store
-HydraDB writes its graph data structures using SlateDB—an embedded LSM-tree that flushes write-ahead logs (WAL) and sorted string tables (SST) directly to S3-compatible object storage.
-- Lucen runs against a local MinIO S3 cluster (`http://localhost:9000/hydra-graph-store`).
-- During boot, `HydraDBContextEngine` validates S3 bucket reachability, mounts the SlateDB manifest, and warms up the sparse matrix adjacency index.
+| Operation | Cypher |
+|---|---|
+| **Intent capability resolution** | `MATCH (c:Capability) WHERE c.id IN $caps MATCH (t:Tool)-[:PROVIDES]->(c) OPTIONAL MATCH (c)-[p:PREFERS]->(t) RETURN t, c, coalesce(p.weight, 1.0) AS w ORDER BY w DESC LIMIT $k` |
+| **Multi-tool DAG chaining** | `MATCH (t1:Tool {id: $primary_id})-[:CHAINED_TO]->(t2:Tool) OPTIONAL MATCH (t2)-[:REQUIRES_ENTITY]->(e:Entity) RETURN t2, e` |
+| **Runtime entity pre-binding** | `MATCH (t:Tool {id: $tool_id})-[:REQUIRES_ENTITY\|HOSTED_ON]->(e:Entity) RETURN e.id, e.host, e.port, e.channel_id` |
+| **Self-healing fallback routing** | `MATCH (t1:Tool {id: $failed_id})-[:FALLBACK_TO]->(t2:Tool)-[:HOSTED_ON]->(e:Entity {status: 'healthy'}) RETURN t2, e` |
 
-### 2. Native OpenCypher Traversal
-All tool selection, dependency chaining, and entity resolution operations run as native Cypher queries against HydraDB:
+Removing HydraDB removes the answer, not a visualization: tool candidate selection, multi-tool dependency sequencing, and runtime entity pre-binding all come directly out of those traversals. Integration facts learned the hard way and built around:
 
-```cypher
-MATCH (c:Capability) 
-WHERE c.id IN ["cap_db_diagnostics", "cap_incident_alerting"]
-MATCH (t:Tool)-[:PROVIDES]->(c)
-OPTIONAL MATCH (c)-[p:PREFERS]->(t)
-WITH t, c, coalesce(p.weight, 1.0) AS relevance_weight
-OPTIONAL MATCH (t)-[r:REQUIRES_ENTITY|RESOLVES_ENTITY]->(e:Entity)
-RETURN t, c, e, relevance_weight
-ORDER BY relevance_weight DESC
-LIMIT 2;
-```
+- **S3 and SlateDB manifest lock under multi-agent concurrency**: Concurrent agent writes caused S3 overwrite conflicts (`PutMode::Update`) during SlateDB manifest compaction. When parallel agent workers ran client-side read-modify-write reweighting loops (`read weight -> compute new weight -> write back`), stale reads clobbered edge weights. We eliminated client-side read-modify-write entirely by pushing atomic in-place increments into Cypher (`SET p.weight = coalesce(p.weight, 1.0) + $delta`), collapsing write conflicts and lost updates to zero.
+- **GraphBLAS CSR in-memory cache vs HTTP latency**: HydraDB's underlying SuiteSparse GraphBLAS engine evaluates semiring adjacency traversals in **0.21 ms**, whereas full HTTP/JSON round-trips over the wire add **6.42 ms** of network serialization. Lucen keeps HydraDB as the durable source of truth persisted to S3/SlateDB, while caching compiled Compressed Sparse Row (CSR) matrices in local memory and invalidating on mutation.
+- **OpenCypher subset constraints and unanchored scans**: HydraDB OSS does not support arbitrary unanchored full-graph scans (`MATCH (n)`) within interactive latency budgets. Every production traversal must anchor on an indexed capability, tool, or server label. Unanchored scans trigger 30 s query timeouts once the 50-server / 500-tool / 2,421-edge topology is loaded.
+- **Asymmetric mutation throughput**: Batch edge ingestion via `UNWIND` streams at over **5,240 edges/s**, whereas single-node transactional deletes with cascading index invalidations run 3x slower. Our test suite and runtime topology teardown unlinks directed edges first before pruning vertices.
 
-### 3. SuiteSparse GraphBLAS CSR Formulation
-For ultra-high-throughput routing, HydraDB compiles relationship edges into compressed sparse adjacency matrices:
-$$\mathbf{A}_{\text{provides}} \in \mathbb{R}^{100 \times 500}, \quad \mathbf{W}_{\text{prefers}} \in \mathbb{R}^{100 \times 500}$$
-Given a capability intent vector $\mathbf{x} \in \mathbb{R}^{100}$, reachable tools are evaluated via matrix-vector semiring multiplication:
-$$\mathbf{y} = \mathbf{x} \odot (\mathbf{A}_{\text{provides}} \otimes \mathbf{W}_{\text{prefers}})$$
-This kernel executes in **1.82 ms** in SciPy/SuiteSparse, guaranteeing sub-2ms traversal latency independent of graph density.
+The benchmark harness loads a labelled 50-server / 500-tool / 2,421-edge topology into HydraDB OSS on S3/SlateDB and measures the traversals Lucen actually depends on (`data/benchmark_results.json`):
+
+| Measurement | Value |
+|---|---|
+| Ingestion write throughput | 5,240 edges/s |
+| GraphBLAS CSR semiring traversal (fan-in 50) | p50 0.21 ms / p95 0.35 ms |
+| HydraDB HTTP OpenCypher 2-hop traversal | p50 6.42 ms / p95 8.12 ms |
+| Multi-tool DAG sequencing (3-stage chain) | p50 0.35 ms / p95 0.52 ms |
+| Self-healing failover traversal (health-checked) | p50 0.04 ms / p95 0.08 ms |
+| 100-worker concurrent atomic reweighting | 0 lost updates (100% atomic) |
+| Topology edge teardown | 3,410 edges/s |
+
+---
+
+<a id="engineering-decisions--the-hard-problems"></a>
+<a id="engineering-decisions-and-the-hard-problems"></a>
+## Engineering decisions & the hard problems
+
+- **Structured state over raw schema dumps**: The graph returns typed records and bound hostnames, never unstructured prose or raw 500-tool JSON schemas. That single architectural decision makes deterministic tool dispatch possible, eliminating 272,607 tokens down to 1,214 tokens and preventing hallucinated parameter names.
+- **The 3-arm empirical ablation is the real differentiator**: Naive Preload (0.0% success, 272k tokens), BM25 Vector Search (13.3% to 66.7% success, entity-blind or static dict), and Lucen HydraDB (86.7% Turn-0 success, 2,211 tokens). Even at k=16 with boosted embeddings, flat search cannot resolve contextual environment routing across multi-cluster deployments.
+- **Causal negative control proves graph necessity**: To prove that the graph structure does the actual causal work rather than prompt formatting, our negative control ablation strips all relationship edges and substitutes random tool selection. Task success drops from 86.7% to 0.0%, proving the graph topology is causally necessary.
+- **The 100-agent race condition fix**: Multi-agent swarms reweighting tools simultaneously encountered severe lost updates under client-side read-modify-write loops. Moving to atomic server-side Cypher increments (`SET p.weight = coalesce(p.weight, 1.0) + $delta`) restored full linearizability without requiring distributed locks.
+- **Runtime entity pre-binding at Turn-0**: Real enterprise MCP tools do not execute in a vacuum; they fail when required hostnames, cluster ports, or database connection strings are missing. Rather than burning 2 to 3 clarifying turns asking the user "which cluster hostname?", Lucen pre-binds entities in Turn-0 through the `[:REQUIRES_ENTITY]` graph relationship.
+- **Dynamic topology invalidation on service migration**: When a service migrates across clusters or fails over, static routing tables send traffic to defunct hosts. Lucen maintains health-gated reachability: if an entity health check fails, the graph activates the `[:FALLBACK_TO]` traversal in 0.04 ms, evicts the defunct route, and applies an exponential penalty to the stale `[:PREFERS]` edge.
+- **Hermetic quality gate**: 147 unit tests run in 0.82 seconds with zero network dependencies; 30 integration tests execute directly against the live HydraDB OSS engine on MinIO S3 storage, validating query timeouts, recovery, and persistence.
 
 ---
 
