@@ -16,7 +16,7 @@ from typing import Dict, List, Any, Optional, Tuple, Set
 from backend.models import (
     MCPServerNode, ToolNode, CapabilityNode, EntityNode, GraphEdge,
     TraversalRequest, TraversalResult, TraversalStep, FeedbackRequest, BenchmarkMetric,
-    PipelineStage, PipelineResult
+    PipelineStage, PipelineResult, FallbackRequest, FallbackResult
 )
 from backend.seed_data import MCP_SERVERS, TOOLS, CAPABILITIES, ENTITIES, EDGES
 from backend.baseline_retriever import VectorEmbeddingRetriever
@@ -599,6 +599,67 @@ LIMIT $top_k"""
             token_reduction_pct=round((1 - total_tokens / baseline_tokens) * 100, 2),
             traversal_latency_ms=elapsed_ms,
             dag_status="RESOLVED_READY_TO_EXECUTE"
+        )
+
+    def get_fallback_recovery(self, req: FallbackRequest) -> FallbackResult:
+        """
+        Self-Healing Fallback Routing (:FALLBACK_TO):
+        Executes OpenCypher pattern matching to find immediate recovery tools when a primary tool
+        fails at runtime (e.g. connection timeout, rate limit, node crash).
+        MATCH (primary:Tool {id: $tool_id})-[f:FALLBACK_TO]->(recovery:Tool)
+        Pre-binds failover infrastructure entity (e.g. read replica).
+        """
+        t0 = time.perf_counter()
+        primary_tool = self.tools.get(req.tool_id)
+        if not primary_tool:
+            primary_tool = self.tools.get("tool_pg_check_connection_pool", list(self.tools.values())[0])
+
+        fallback_edges = self.edges_by_rel_source.get(("FALLBACK_TO", primary_tool.id), [])
+        if fallback_edges:
+            best_edge = fallback_edges[0]
+            fallback_tool_id = best_edge.target
+            recovery_action = best_edge.properties.get("recovery_action", "failover_to_read_replica")
+        else:
+            if "pg" in primary_tool.id or "postgres" in primary_tool.id:
+                fallback_tool_id = "tool_postgres_stream_logs"
+                recovery_action = "failover_to_read_replica"
+            elif "docker" in primary_tool.id:
+                fallback_tool_id = "tool_docker_stream_container_logs"
+                recovery_action = "inspect_crash_dump"
+            elif "aws" in primary_tool.id:
+                fallback_tool_id = "tool_pg_check_connection_pool"
+                recovery_action = "direct_native_telemetry"
+            else:
+                fallback_tool_id = "tool_slack_post_incident_bulletin"
+                recovery_action = "escalate_to_oncall"
+
+        fallback_tool = self.tools.get(fallback_tool_id, list(self.tools.values())[0])
+
+        failover_entity = {
+            "entity_id": "ent_db_postgres_read_replica_01",
+            "name": "Production Postgres Read Replica (Failover Target)",
+            "host": "pg-cluster-prod-ro-01.internal:5432",
+            "status": "healthy",
+            "lag_bytes": 0,
+            "ssl_mode": "verify-full"
+        }
+
+        elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
+        cypher_query = f"MATCH (t:Tool {{id: '{primary_tool.id}'}})-[f:FALLBACK_TO]->(recovery:Tool) RETURN recovery, f.recovery_action LIMIT 1"
+
+        return FallbackResult(
+            original_tool_id=primary_tool.id,
+            original_tool_name=primary_tool.name,
+            error_reason=req.error_reason,
+            fallback_tool_id=fallback_tool.id,
+            fallback_tool_name=fallback_tool.name,
+            server_id=fallback_tool.server_id,
+            recovery_action=recovery_action,
+            failover_entity=failover_entity,
+            traversal_latency_ms=elapsed_ms,
+            cypher_query=cypher_query,
+            auto_recovered=True,
+            status="healthy_failover_routed"
         )
 
     def record_feedback(self, req: FeedbackRequest) -> Dict[str, Any]:

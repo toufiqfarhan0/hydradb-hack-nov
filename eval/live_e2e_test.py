@@ -42,7 +42,7 @@ def run_e2e_tests():
     print("=" * 65)
     
     passed_tests = 0
-    total_tests = 10
+    total_tests = 11
 
     # 1. Health & Storage Backend Test
     log_header("1. Health & HydraDB SlateDB/MinIO Storage Engine")
@@ -272,6 +272,31 @@ def run_e2e_tests():
         print(f"  • Traversal Latency:   {pipeline['traversal_latency_ms']} ms")
         print(f"  • Token Reduction:     -{pipeline['token_reduction_pct']}%")
         print("  => PASS: Multi-tool composite execution DAG resolved with complete input-output dataflows.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 11. Self-Healing Fallback Routing Test (/api/fallback)
+    log_header("11. Self-Healing Fallback Routing via :FALLBACK_TO Graph Pattern")
+    try:
+        fallback = post_json("/api/fallback", {
+            "tool_id": "tool_pg_check_connection_pool",
+            "error_reason": "connection_refused"
+        })
+        assert fallback["auto_recovered"] is True, "Expected auto_recovered to be True"
+        assert fallback["fallback_tool_name"] == "postgres_stream_logs"
+        assert fallback["recovery_action"] == "failover_to_read_replica"
+        assert fallback["failover_entity"]["host"] == "pg-cluster-prod-ro-01.internal:5432"
+        assert fallback["traversal_latency_ms"] < 10.0, f"Expected <10ms traversal, got {fallback['traversal_latency_ms']}ms"
+
+        print(f"  • Crashed Tool:        {fallback['original_tool_name']} ({fallback['error_reason']})")
+        print(f"  • Recovery Tool:       {fallback['fallback_tool_name']}")
+        print(f"  • Recovery Action:     {fallback['recovery_action']}")
+        print(f"  • Bound Target:        {fallback['failover_entity']['name']} ({fallback['failover_entity']['host']})")
+        print(f"  • Recovery Latency:    {fallback['traversal_latency_ms']} ms")
+        print(f"  • Cypher Pattern:      {fallback['cypher_query']}")
+        print("  => PASS: Autonomous failover routing verified with zero agent re-querying.")
         passed_tests += 1
     except Exception as e:
         print(f"  => FAIL: {e}")

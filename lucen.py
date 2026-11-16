@@ -15,7 +15,7 @@ from typing import Optional
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from backend.hydradb_engine import HydraDBContextEngine
-from backend.models import TraversalRequest, FeedbackRequest
+from backend.models import TraversalRequest, FeedbackRequest, FallbackRequest
 
 # ANSI Color Codes for Clean Terminal Output
 RESET = "\033[0m"
@@ -319,6 +319,29 @@ def cmd_pipeline(engine: HydraDBContextEngine, args):
         print(f"  Stage {link['from_stage']} ({link['from_tool']}) ──[{link['passed_data']}]──> Stage {link['to_stage']} ({link['to_tool']})")
     print("=" * 76)
 
+def cmd_fallback(engine: HydraDBContextEngine, args):
+    tool_id = args.tool
+    error_reason = args.error
+    res = engine.get_fallback_recovery(FallbackRequest(tool_id=tool_id, error_reason=error_reason))
+    if args.json:
+        print(res.model_dump_json(indent=2))
+        return
+
+    print_banner()
+    print(f"{BOLD}SELF-HEALING FALLBACK ROUTING (:FALLBACK_TO GRAPH RECOVERY){RESET}")
+    print("=" * 76)
+    print(f"{BOLD}Crashed Primary Tool:{RESET} {RED}{res.original_tool_name}{RESET} (ID: {res.original_tool_id})")
+    print(f"{BOLD}Simulated Error:{RESET}      {YELLOW}{res.error_reason}{RESET}")
+    print(f"{BOLD}HydraDB Cypher Query:{RESET} {res.cypher_query}")
+    print(f"{BOLD}Graph Recovery Tool:{RESET}  {GREEN}{res.fallback_tool_name}{RESET} (ID: {res.fallback_tool_id})")
+    print(f"{BOLD}Recovery Action:{RESET}      {CYAN}{res.recovery_action}{RESET}")
+    print(f"{BOLD}Failover Entity Bound:{RESET}")
+    for k, v in res.failover_entity.items():
+        print(f"  • {k}: {YELLOW}{v}{RESET}")
+    print(f"{BOLD}Traversal Latency:{RESET}    {res.traversal_latency_ms} ms")
+    print(f"{BOLD}Self-Healing Status:{RESET}  {GREEN}{res.status.upper()} (Zero Agent Re-query){RESET}")
+    print("=" * 76)
+
 def cmd_serve(args):
     import uvicorn
     port = args.port or 8000
@@ -380,6 +403,12 @@ def main():
     p_pipe.add_argument("task", type=str, nargs="?", default="Production Postgres connection pool exhausted", help="Incident task query")
     p_pipe.add_argument("--json", action="store_true", help="Output in JSON")
 
+    # Command: fallback
+    p_fallback = subparsers.add_parser("fallback", help="Demonstrate self-healing graph failover routing via :FALLBACK_TO")
+    p_fallback.add_argument("--tool", type=str, default="tool_pg_check_connection_pool", help="Crashed tool ID")
+    p_fallback.add_argument("--error", type=str, default="connection_refused", help="Trigger error reason")
+    p_fallback.add_argument("--json", action="store_true", help="Output in JSON")
+
     # Command: gemini-agent
     p_gemini = subparsers.add_parser("gemini-agent", help="Run live autonomous agent with Google Gemini & HydraDB context")
     p_gemini.add_argument("--task", type=str, default="Production PostgreSQL database is exhausting connection pool. Inspect pool and broadcast alert to Slack war room.", help="Incident task query")
@@ -422,6 +451,8 @@ def main():
         cmd_concurrency(args, engine)
     elif args.command == "pipeline":
         cmd_pipeline(engine, args)
+    elif args.command == "fallback":
+        cmd_fallback(engine, args)
     elif args.command == "gemini-agent":
         from tools.gemini_agent import run_agent
         run_agent(task_prompt=args.task, api_key=args.api_key, model=args.model)

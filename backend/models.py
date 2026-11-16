@@ -105,6 +105,25 @@ class PipelineResult(BaseModel):
     dag_status: str
     notes: Optional[str] = None
 
+class FallbackRequest(BaseModel):
+    tool_id: str
+    error_reason: str = "connection_refused"
+    target_entity: Optional[str] = None
+
+class FallbackResult(BaseModel):
+    original_tool_id: str
+    original_tool_name: str
+    error_reason: str
+    fallback_tool_id: str
+    fallback_tool_name: str
+    server_id: str
+    recovery_action: str
+    failover_entity: Dict[str, Any]
+    traversal_latency_ms: float
+    cypher_query: str
+    auto_recovered: bool
+    status: str
+
 class BenchmarkMetric(BaseModel):
     task_name: str
     domain: str

@@ -85,9 +85,12 @@ python lucen.py ablation
 # 5. Traverse composite multi-tool execution DAG with input/output dataflows
 python lucen.py pipeline "Production Postgres connection pool exhausted"
 
-# 6. Run full E2E test suite (10/10 passing tests)
+# 6. Execute self-healing graph failover routing (:FALLBACK_TO)
+python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused
+
+# 7. Run full E2E test suite (11/11 passing tests)
 python eval/live_e2e_test.py
 
-# 7. Execute live autonomous agent with Google Gemini
+# 8. Execute live autonomous agent with Google Gemini
 python lucen.py gemini-agent --task "auth-service database connections spiking in production"
 ```

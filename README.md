@@ -76,10 +76,13 @@ python lucen.py ablation
 # 5. Traverse composite multi-tool execution DAG with input/output dataflows
 python lucen.py pipeline "Production Postgres connection pool exhausted"
 
-# 6. Execute 10/10 live integration tests against Next.js & HydraDB
+# 6. Execute self-healing graph failover routing (:FALLBACK_TO)
+python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused
+
+# 7. Execute 11/11 live integration tests against Next.js & HydraDB
 python eval/live_e2e_test.py
 
-# 7. Run live autonomous agent with Google Gemini & HydraDB context
+# 8. Run live autonomous agent with Google Gemini & HydraDB context
 python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 ```
 

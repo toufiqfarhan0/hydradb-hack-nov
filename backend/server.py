@@ -8,7 +8,7 @@ from typing import Optional, Dict, Any, List
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from backend.models import TraversalRequest, TraversalResult, FeedbackRequest
+from backend.models import TraversalRequest, TraversalResult, FeedbackRequest, FallbackRequest
 from backend.hydradb_engine import HydraDBContextEngine
 from tools.gemini_agent import build_gemini_declarations, execute_tool_call, call_gemini
 
@@ -83,6 +83,20 @@ async def get_pipeline_endpoint(req: PipelineRequest):
 async def get_pipeline_get_endpoint(task: str = "Production Postgres connection pool exhausted"):
     try:
         return engine.get_tool_execution_pipeline(task)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/fallback")
+async def get_fallback_endpoint(req: FallbackRequest):
+    try:
+        return engine.get_fallback_recovery(req)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/fallback")
+async def get_fallback_get_endpoint(tool_id: str = "tool_pg_check_connection_pool", error_reason: str = "connection_refused"):
+    try:
+        return engine.get_fallback_recovery(FallbackRequest(tool_id=tool_id, error_reason=error_reason))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

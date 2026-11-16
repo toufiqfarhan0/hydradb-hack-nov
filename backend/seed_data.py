@@ -3169,4 +3169,8 @@ EDGES: List[GraphEdge] = [
     GraphEdge(source='tool_docker_stream_container_logs', target='tool_docker_restart_container', relation='CHAINED_TO', weight=1.5, properties={'canonical_path': True}),
     GraphEdge(source='tool_sentry_fetch_issue_stacktrace', target='tool_github_fetch_commit_diff', relation='CHAINED_TO', weight=1.5, properties={'canonical_path': True}),
     GraphEdge(source='tool_aws_fetch_rds_metrics', target='tool_pg_check_connection_pool', relation='CHAINED_TO', weight=1.5, properties={'canonical_path': True}),
+    GraphEdge(source='tool_pg_check_connection_pool', target='tool_postgres_stream_logs', relation='FALLBACK_TO', weight=1.8, properties={'trigger_condition': 'connection_timeout', 'recovery_action': 'failover_to_read_replica'}),
+    GraphEdge(source='tool_docker_restart_container', target='tool_docker_stream_container_logs', relation='FALLBACK_TO', weight=1.8, properties={'trigger_condition': 'sigterm_timeout', 'recovery_action': 'inspect_crash_dump'}),
+    GraphEdge(source='tool_aws_fetch_rds_metrics', target='tool_pg_check_connection_pool', relation='FALLBACK_TO', weight=1.8, properties={'trigger_condition': 'api_throttled', 'recovery_action': 'direct_native_telemetry'}),
+    GraphEdge(source='tool_sentry_fetch_issue_stacktrace', target='tool_docker_stream_container_logs', relation='FALLBACK_TO', weight=1.8, properties={'trigger_condition': 'rate_limited', 'recovery_action': 'stream_runtime_stdout'}),
 ]
