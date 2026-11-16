@@ -32,9 +32,11 @@ const SECTIONS: DocSection[] = [
   { id: "opencypher", number: "04", title: "OpenCypher Query Pipeline" },
   { id: "continual", number: "05", title: "Continual Learning Memory" },
   { id: "gateway", number: "06", title: "Drop-In MCP Gateway" },
-  { id: "api", number: "07", title: "REST API Reference" },
-  { id: "cli", number: "08", title: "CLI Command Reference" },
-  { id: "benchmarks", number: "09", title: "Evaluation Methodology" }
+  { id: "dag", number: "07", title: "Multi-Tool Execution DAG" },
+  { id: "fallback", number: "08", title: "Self-Healing Fallback Routing" },
+  { id: "api", number: "09", title: "REST API Reference" },
+  { id: "cli", number: "10", title: "CLI Command Reference" },
+  { id: "benchmarks", number: "11", title: "Evaluation Methodology" }
 ];
 
 export default function DocsPage() {
@@ -414,10 +416,83 @@ LIMIT 2;`}
               </p>
             </section>
 
-            {/* 07 // REST API REFERENCE */}
+            {/* 07 // COMPOSITE MULTI-TOOL EXECUTION DAG */}
+            <section id="dag" className="space-y-5 scroll-mt-24 pt-8 border-t border-[#E2E6E6]">
+              <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
+                07 // MULTI-TOOL EXECUTION DAG
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+                Sequenced Input-Output Dataflows
+              </h2>
+              <p className="text-sm text-[#1A1A1A]/85 leading-relaxed">
+                Finding isolated tools is insufficient for complex engineering tasks. Autonomous agents also need to discover tools that produce missing inputs. Lucen traverses <code>[:CHAINED_TO]</code> edges in HydraDB to construct an executable multi-stage DAG with typed input-output handoffs.
+              </p>
+
+              <div className="bg-[#0E1117] text-white p-4 font-swiss-mono text-xs border border-white/10">
+                <div className="text-gray-500 mb-2">// HydraDB Chained DAG Traversal</div>
+                <pre className="text-emerald-400">
+{`MATCH (t1:Tool {id: $primary_tool_id})-[c:CHAINED_TO]->(t2:Tool)
+OPTIONAL MATCH (t2)-[:REQUIRES_ENTITY]->(e:Entity)
+RETURN t1, c.canonical_path, t2, e;`}
+                </pre>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-swiss-mono text-xs">
+                <div className="p-3 bg-white swiss-border">
+                  <span className="text-[#D82C2C] font-bold block mb-1">STAGE 1: DIAGNOSTIC</span>
+                  <div className="font-bold">pg_check_connection_pool</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Produces pool utilization and connection exhaustion metrics.</div>
+                </div>
+                <div className="p-3 bg-white swiss-border">
+                  <span className="text-[#D82C2C] font-bold block mb-1">STAGE 2: ALERTING</span>
+                  <div className="font-bold">slack_post_incident_bulletin</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Consumes Stage 1 metrics; broadcasts bulletin with thread ID.</div>
+                </div>
+                <div className="p-3 bg-white swiss-border">
+                  <span className="text-[#D82C2C] font-bold block mb-1">STAGE 3: REMEDIATION</span>
+                  <div className="font-bold">github_create_pull_request</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Consumes Stage 1 fix diagnosis + Stage 2 bulletin ref to open PR.</div>
+                </div>
+              </div>
+            </section>
+
+            {/* 08 // SELF-HEALING FALLBACK ROUTING */}
+            <section id="fallback" className="space-y-5 scroll-mt-24 pt-8 border-t border-[#E2E6E6]">
+              <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
+                08 // SELF-HEALING FALLBACK ROUTING
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
+                Autonomous Runtime Failover (:FALLBACK_TO)
+              </h2>
+              <p className="text-sm text-[#1A1A1A]/85 leading-relaxed">
+                When a primary tool crashes at runtime (e.g., connection timeout, 504 gateway error, or rate limits), traditional agents halt or waste multi-turn prompts re-asking what to do. Lucen executes an instantaneous graph traversal over <code>:FALLBACK_TO</code> edges to route to a verified recovery tool and pre-bind backup infrastructure entities.
+              </p>
+
+              <div className="bg-[#0E1117] text-white p-4 font-swiss-mono text-xs border border-white/10">
+                <div className="text-gray-500 mb-2">// OpenCypher Pattern Matching Failover (0.04 ms latency)</div>
+                <pre className="text-emerald-400">
+{`MATCH (primary:Tool {id: $tool_id})-[f:FALLBACK_TO]->(recovery:Tool)
+RETURN recovery, f.recovery_action
+LIMIT 1;`}
+                </pre>
+              </div>
+
+              <div className="p-4 bg-[#F8F9FA] border border-[#E2E6E6] font-swiss-mono text-xs space-y-2">
+                <div className="font-bold text-[#1A1A1A]">FAILOVER ROUTING SPECIFICATION:</div>
+                <div className="text-gray-700 font-sans text-xs">
+                  - <strong>Primary Failure:</strong> <code>pg_check_connection_pool</code> fails with <code>connection_refused</code>.<br />
+                  - <strong>Recovery Tool:</strong> <code>postgres_stream_logs</code> (server: <code>mcp_postgres</code>).<br />
+                  - <strong>Recovery Action:</strong> <code>failover_to_read_replica</code>.<br />
+                  - <strong>Pre-Bound Failover Entity:</strong> Production Postgres Read Replica (<code>pg-cluster-prod-ro-01.internal:5432</code>).<br />
+                  - <strong>Traversal Overhead:</strong> Sub-0.1ms with zero agent prompt re-generation.
+                </div>
+              </div>
+            </section>
+
+            {/* 09 // REST API REFERENCE */}
             <section id="api" className="space-y-5 scroll-mt-24 pt-8 border-t border-[#E2E6E6]">
               <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
-                07 // API REFERENCE
+                09 // API REFERENCE
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
                 REST Service Endpoints
@@ -440,6 +515,26 @@ LIMIT 2;`}
                 <div className="p-4 bg-white swiss-border">
                   <div className="flex items-center gap-2">
                     <span className="px-2 py-0.5 bg-blue-100 text-[#0033A0] font-bold">POST</span>
+                    <span className="font-bold">/api/pipeline</span>
+                  </div>
+                  <p className="text-[11px] text-gray-600 font-sans mt-1">
+                    Resolve 3-stage sequenced multi-tool execution DAG with input-output dataflows and pre-bound entities.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white swiss-border">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 bg-blue-100 text-[#0033A0] font-bold">POST</span>
+                    <span className="font-bold">/api/fallback</span>
+                  </div>
+                  <p className="text-[11px] text-gray-600 font-sans mt-1">
+                    Trigger self-healing graph failover routing via <code>:FALLBACK_TO</code> pattern matching. Pre-binds replica host and recovery tool.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white swiss-border">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 bg-blue-100 text-[#0033A0] font-bold">POST</span>
                     <span className="font-bold">/api/feedback</span>
                   </div>
                   <p className="text-[11px] text-gray-600 font-sans mt-1">
@@ -453,7 +548,7 @@ LIMIT 2;`}
                     <span className="font-bold">/api/graph/stats</span>
                   </div>
                   <p className="text-[11px] text-gray-600 font-sans mt-1">
-                    Retrieve live graph topology counts (50 servers, 500 tools, 100 capabilities, 80 entities, 2,421 edges).
+                    Retrieve live graph topology counts (50 servers, 500 tools, 100 capabilities, 80 entities, 2,425 edges).
                   </p>
                 </div>
 
@@ -469,10 +564,10 @@ LIMIT 2;`}
               </div>
             </section>
 
-            {/* 08 // CLI REFERENCE */}
+            {/* 10 // CLI REFERENCE */}
             <section id="cli" className="space-y-5 scroll-mt-24 pt-8 border-t border-[#E2E6E6]">
               <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
-                08 // CLI REFERENCE
+                10 // CLI REFERENCE
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
                 Command-Line Interface (`lucen.py`)
@@ -502,6 +597,26 @@ LIMIT 2;`}
                       <td className="p-3">Executes GraphBLAS traversal and prints isolated tools and pre-bound entities.</td>
                     </tr>
                     <tr>
+                      <td className="p-3 font-bold text-[#D82C2C]">pipeline</td>
+                      <td className="p-3 text-gray-500">&lt;task_prompt&gt;</td>
+                      <td className="p-3">Traverses sequenced execution DAG with typed input/output dataflow passing.</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-[#D82C2C]">fallback</td>
+                      <td className="p-3 text-gray-500">--tool &lt;id&gt; --error &lt;reason&gt;</td>
+                      <td className="p-3">Demonstrates autonomous failover routing and read-replica entity binding via :FALLBACK_TO.</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-[#D82C2C]">concurrency</td>
+                      <td className="p-3 text-gray-500">None</td>
+                      <td className="p-3">Asserts atomic Cypher SET multi-agent concurrency (100 writers, 0 lost updates).</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-[#D82C2C]">ablation</td>
+                      <td className="p-3 text-gray-500">None</td>
+                      <td className="p-3">Runs empirical flat store ablation (Python Dict vs SQLite vs HydraDB).</td>
+                    </tr>
+                    <tr>
                       <td className="p-3 font-bold text-[#D82C2C]">verify</td>
                       <td className="p-3 text-gray-500">None</td>
                       <td className="p-3">Runs automated 5-step engine parity test suite (topology, reduction, latency, learning, entities).</td>
@@ -510,6 +625,11 @@ LIMIT 2;`}
                       <td className="p-3 font-bold text-[#D82C2C]">feedback</td>
                       <td className="p-3 text-gray-500">--tool &lt;id&gt; [--reward|--penalty]</td>
                       <td className="p-3">Simulates atomic PREFERS edge weight updates in HydraDB continual learning memory.</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-[#D82C2C]">gemini-agent</td>
+                      <td className="p-3 text-gray-500">--task &lt;query&gt;</td>
+                      <td className="p-3">Runs live autonomous agent with Google Gemini and HydraDB context injection.</td>
                     </tr>
                     <tr>
                       <td className="p-3 font-bold text-[#D82C2C]">serve</td>
@@ -521,10 +641,10 @@ LIMIT 2;`}
               </div>
             </section>
 
-            {/* 09 // BENCHMARKS METHODOLOGY */}
+            {/* 11 // BENCHMARKS METHODOLOGY */}
             <section id="benchmarks" className="space-y-5 scroll-mt-24 pt-8 border-t border-[#E2E6E6]">
               <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider">
-                09 // BENCHMARK METHODOLOGY
+                11 // BENCHMARK METHODOLOGY
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A]">
                 Reproducible Evaluation Suite
@@ -538,7 +658,7 @@ LIMIT 2;`}
 {`# Execute 50-task empirical evaluation across Naive, Vector Top-K, and Lucen
 python eval/benchmark_eval.py
 
-# Execute full 9-part live integration test suite
+# Execute full 11-part live integration test suite
 python eval/live_e2e_test.py`}
                 </pre>
               </div>

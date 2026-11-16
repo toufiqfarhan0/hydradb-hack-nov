@@ -1195,8 +1195,10 @@ LIMIT 2;`}
                   {[
                     { label: "1. Traverse Task", cmd: 'python lucen.py traverse "Production Postgres connection pool exhausted"' },
                     { label: "2. Graph Stats", cmd: "python lucen.py stats" },
-                    { label: "3. Verify Suite (5/5)", cmd: "python lucen.py verify" },
-                    { label: "4. Dynamic Reward", cmd: "python lucen.py feedback --tool pg_check_connection_pool --reward" }
+                    { label: "3. Verify Suite", cmd: "python lucen.py verify" },
+                    { label: "4. Dynamic Reward", cmd: "python lucen.py feedback --tool pg_check_connection_pool --reward" },
+                    { label: "5. DAG Pipeline", cmd: 'python lucen.py pipeline "Production Postgres connection pool exhausted"' },
+                    { label: "6. Fallback Route", cmd: "python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused" }
                   ].map((tab, idx) => (
                     <button
                       key={idx}
@@ -1218,7 +1220,9 @@ LIMIT 2;`}
                       'python lucen.py traverse "Production Postgres connection pool exhausted"',
                       'python lucen.py stats',
                       'python lucen.py verify',
-                      'python lucen.py feedback --tool pg_check_connection_pool --reward'
+                      'python lucen.py feedback --tool pg_check_connection_pool --reward',
+                      'python lucen.py pipeline "Production Postgres connection pool exhausted"',
+                      'python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused'
                     ];
                     navigator.clipboard.writeText(cmds[selectedCliTab]);
                     setCopiedCli(true);
@@ -1345,6 +1349,82 @@ CONTINUAL LEARNING FEEDBACK INGESTED
   • Model Accuracy:  98.4% -> 99.2% (+0.8%)
 ====================================================================
 HydraDB memory edge updated atomically. No prompt changes required.`}
+                  </pre>
+                )}
+
+                {selectedCliTab === 4 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py pipeline "Production Postgres connection pool exhausted"
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+COMPOSITE MULTI-TOOL EXECUTION DAG (INPUT-OUTPUT DATAFLOW)
+============================================================================
+Task Trigger: "Production Postgres connection pool exhausted"
+Pipeline Type: Database Outage Resolution DAG (3 Stages)
+GraphBLAS Traversal: 0.35 ms
+Token Overhead: 1,320 tokens vs 272,607 baseline (99.5% reduction)
+DAG Status: RESOLVED_READY_TO_EXECUTE
+----------------------------------------------------------------------------
+
+[STAGE 1] Diagnostic & Investigation
+  • Tool:        pg_check_connection_pool (mcp_postgres)
+  • Upstream:    None (Root Trigger)
+  • Input Bindings: host: pg-cluster-prod.internal:5432, database: hydra_analytics
+  • Output Payload: status: warning, pool_utilization_pct: 96.75
+
+[STAGE 2] Operational Escalation & Alerting
+  • Tool:        slack_post_incident_bulletin (mcp_slack)
+  • Upstream:    ['pg_check_connection_pool']
+  • Input Bindings: channel: #incident-critical-ops, alert_ref: INC-492
+  • Output Payload: bulletin_ts: 1731738920.41, channel: C08A91KL2
+
+[STAGE 3] Automated Remediation & Hotfix
+  • Tool:        github_create_pull_request (mcp_github)
+  • Upstream:    ['pg_check_connection_pool', 'slack_post_incident_bulletin']
+  • Input Bindings: repo: hydra-corp/core-api, branch: fix/connection-pool-exhaustion
+  • Output Payload: pr_number: 842, url: https://github.com/hydra-corp/core-api/pull/842
+
+----------------------------------------------------------------------------
+INPUT-OUTPUT DATAFLOW DEPENDENCY CHAIN:
+  Stage 1 (pg_check_connection_pool) ──[telemetry_summary]──> Stage 2 (slack_post_incident_bulletin)
+  Stage 1 (pg_check_connection_pool) ──[root_cause_diagnosis]──> Stage 3 (github_create_pull_request)
+  Stage 2 (slack_post_incident_bulletin) ──[bulletin_ref]──> Stage 3 (github_create_pull_request)
+============================================================================`}
+                  </pre>
+                )}
+
+                {selectedCliTab === 5 && (
+                  <pre className="text-gray-300 whitespace-pre">
+{`$ python lucen.py fallback --tool tool_pg_check_connection_pool --error connection_refused
+
+    __    __  __  ______  ______    _   __
+   / /   / / / / / ____/ / ____/   / | / /
+  / /   / / / / / /     / __/     /  |/ / 
+ / /___/ /_/ / / /___  / /___    / /|  /  
+/_____/\____/  \____/ /_____/   /_/ |_/   — The HydraDB Agent Context Layer
+
+SELF-HEALING FALLBACK ROUTING (:FALLBACK_TO GRAPH RECOVERY)
+============================================================================
+Crashed Primary Tool: pg_check_connection_pool (ID: tool_pg_check_connection_pool)
+Simulated Error:      connection_refused
+HydraDB Cypher Query: MATCH (t:Tool {id: 'tool_pg_check_connection_pool'})-[f:FALLBACK_TO]->(recovery:Tool) RETURN recovery, f.recovery_action LIMIT 1
+Graph Recovery Tool:  postgres_stream_logs (ID: tool_postgres_stream_logs)
+Recovery Action:      failover_to_read_replica
+Failover Entity Bound:
+  • entity_id: ent_db_postgres_read_replica_01
+  • name: Production Postgres Read Replica (Failover Target)
+  • host: pg-cluster-prod-ro-01.internal:5432
+  • status: healthy
+  • lag_bytes: 0
+  • ssl_mode: verify-full
+Traversal Latency:    0.04 ms
+Self-Healing Status:  HEALTHY_FAILOVER_ROUTED (Zero Agent Re-query)
+============================================================================`}
                   </pre>
                 )}
               </div>
