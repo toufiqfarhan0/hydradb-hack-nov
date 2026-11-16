@@ -593,7 +593,7 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-8">
               <div className="text-xs font-swiss-mono text-[#D82C2C] uppercase font-bold tracking-wider flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-[#D82C2C] inline-block" />
-                <span>TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</span>
+                <span>TRACK 02 // AGENT CONTEXT LAYER // HYDRADB HACKATHON</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-swiss-display text-[#1A1A1A] leading-[1.05]">

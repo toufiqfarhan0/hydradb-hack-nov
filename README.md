@@ -686,7 +686,7 @@ hydradb-hack-nov/
 │   ├── build_full_seed_py.py        # 500-tool dataset compiler
 │   └── generate_readme_assets.py    # SVG diagram generator
 ├── docs/                            # Empirical Documentation & Submission Suite
-│   ├── SUBMISSION.md                # Hack Hydra Hackathon submission form answers
+│   ├── SUBMISSION.md                # HydraDB Hackathon submission form answers
 │   ├── latency.md                   # Micro-benchmark profile & hop scaling
 │   ├── fidelity-differential.md     # Multi-hop environment disambiguation analysis
 │   ├── engine-scaling.md            # Concurrency & 100-thread atomic delta verification
@@ -777,7 +777,7 @@ In the tradition of open empirical systems research, Lucen documents every failu
 
 | Document | Focus & Core Disclosure | Load-Bearing Metric / Finding |
 |---|---|---|
-| **[docs/SUBMISSION.md](docs/SUBMISSION.md)** | **Hack Hydra Hackathon Submission Answers** | Exact copy-paste answers for Technical & Go-to-Market form questions |
+| **[docs/SUBMISSION.md](docs/SUBMISSION.md)** | **HydraDB Hackathon Submission Answers** | Exact copy-paste answers for Technical & Go-to-Market form questions |
 | **[docs/latency.md](docs/latency.md)** | **Latency Profile & Micro-Benchmark Report** | 0.21 ms CSR vs 0.016 ms SQLite vs 6.42 ms HydraDB HTTP |
 | **[docs/fidelity-differential.md](docs/fidelity-differential.md)** | **Fidelity Differential: Graph vs Baselines** | Why flat maps fail at prod vs staging disambiguation (93.3% recall, 100% entity binding) |
 | **[docs/engine-scaling.md](docs/engine-scaling.md)** | **Engine Scaling & Concurrency Verification** | Atomic Cypher delta reweighting with 0 lost updates across 100 concurrent workers |
@@ -820,5 +820,5 @@ python eval/live_e2e_test.py
 ## License & Attribution
 
 - **License**: Apache License 2.0. Open-source for personal, academic, and enterprise usage.
-- **Track 2 Submission**: Built for **Hack Hydra 2026 (Track 2: Agent Context Layer)**.
+- **Track 2 Submission**: Built for **the HydraDB Hackathon (Track 2: Agent Context Layer)**.
 - **HydraDB Reference**: Built on the core principles of [HydraDB](https://github.com/hydra-db/hydradb), SuiteSparse GraphBLAS matrix semirings, and SlateDB object-store LSM architectures.

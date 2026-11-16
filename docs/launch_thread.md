@@ -1,7 +1,7 @@
 # Lucen Launch & Social Distribution Thread
 
 Social media launch copy for Twitter/X and LinkedIn for the HydraDB Hackathon submission (Track 2: The Agent Context Layer).
-Tags: @hydra_db #HydraDB #MCP #GraphDatabase #AIagents #OpenSource #HackHydra
+Tags: @hydra_db #HydraDB #MCP #GraphDatabase #AIagents #OpenSource #HydraDBHackathon
 
 ---
 

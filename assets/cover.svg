@@ -14,7 +14,7 @@
   <rect x="0" y="0" width="1200" height="5" fill="#D82C2C" />
   
   <rect x="80" y="55" width="12" height="12" fill="#D82C2C" />
-  <text x="102" y="66" fill="#D82C2C" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold" letter-spacing="2">TRACK 02 // AGENT CONTEXT LAYER // HACK HYDRA 2026</text>
+  <text x="102" y="66" fill="#D82C2C" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold" letter-spacing="2">TRACK 02 // AGENT CONTEXT LAYER // HYDRADB HACKATHON</text>
   
   <text x="80" y="135" fill="#FFFFFF" font-family="'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-1">STOP PRELOADING.</text>
   <text x="80" y="190" fill="#D82C2C" font-family="'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-1">TRAVERSE THE GRAPH.</text>

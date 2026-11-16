@@ -6,7 +6,7 @@ This document discloses all third-party libraries, protocols, external services,
 
 ## 1. Hackathon Eligibility & Original Authorship
 
-Lucen was built from scratch for **Hack Hydra 2026** (Track 2: The Agent Context Layer). 
+Lucen was built from scratch for **the HydraDB Hackathon** (Track 2: The Agent Context Layer). 
 
 All core logic in this repository:
 - GraphBLAS sparse matrix semiring traversal engine (`backend/hydradb_engine.py`)

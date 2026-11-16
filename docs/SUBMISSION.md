@@ -1,6 +1,6 @@
-# Hack Hydra Submission: Lucen (Track 2: Agent Context Layer)
+# HydraDB Hackathon Submission: Lucen (Track 2: Agent Context Layer)
 
-This document contains the exact copy-paste submissions for the Hack Hydra submission form, along with technical references and verifiable commands.
+This document contains the exact copy-paste submissions for the HydraDB Hackathon submission form, along with technical references and verifiable commands.
 
 ---
 
@@ -60,7 +60,7 @@ Social Post Text:
 
 Code, paper & benchmarks: https://github.com/toufiqfarhan0/hydradb-hack-nov
 
-#HackHydra #HydraDB #MCP #AIagents"
+#HydraDBHackathon #HydraDB #MCP #AIagents"
 ```
 
 ---

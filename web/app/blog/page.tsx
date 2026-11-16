@@ -535,7 +535,7 @@ ORDER BY relevance_weight DESC LIMIT 2;`}
             </h2>
 
             <p className="text-sm text-[#1A1A1A]/85 leading-relaxed">
-              When we started building <strong>Lucen</strong> for Hack Hydra 2026, our thesis was simple: LLM agents do not need larger context windows; they need topologically constrained working memory. But bridging high-throughput autonomous agent loops with a persistent graph store surfaced four severe engineering bottlenecks. Here is how HydraDB enabled us to solve each one.
+              When we started building <strong>Lucen</strong> for the HydraDB Hackathon, our thesis was simple: LLM agents do not need larger context windows; they need topologically constrained working memory. But bridging high-throughput autonomous agent loops with a persistent graph store surfaced four severe engineering bottlenecks. Here is how HydraDB enabled us to solve each one.
             </p>
 
             <div className="space-y-6 font-sans">
