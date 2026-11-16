@@ -57,7 +57,7 @@ Target Audience / Commercial Demand:
 2. Multi-Agent Orchestration Frameworks (LangGraph, CrewAI, AutoGen): Systems where dozens of concurrent agents share an evolving environment. Lucen provides a persistent, shared, atomic context graph on HydraDB where agents learn from each other's execution outcomes without prompt drift.
 
 Social Post Link (tagging @hydra_db):
-[Insert your live tweet/post URL here, e.g., https://x.com/your_handle/status/YOUR_TWEET_ID]
+https://x.com/toufiq_farhan/status/2122137919100227941
 
 Social Post Text:
 "We built Lucen: a deterministic GraphBLAS context graph on @hydra_db that cuts autonomous AI agent prompt bloat by 99.6% (from 272k to 1.2k tokens) in 0.21 ms while pre-binding live cluster credentials. Tested with live Gemini & Claude MCP Gateway. Zero hallucination.
