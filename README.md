@@ -73,10 +73,13 @@ python lucen.py concurrency
 # 4. Run flat store ablation (Python Dict vs SQLite vs HydraDB)
 python lucen.py ablation
 
-# 5. Execute 9/9 live integration tests against Next.js & HydraDB
+# 5. Traverse composite multi-tool execution DAG with input/output dataflows
+python lucen.py pipeline "Production Postgres connection pool exhausted"
+
+# 6. Execute 10/10 live integration tests against Next.js & HydraDB
 python eval/live_e2e_test.py
 
-# 6. Run live autonomous agent with Google Gemini & HydraDB context
+# 7. Run live autonomous agent with Google Gemini & HydraDB context
 python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 ```
 

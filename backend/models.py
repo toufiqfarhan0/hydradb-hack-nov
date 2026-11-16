@@ -78,6 +78,31 @@ class FeedbackRequest(BaseModel):
     tool_id: str
     success: bool
     latency_ms: Optional[float] = None
+
+class PipelineStage(BaseModel):
+    stage_index: int
+    stage_name: str
+    tool_id: str
+    tool_name: str
+    server_id: str
+    description: str
+    input_bindings: Dict[str, Any]
+    output_schema: Dict[str, Any]
+    upstream_dependencies: List[str]
+    handoff_type: str
+
+class PipelineResult(BaseModel):
+    task: str
+    pipeline_type: str
+    stages: List[PipelineStage]
+    total_stages: int
+    dataflow_links: List[Dict[str, Any]]
+    pre_bound_entities: List[Dict[str, Any]]
+    total_tokens: int
+    baseline_tokens: int
+    token_reduction_pct: float
+    traversal_latency_ms: float
+    dag_status: str
     notes: Optional[str] = None
 
 class BenchmarkMetric(BaseModel):

@@ -284,6 +284,41 @@ def cmd_feedback(args, engine: HydraDBContextEngine):
     else:
         print(f"{RED}Error: {res.get('error', 'Unknown error')}{RESET}")
 
+def cmd_pipeline(engine: HydraDBContextEngine, args):
+    task = args.task
+    pipeline = engine.get_tool_execution_pipeline(task)
+    if args.json:
+        print(pipeline.model_dump_json(indent=2))
+        return
+
+    print_banner()
+    print(f"{BOLD}COMPOSITE MULTI-TOOL EXECUTION DAG (INPUT-OUTPUT DATAFLOW){RESET}")
+    print("=" * 76)
+    print(f"{BOLD}Task Trigger:{RESET} \"{task}\"")
+    print(f"{BOLD}Pipeline Type:{RESET} {pipeline.pipeline_type} ({pipeline.total_stages} Stages)")
+    print(f"{BOLD}GraphBLAS Traversal:{RESET} {pipeline.traversal_latency_ms} ms")
+    print(f"{BOLD}Token Overhead:{RESET} {pipeline.total_tokens} tokens vs {pipeline.baseline_tokens:,} baseline ({pipeline.token_reduction_pct}% reduction)")
+    print(f"{BOLD}DAG Status:{RESET} {GREEN}{pipeline.dag_status}{RESET}")
+    print("-" * 76)
+
+    for stage in pipeline.stages:
+        print(f"\n{CYAN}{BOLD}[STAGE {stage.stage_index}] {stage.stage_name}{RESET}")
+        print(f"  • Tool:        {BOLD}{stage.tool_name}{RESET} ({stage.server_id})")
+        print(f"  • Description: {stage.description[:60]}...")
+        print(f"  • Upstream:    {stage.upstream_dependencies or 'None (Root Trigger)'}")
+        print(f"  • Input Bindings (Pre-Bound Entities):")
+        for k, v in stage.input_bindings.items():
+            print(f"      - {k}: {YELLOW}{v}{RESET}")
+        print(f"  • Output Schema Produced (Dataflow Payload):")
+        for k, v in stage.output_schema.items():
+            print(f"      - {k}: {GREEN}{v}{RESET}")
+
+    print("\n" + "-" * 76)
+    print(f"{BOLD}INPUT-OUTPUT DATAFLOW DEPENDENCY CHAIN:{RESET}")
+    for link in pipeline.dataflow_links:
+        print(f"  Stage {link['from_stage']} ({link['from_tool']}) ──[{link['passed_data']}]──> Stage {link['to_stage']} ({link['to_tool']})")
+    print("=" * 76)
+
 def cmd_serve(args):
     import uvicorn
     port = args.port or 8000
@@ -340,6 +375,11 @@ def main():
     # Command: concurrency
     subparsers.add_parser("concurrency", help="Assert atomic Cypher SET multi-agent concurrency (100 writers, 0 lost updates)")
 
+    # Command: pipeline
+    p_pipe = subparsers.add_parser("pipeline", help="Traverse and display the multi-tool composite execution DAG with input/output dataflows")
+    p_pipe.add_argument("task", type=str, nargs="?", default="Production Postgres connection pool exhausted", help="Incident task query")
+    p_pipe.add_argument("--json", action="store_true", help="Output in JSON")
+
     # Command: gemini-agent
     p_gemini = subparsers.add_parser("gemini-agent", help="Run live autonomous agent with Google Gemini & HydraDB context")
     p_gemini.add_argument("--task", type=str, default="Production PostgreSQL database is exhausting connection pool. Inspect pool and broadcast alert to Slack war room.", help="Incident task query")
@@ -380,6 +420,8 @@ def main():
         cmd_feedback(args, engine)
     elif args.command == "concurrency":
         cmd_concurrency(args, engine)
+    elif args.command == "pipeline":
+        cmd_pipeline(engine, args)
     elif args.command == "gemini-agent":
         from tools.gemini_agent import run_agent
         run_agent(task_prompt=args.task, api_key=args.api_key, model=args.model)

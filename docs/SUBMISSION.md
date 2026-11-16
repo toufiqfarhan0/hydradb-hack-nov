@@ -82,9 +82,12 @@ python lucen.py concurrency
 # 4. Run flat store ablation (Python Dict vs SQLite vs HydraDB)
 python lucen.py ablation
 
-# 5. Run full E2E test suite (9/9 passing tests)
+# 5. Traverse composite multi-tool execution DAG with input/output dataflows
+python lucen.py pipeline "Production Postgres connection pool exhausted"
+
+# 6. Run full E2E test suite (10/10 passing tests)
 python eval/live_e2e_test.py
 
-# 6. Execute live autonomous agent with Google Gemini
+# 7. Execute live autonomous agent with Google Gemini
 python lucen.py gemini-agent --task "auth-service database connections spiking in production"
 ```

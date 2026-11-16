@@ -69,6 +69,23 @@ async def traverse_graph(req: TraversalRequest):
 async def post_feedback(req: FeedbackRequest):
     return engine.record_feedback(req)
 
+class PipelineRequest(BaseModel):
+    task: str
+
+@app.post("/api/pipeline")
+async def get_pipeline_endpoint(req: PipelineRequest):
+    try:
+        return engine.get_tool_execution_pipeline(req.task)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/pipeline")
+async def get_pipeline_get_endpoint(task: str = "Production Postgres connection pool exhausted"):
+    try:
+        return engine.get_tool_execution_pipeline(task)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/benchmark")
 async def get_benchmark_suite():
     benchmarks = engine.get_benchmarks()

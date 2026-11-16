@@ -42,7 +42,7 @@ def run_e2e_tests():
     print("=" * 65)
     
     passed_tests = 0
-    total_tests = 9
+    total_tests = 10
 
     # 1. Health & Storage Backend Test
     log_header("1. Health & HydraDB SlateDB/MinIO Storage Engine")
@@ -251,6 +251,27 @@ def run_e2e_tests():
         print("  • Zero Footers Rule:     PASS (All pages verified 100% footer-free)")
         print(f"  • Live Next.js Dev/Prod:  {'Connected (localhost:3000)' if next_live else 'Built static/SSR pages ready'}")
         print("  => PASS: Next.js frontend pages and structure verified with zero footers.")
+        passed_tests += 1
+    except Exception as e:
+        print(f"  => FAIL: {e}")
+        return False
+
+    # 10. Composite Multi-Tool DAG Pipeline Test (/api/pipeline)
+    log_header("10. Composite Multi-Tool DAG Pipeline & Dataflow Resolution")
+    try:
+        pipeline = post_json("/api/pipeline", {"task": "Production Postgres connection pool exhausted"})
+        assert pipeline["dag_status"] == "RESOLVED_READY_TO_EXECUTE"
+        assert len(pipeline["stages"]) >= 3, f"Expected at least 3 stages, got {len(pipeline['stages'])}"
+        assert len(pipeline["dataflow_links"]) >= 2, f"Expected dataflow links, got {len(pipeline['dataflow_links'])}"
+        assert pipeline["token_reduction_pct"] > 90.0, f"Expected >90% token reduction, got {pipeline['token_reduction_pct']}%"
+
+        print(f"  • Pipeline DAG Type:   {pipeline['pipeline_type']} ({len(pipeline['stages'])} Stages)")
+        print(f"  • Chained Stages:      {[s['tool_name'] for s in pipeline['stages']]}")
+        print(f"  • Dataflow Links:      {len(pipeline['dataflow_links'])} verified input/output handoffs")
+        print(f"  • Pre-Bound Entities:  {len(pipeline['pre_bound_entities'])} runtime targets bound")
+        print(f"  • Traversal Latency:   {pipeline['traversal_latency_ms']} ms")
+        print(f"  • Token Reduction:     -{pipeline['token_reduction_pct']}%")
+        print("  => PASS: Multi-tool composite execution DAG resolved with complete input-output dataflows.")
         passed_tests += 1
     except Exception as e:
         print(f"  => FAIL: {e}")
