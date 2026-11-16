@@ -15,7 +15,7 @@
 
 **Why serialize 272,000+ tokens of Model Context Protocol (MCP) schemas into every system prompt when you can traverse the graph in 1.8 milliseconds?**
 
-[ Loom Video Walkthrough ](https://www.loom.com/share/7aa8f416fd6947bbaf92cd40dcf63e1e) &nbsp;·&nbsp; [ Live Hosted App ](https://lucen-app.onrender.com) &nbsp;·&nbsp; [ Judge Lucen in 90 Seconds ](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [ Submission Answers ](docs/SUBMISSION.md) &nbsp;·&nbsp; [ Architecture ](#architecture) &nbsp;·&nbsp; [ Empirical Numbers ](#the-numbers) &nbsp;·&nbsp; [ Go-To-Market ](#go-to-market-strategy--commercial-adoption)
+[Thread ↗](https://x.com/toufiq_farhan/status/2122137919100227941) &nbsp;·&nbsp; [Article / Blog ↗](https://x.com/toufiq_farhan/status/2122234839164424590) &nbsp;·&nbsp; [Loom Walkthrough ↗](https://www.loom.com/share/7aa8f416fd6947bbaf92cd40dcf63e1e) &nbsp;·&nbsp; [Live App ↗](https://lucen-app.onrender.com) &nbsp;·&nbsp; [Judge it in 90 seconds ↗](#judge-lucen-in-90-seconds) &nbsp;·&nbsp; [The numbers ↗](#the-numbers) &nbsp;·&nbsp; [Architecture ↗](#architecture) &nbsp;·&nbsp; [How HydraDB decides ↗](#how-hydradb-decides) &nbsp;·&nbsp; [Go-To-Market ↗](#go-to-market)
 
 </div>
 
@@ -30,6 +30,7 @@ Only the context topology changes.
 
 ---
 
+<a id="topology-scale"></a>
 ## The 60-Second Version (No Jargon)
 
 Modern AI coding agents face a catastrophic scaling wall: **Prompt Bloat**.
@@ -46,6 +47,8 @@ The standard industry workaround—**Vector Embedding Top-K Search**—fails on 
 
 ---
 
+<a id="judge-lucen-in-90-seconds"></a>
+<a id="judge-in-90-seconds"></a>
 ## Judge Lucen in 90 Seconds
 
 **Loom Video Walkthrough: [https://www.loom.com/share/7aa8f416fd6947bbaf92cd40dcf63e1e](https://www.loom.com/share/7aa8f416fd6947bbaf92cd40dcf63e1e)**
@@ -129,6 +132,7 @@ python lucen.py gemini-agent --api-key YOUR_GEMINI_KEY
 
 ---
 
+<a id="the-problem-the-272000-token-preload-wall"></a>
 ## The Problem: The 272,000-Token Preload Wall
 
 When software engineering teams integrate autonomous coding agents (Claude Desktop, Cursor, Devin, or internal agents) with enterprise infrastructure, the default protocol architecture serializes every registered Model Context Protocol (MCP) tool schema into the LLM system prompt.
@@ -154,6 +158,7 @@ This brute-force approach breaks in production:
 
 ---
 
+<a id="why-vector-top-k-retrieval-fails"></a>
 ## Why Vector Top-K Retrieval Fails
 
 A common objection is: *"Why not just index tool descriptions in a vector database and retrieve the top-4 matches via cosine similarity?"*
@@ -178,6 +183,7 @@ Vector search returns raw JSON schemas. It cannot bind `pg-cluster-prod.internal
 
 ---
 
+<a id="what-lucen-built"></a>
 ## What Lucen Built
 
 Lucen is a drop-in agent context layer that treats **HydraDB as the agent's primary working memory**.
@@ -195,6 +201,8 @@ Rather than stuffing 500 tools into the prompt or blindly querying a vector inde
 
 ---
 
+<a id="architecture"></a>
+<a id="system-architecture"></a>
 ## System Architecture
 
 ```mermaid
@@ -273,6 +281,7 @@ Lucen operates across four decoupled layers:
 
 ---
 
+<a id="the-resolution-loop-step-by-step"></a>
 ## The Resolution Loop, Step by Step
 
 ```mermaid
@@ -368,6 +377,8 @@ flowchart LR
 
 ---
 
+<a id="how-hydradb-decides"></a>
+<a id="how-hydradb-is-integrated"></a>
 ## How HydraDB is Integrated
 
 Lucen is built directly on HydraDB's native capabilities, adhering to Hackathon Track 2 specifications:
@@ -401,6 +412,8 @@ This kernel executes in **1.82 ms** in SciPy/SuiteSparse, guaranteeing sub-2ms t
 
 ---
 
+<a id="the-numbers"></a>
+<a id="the-numbers-empirical-evaluation"></a>
 ## The Numbers: Empirical Evaluation
 
 To eliminate vanity metrics, we created a comprehensive 50-task operational benchmark dataset partitioned into:
@@ -490,6 +503,8 @@ As directed edges are randomly removed from the property graph, task success col
 
 ---
 
+<a id="go-to-market"></a>
+<a id="go-to-market-strategy--commercial-adoption"></a>
 ## Go-To-Market Strategy & Commercial Adoption
 
 Track 2 evaluation places heavy emphasis on commercial viability and product-market fit. Lucen is engineered not as a research toy, but as an enterprise-grade infrastructure proxy.
@@ -575,6 +590,7 @@ To provide grounded, auditable economics, all metrics are normalized **per 1,000
 
 ---
 
+<a id="the-live-console--graphblas-matrix-viewer"></a>
 ## The Live Console & GraphBLAS Matrix Viewer
 
 Lucen features a Next.js 15 web studio running locally at `http://localhost:3000` (Console: `http://localhost:3000/console`):
@@ -591,6 +607,7 @@ Lucen features a Next.js 15 web studio running locally at `http://localhost:3000
 
 ---
 
+<a id="terminal-cli-specimen"></a>
 ## Terminal CLI Specimen
 
 Lucen provides a high-throughput standalone CLI (`lucen.py`) for engineers, CI pipelines, and automated agent loops:
@@ -632,6 +649,7 @@ $ python lucen.py serve --port 8000
 
 ---
 
+<a id="honesty-limitations--boundary-claims"></a>
 ## Honesty: Limitations & Boundary Claims
 
 In the spirit of rigorous engineering, we explicitly document what Lucen does **not** claim:
@@ -642,6 +660,7 @@ In the spirit of rigorous engineering, we explicitly document what Lucen does **
 
 ---
 
+<a id="tech-stack--project-layout"></a>
 ## Tech Stack & Project Layout
 
 ### Technology Stack
@@ -707,6 +726,7 @@ hydradb-hack-nov/
 
 ---
 
+<a id="run-it-locally-in-60-seconds"></a>
 ## Run It Locally in 60 Seconds
 
 ### Prerequisites
@@ -790,6 +810,7 @@ In the tradition of open empirical systems research, Lucen documents every failu
 
 ---
 
+<a id="automated-verification--test-integrity"></a>
 ## Automated Verification & Test Integrity
 
 Lucen enforces strict reproducibility. Every claim in this document is verified by automated test suites:
@@ -820,6 +841,7 @@ python eval/live_e2e_test.py
 
 ---
 
+<a id="license--attribution"></a>
 ## License & Attribution
 
 - **License**: Apache License 2.0. Open-source for personal, academic, and enterprise usage.
